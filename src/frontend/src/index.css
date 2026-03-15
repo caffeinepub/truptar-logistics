@@ -1,0 +1,93 @@
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Deep Blue #0B1F3B */
+    --background: 0.163 0.054 248;
+    /* White */
+    --foreground: 0.97 0.005 248;
+    /* Slightly lighter blue #0F2848 */
+    --card: 0.19 0.065 247;
+    --card-foreground: 0.97 0.005 248;
+    --popover: 0.19 0.065 247;
+    --popover-foreground: 0.97 0.005 248;
+    /* Light Gold #E6C76A */
+    --primary: 0.82 0.11 75;
+    --primary-foreground: 0.13 0.04 248;
+    /* Neon Purple #7A3CFF */
+    --secondary: 0.5 0.28 274;
+    --secondary-foreground: 0.97 0.005 248;
+    /* Muted dark blue */
+    --muted: 0.22 0.05 248;
+    --muted-foreground: 0.65 0.04 248;
+    /* Purple accent */
+    --accent: 0.5 0.28 274;
+    --accent-foreground: 0.97 0.005 248;
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 0.97 0.005 248;
+    /* Subtle purple-blue border */
+    --border: 0.28 0.09 258;
+    --input: 0.24 0.07 252;
+    --ring: 0.5 0.28 274;
+    --radius: 0.5rem;
+    /* Chart colors */
+    --chart-1: 0.82 0.11 75;
+    --chart-2: 0.5 0.28 274;
+    --chart-3: 0.55 0.18 210;
+    --chart-4: 0.65 0.15 160;
+    --chart-5: 0.7 0.2 30;
+    /* Sidebar */
+    --sidebar: 0.14 0.045 248;
+    --sidebar-foreground: 0.97 0.005 248;
+    --sidebar-primary: 0.82 0.11 75;
+    --sidebar-primary-foreground: 0.13 0.04 248;
+    --sidebar-accent: 0.22 0.07 252;
+    --sidebar-accent-foreground: 0.97 0.005 248;
+    --sidebar-border: 0.28 0.09 258;
+    --sidebar-ring: 0.5 0.28 274;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display;
+  }
+}
+
+@layer utilities {
+  .text-gold {
+    color: oklch(0.82 0.11 75);
+  }
+  .text-purple {
+    color: oklch(0.5 0.28 274);
+  }
+  .bg-deep-blue {
+    background-color: oklch(0.163 0.054 248);
+  }
+  .border-purple {
+    border-color: oklch(0.5 0.28 274);
+  }
+  .glow-purple {
+    box-shadow: 0 0 20px oklch(0.5 0.28 274 / 0.3), 0 0 40px
+      oklch(0.5 0.28 274 / 0.1);
+  }
+  .glow-gold {
+    box-shadow: 0 0 20px oklch(0.82 0.11 75 / 0.3);
+  }
+}
