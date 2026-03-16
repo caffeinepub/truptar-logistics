@@ -14,9 +14,9 @@ export default function Navbar() {
     <header
       className="fixed top-0 left-0 right-0 z-50 border-b"
       style={{
-        backgroundColor: "oklch(0.13 0.045 248 / 0.95)",
+        backgroundColor: "oklch(0.14 0.04 225 / 0.95)",
         backdropFilter: "blur(12px)",
-        borderColor: "oklch(0.28 0.09 258)",
+        borderColor: "oklch(0.28 0.07 220)",
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -34,10 +34,19 @@ export default function Navbar() {
           <nav className="hidden md:flex items-center gap-6">
             <Link
               to="/"
-              className="text-sm font-medium text-foreground/80 hover:text-gold transition-colors"
+              className="text-sm font-medium transition-colors"
+              style={{ color: "oklch(0.68 0.16 215)" }}
               data-ocid="nav.home.link"
             >
               Home
+            </Link>
+            <Link
+              to="/dashboard"
+              className="text-sm font-medium transition-colors"
+              style={{ color: "oklch(0.72 0.19 42)" }}
+              data-ocid="nav.dashboard.link"
+            >
+              Dashboard
             </Link>
             <Link
               to="/freight-services"
@@ -45,13 +54,6 @@ export default function Navbar() {
               data-ocid="nav.services.link"
             >
               Services
-            </Link>
-            <Link
-              to="/freight-services"
-              className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
-              data-ocid="nav.freight.link"
-            >
-              Freight
             </Link>
             <Link
               to="/track-order"
@@ -90,19 +92,10 @@ export default function Navbar() {
                     <Bell size={16} className="text-foreground/70" />
                     <span
                       className="absolute top-0.5 right-0.5 w-2 h-2 rounded-full"
-                      style={{ backgroundColor: "oklch(0.72 0.19 55)" }}
+                      style={{ backgroundColor: "oklch(0.72 0.19 42)" }}
                     />
                   </Button>
                 </div>
-                <Link to="/dashboard">
-                  <Button
-                    size="sm"
-                    className="bg-primary text-primary-foreground hover:opacity-90 font-semibold"
-                    data-ocid="nav.dashboard.button"
-                  >
-                    Dashboard
-                  </Button>
-                </Link>
                 <Button
                   variant="outline"
                   size="sm"
@@ -119,7 +112,10 @@ export default function Navbar() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground"
+                    style={{
+                      borderColor: "oklch(0.68 0.16 215 / 0.5)",
+                      color: "oklch(0.68 0.16 215)",
+                    }}
                     data-ocid="nav.login_page.button"
                   >
                     Login
@@ -132,8 +128,8 @@ export default function Navbar() {
                   className="font-bold gap-1.5"
                   style={{
                     background:
-                      "linear-gradient(135deg, oklch(0.82 0.11 75), oklch(0.72 0.19 55))",
-                    color: "oklch(0.13 0.04 248)",
+                      "linear-gradient(135deg, oklch(0.72 0.19 42), oklch(0.78 0.17 55))",
+                    color: "oklch(0.14 0.04 225)",
                   }}
                   data-ocid="nav.identity_login.button"
                 >
@@ -165,17 +161,26 @@ export default function Navbar() {
         <div
           className="md:hidden border-t"
           style={{
-            backgroundColor: "oklch(0.14 0.05 248)",
-            borderColor: "oklch(0.28 0.09 258)",
+            backgroundColor: "oklch(0.16 0.05 225)",
+            borderColor: "oklch(0.28 0.07 220)",
           }}
         >
           <div className="px-4 py-4 flex flex-col gap-4">
             <Link
               to="/"
-              className="text-sm font-medium text-foreground/80"
+              className="text-sm font-semibold"
+              style={{ color: "oklch(0.68 0.16 215)" }}
               onClick={() => setOpen(false)}
             >
               Home
+            </Link>
+            <Link
+              to="/dashboard"
+              className="text-sm font-semibold"
+              style={{ color: "oklch(0.72 0.19 42)" }}
+              onClick={() => setOpen(false)}
+            >
+              Dashboard
             </Link>
             <Link
               to="/freight-services"
@@ -183,13 +188,6 @@ export default function Navbar() {
               onClick={() => setOpen(false)}
             >
               Services
-            </Link>
-            <Link
-              to="/freight-services"
-              className="text-sm font-medium text-foreground/80"
-              onClick={() => setOpen(false)}
-            >
-              Freight
             </Link>
             <Link
               to="/track-order"
@@ -214,34 +212,27 @@ export default function Navbar() {
             </Link>
             <div className="flex gap-3 pt-2">
               {isLoggedIn ? (
-                <>
-                  <Link to="/dashboard" onClick={() => setOpen(false)}>
-                    <Button
-                      size="sm"
-                      className="bg-primary text-primary-foreground"
-                    >
-                      Dashboard
-                    </Button>
-                  </Link>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      clear();
-                      setOpen(false);
-                    }}
-                    className="border-red-500/40 text-red-400"
-                  >
-                    <LogOut size={14} /> Logout
-                  </Button>
-                </>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    clear();
+                    setOpen(false);
+                  }}
+                  className="border-red-500/40 text-red-400"
+                >
+                  <LogOut size={14} /> Logout
+                </Button>
               ) : (
                 <>
                   <Link to="/login" onClick={() => setOpen(false)}>
                     <Button
                       variant="outline"
                       size="sm"
-                      className="border-secondary text-secondary"
+                      style={{
+                        borderColor: "oklch(0.68 0.16 215 / 0.5)",
+                        color: "oklch(0.68 0.16 215)",
+                      }}
                     >
                       Login
                     </Button>
@@ -255,8 +246,8 @@ export default function Navbar() {
                     disabled={isLoggingIn}
                     style={{
                       background:
-                        "linear-gradient(135deg, oklch(0.82 0.11 75), oklch(0.72 0.19 55))",
-                      color: "oklch(0.13 0.04 248)",
+                        "linear-gradient(135deg, oklch(0.72 0.19 42), oklch(0.78 0.17 55))",
+                      color: "oklch(0.14 0.04 225)",
                     }}
                   >
                     Connect

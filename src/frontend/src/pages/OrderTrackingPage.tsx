@@ -64,11 +64,11 @@ export default function OrderTrackingPage() {
   }
 
   const statusColors = [
-    "oklch(0.82 0.11 75)",
-    "oklch(0.82 0.11 75)",
-    "oklch(0.50 0.28 274)",
+    "oklch(0.72 0.19 42)",
+    "oklch(0.72 0.19 42)",
+    "oklch(0.68 0.16 215)",
     "oklch(0.55 0.22 35)",
-    "oklch(0.65 0.15 160)",
+    "oklch(0.75 0.15 200)",
   ];
 
   return (
@@ -105,8 +105,8 @@ export default function OrderTrackingPage() {
             data-ocid="track.submit_button"
             className="h-12 px-6 font-bold gap-2"
             style={{
-              backgroundColor: "oklch(0.82 0.11 75)",
-              color: "oklch(0.13 0.04 248)",
+              backgroundColor: "oklch(0.72 0.19 42)",
+              color: "oklch(0.14 0.04 225)",
             }}
           >
             <Search size={16} /> Track
@@ -118,8 +118,8 @@ export default function OrderTrackingPage() {
           <div
             className="rounded-xl border p-6 sm:p-8 space-y-6"
             style={{
-              backgroundColor: "oklch(0.19 0.065 247)",
-              borderColor: "oklch(0.28 0.09 258)",
+              backgroundColor: "oklch(0.18 0.05 225)",
+              borderColor: "oklch(0.28 0.07 220)",
             }}
             data-ocid="track.status.card"
           >
@@ -154,8 +154,8 @@ export default function OrderTrackingPage() {
                 const color = isActive
                   ? statusColors[idx]
                   : isDone
-                    ? "oklch(0.65 0.15 160)"
-                    : "oklch(0.40 0.03 248)";
+                    ? "oklch(0.75 0.15 200)"
+                    : "oklch(0.40 0.03 225)";
 
                 return (
                   <div
@@ -169,9 +169,9 @@ export default function OrderTrackingPage() {
                         className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 z-10"
                         style={{
                           backgroundColor: isPending
-                            ? "oklch(0.22 0.06 248)"
+                            ? "oklch(0.22 0.06 225)"
                             : `${color}22`,
-                          border: `2px solid ${isPending ? "oklch(0.30 0.05 248)" : color}`,
+                          border: `2px solid ${isPending ? "oklch(0.28 0.07 220)" : color}`,
                         }}
                       >
                         {isDone ? (
@@ -181,7 +181,7 @@ export default function OrderTrackingPage() {
                         ) : (
                           <Circle
                             size={16}
-                            style={{ color: "oklch(0.35 0.04 248)" }}
+                            style={{ color: "oklch(0.35 0.03 225)" }}
                           />
                         )}
                       </div>
@@ -190,8 +190,8 @@ export default function OrderTrackingPage() {
                           className="w-0.5 flex-1 my-1"
                           style={{
                             backgroundColor: isDone
-                              ? "oklch(0.65 0.15 160 / 0.5)"
-                              : "oklch(0.28 0.06 248)",
+                              ? "oklch(0.65 0.15 200 / 0.5)"
+                              : "oklch(0.28 0.07 220)",
                             minHeight: "28px",
                           }}
                         />
@@ -204,8 +204,8 @@ export default function OrderTrackingPage() {
                         className="font-semibold text-sm"
                         style={{
                           color: isPending
-                            ? "oklch(0.45 0.04 248)"
-                            : "oklch(0.92 0.02 248)",
+                            ? "oklch(0.45 0.03 225)"
+                            : "oklch(0.97 0.01 210)",
                         }}
                       >
                         {stage.label}
@@ -214,8 +214,8 @@ export default function OrderTrackingPage() {
                         className="text-xs mt-0.5"
                         style={{
                           color: isPending
-                            ? "oklch(0.38 0.03 248)"
-                            : "oklch(0.55 0.04 248)",
+                            ? "oklch(0.38 0.03 225)"
+                            : "oklch(0.55 0.03 225)",
                         }}
                       >
                         {isActive
@@ -232,7 +232,7 @@ export default function OrderTrackingPage() {
 
             <p
               className="text-xs text-muted-foreground border-t pt-4"
-              style={{ borderColor: "oklch(0.28 0.09 258)" }}
+              style={{ borderColor: "oklch(0.28 0.07 220)" }}
             >
               App notifications are sent at every status change event.
             </p>
@@ -243,14 +243,14 @@ export default function OrderTrackingPage() {
           <div
             className="rounded-xl border p-10 text-center"
             style={{
-              backgroundColor: "oklch(0.19 0.065 247)",
-              borderColor: "oklch(0.28 0.09 258)",
+              backgroundColor: "oklch(0.18 0.05 225)",
+              borderColor: "oklch(0.28 0.07 220)",
             }}
           >
             <Truck
               size={40}
               style={{
-                color: "oklch(0.50 0.28 274 / 0.4)",
+                color: "oklch(0.55 0.18 215 / 0.4)",
                 margin: "0 auto 12px",
               }}
             />

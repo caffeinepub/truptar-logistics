@@ -36,17 +36,17 @@ export default function AboutPage() {
         className="relative pt-28 pb-20 px-4 overflow-hidden"
         style={{
           background:
-            "linear-gradient(160deg, oklch(0.13 0.05 248) 0%, oklch(0.16 0.07 260) 50%, oklch(0.14 0.06 250) 100%)",
+            "linear-gradient(160deg, oklch(0.14 0.04 225) 0%, oklch(0.18 0.05 225) 50%, oklch(0.14 0.06 250) 100%)",
         }}
       >
         <div className="absolute inset-0 pointer-events-none">
           <div
             className="absolute top-10 right-1/4 w-80 h-80 rounded-full blur-3xl"
-            style={{ background: "oklch(0.50 0.28 274 / 0.1)" }}
+            style={{ background: "oklch(0.55 0.18 215 / 0.1)" }}
           />
           <div
             className="absolute -bottom-10 left-10 w-60 h-60 rounded-full blur-3xl"
-            style={{ background: "oklch(0.82 0.11 75 / 0.07)" }}
+            style={{ background: "oklch(0.82 0.14 42 / 0.07)" }}
           />
         </div>
         <div className="relative max-w-4xl mx-auto text-center">
@@ -57,18 +57,18 @@ export default function AboutPage() {
           >
             <p
               className="text-xs font-bold tracking-widest mb-4"
-              style={{ color: "oklch(0.50 0.28 274)" }}
+              style={{ color: "oklch(0.68 0.16 215)" }}
             >
               ABOUT US
             </p>
             <h1 className="font-display font-extrabold text-5xl sm:text-6xl md:text-7xl tracking-tight mb-6 text-foreground">
               TRUPTAR
               <br />
-              <span style={{ color: "oklch(0.82 0.11 75)" }}>LOGISTICS</span>
+              <span style={{ color: "oklch(0.72 0.19 42)" }}>LOGISTICS</span>
             </h1>
             <p
               className="text-lg sm:text-xl font-semibold mb-4 font-display"
-              style={{ color: "oklch(0.50 0.28 274)" }}
+              style={{ color: "oklch(0.68 0.16 215)" }}
             >
               A logistics innovation powered by JUVENTUS SOPS
             </p>
@@ -88,16 +88,16 @@ export default function AboutPage() {
             {
               label: "OUR MISSION",
               text: "Simplify logistics through smart technology.",
-              color: "oklch(0.50 0.28 274)",
-              glow: "oklch(0.50 0.28 274 / 0.15)",
-              borderColor: "oklch(0.50 0.28 274 / 0.4)",
+              color: "oklch(0.68 0.16 215)",
+              glow: "oklch(0.55 0.18 215 / 0.15)",
+              borderColor: "oklch(0.55 0.18 215 / 0.4)",
             },
             {
               label: "OUR VISION",
               text: "Become a trusted global logistics network.",
-              color: "oklch(0.82 0.11 75)",
-              glow: "oklch(0.82 0.11 75 / 0.1)",
-              borderColor: "oklch(0.82 0.11 75 / 0.4)",
+              color: "oklch(0.72 0.19 42)",
+              glow: "oklch(0.82 0.14 42 / 0.1)",
+              borderColor: "oklch(0.82 0.14 42 / 0.4)",
             },
           ].map((item, i) => (
             <motion.div
@@ -108,7 +108,7 @@ export default function AboutPage() {
               transition={{ delay: i * 0.15 }}
               className="rounded-2xl p-8 border"
               style={{
-                backgroundColor: "oklch(0.19 0.065 247)",
+                backgroundColor: "oklch(0.18 0.05 225)",
                 borderColor: item.borderColor,
                 boxShadow: `0 0 40px ${item.glow}`,
               }}
@@ -131,15 +131,15 @@ export default function AboutPage() {
       <section
         className="py-20 px-4 border-t"
         style={{
-          backgroundColor: "oklch(0.15 0.055 250)",
-          borderColor: "oklch(0.24 0.07 252)",
+          backgroundColor: "oklch(0.16 0.05 225)",
+          borderColor: "oklch(0.28 0.07 220)",
         }}
       >
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
             <p
               className="text-xs font-bold tracking-widest mb-3"
-              style={{ color: "oklch(0.50 0.28 274)" }}
+              style={{ color: "oklch(0.68 0.16 215)" }}
             >
               CORE VALUES
             </p>
@@ -157,15 +157,15 @@ export default function AboutPage() {
                 transition={{ delay: i * 0.1 }}
                 className="rounded-xl p-6 border text-center"
                 style={{
-                  backgroundColor: "oklch(0.19 0.065 247)",
-                  borderColor: "oklch(0.28 0.09 258)",
+                  backgroundColor: "oklch(0.18 0.05 225)",
+                  borderColor: "oklch(0.28 0.07 220)",
                 }}
               >
                 <div
                   className="inline-flex p-3 rounded-xl mb-4"
-                  style={{ backgroundColor: "oklch(0.50 0.28 274 / 0.12)" }}
+                  style={{ backgroundColor: "oklch(0.55 0.18 215 / 0.12)" }}
                 >
-                  <v.icon size={22} style={{ color: "oklch(0.50 0.28 274)" }} />
+                  <v.icon size={22} style={{ color: "oklch(0.68 0.16 215)" }} />
                 </div>
                 <h3 className="font-display font-bold text-base text-foreground mb-2">
                   {v.title}
@@ -184,7 +184,7 @@ export default function AboutPage() {
         <div className="max-w-3xl mx-auto text-center">
           <p
             className="text-xs font-bold tracking-widest mb-4"
-            style={{ color: "oklch(0.82 0.11 75)" }}
+            style={{ color: "oklch(0.72 0.19 42)" }}
           >
             OUR STORY
           </p>
@@ -214,7 +214,7 @@ export default function AboutPage() {
               <div key={s.l}>
                 <p
                   className="text-2xl font-display font-bold"
-                  style={{ color: "oklch(0.82 0.11 75)" }}
+                  style={{ color: "oklch(0.72 0.19 42)" }}
                 >
                   {s.v}
                 </p>

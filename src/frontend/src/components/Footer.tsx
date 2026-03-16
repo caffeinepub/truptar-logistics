@@ -13,7 +13,7 @@ export default function Footer() {
         className="py-10 px-4"
         style={{
           background:
-            "linear-gradient(135deg, oklch(0.5 0.28 274) 0%, oklch(0.6 0.22 250) 40%, oklch(0.75 0.18 195) 100%)",
+            "linear-gradient(135deg, oklch(0.68 0.16 215) 0%, oklch(0.68 0.16 215) 40%, oklch(0.75 0.15 200) 100%)",
         }}
       >
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
@@ -30,8 +30,8 @@ export default function Footer() {
               to="/shipping-form"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm transition-all hover:scale-105"
               style={{
-                backgroundColor: "oklch(0.12 0.04 248)",
-                color: "oklch(0.82 0.11 75)",
+                backgroundColor: "oklch(0.14 0.04 225)",
+                color: "oklch(0.72 0.19 42)",
               }}
             >
               Ship Now
@@ -49,7 +49,7 @@ export default function Footer() {
       {/* Main footer body */}
       <div
         className="py-14 px-4"
-        style={{ backgroundColor: "oklch(0.13 0.04 248)" }}
+        style={{ backgroundColor: "oklch(0.14 0.04 225)" }}
       >
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
@@ -58,9 +58,9 @@ export default function Footer() {
               <div className="flex items-center gap-3 mb-5">
                 <div
                   className="p-2.5 rounded-xl"
-                  style={{ backgroundColor: "oklch(0.5 0.28 274 / 0.15)" }}
+                  style={{ backgroundColor: "oklch(0.55 0.18 215 / 0.15)" }}
                 >
-                  <Truck size={20} style={{ color: "oklch(0.5 0.28 274)" }} />
+                  <Truck size={20} style={{ color: "oklch(0.68 0.16 215)" }} />
                 </div>
                 <div>
                   <p className="font-display font-bold text-sm text-foreground">
@@ -81,18 +81,18 @@ export default function Footer() {
                   href="mailto:support@truptar.com"
                   className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  <Mail size={13} style={{ color: "oklch(0.75 0.18 195)" }} />
+                  <Mail size={13} style={{ color: "oklch(0.75 0.15 200)" }} />
                   support@truptar.com
                 </a>
                 <a
                   href="tel:+1234567890"
                   className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  <Phone size={13} style={{ color: "oklch(0.82 0.11 75)" }} />
+                  <Phone size={13} style={{ color: "oklch(0.72 0.19 42)" }} />
                   +1 (234) 567-8900
                 </a>
                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <MapPin size={13} style={{ color: "oklch(0.65 0.22 340)" }} />
+                  <MapPin size={13} style={{ color: "oklch(0.72 0.18 30)" }} />
                   Global Operations Center
                 </div>
               </div>
@@ -102,7 +102,7 @@ export default function Footer() {
             <div>
               <h4
                 className="text-xs font-bold tracking-widest mb-5"
-                style={{ color: "oklch(0.75 0.18 195)" }}
+                style={{ color: "oklch(0.75 0.15 200)" }}
               >
                 QUICK LINKS
               </h4>
@@ -114,7 +114,7 @@ export default function Footer() {
                 >
                   <span
                     className="w-1 h-1 rounded-full"
-                    style={{ backgroundColor: "oklch(0.75 0.18 195)" }}
+                    style={{ backgroundColor: "oklch(0.75 0.15 200)" }}
                   />
                   Ship Now
                 </Link>
@@ -125,7 +125,7 @@ export default function Footer() {
                 >
                   <span
                     className="w-1 h-1 rounded-full"
-                    style={{ backgroundColor: "oklch(0.75 0.18 195)" }}
+                    style={{ backgroundColor: "oklch(0.75 0.15 200)" }}
                   />
                   Track Shipment
                 </Link>
@@ -136,7 +136,7 @@ export default function Footer() {
                 >
                   <span
                     className="w-1 h-1 rounded-full"
-                    style={{ backgroundColor: "oklch(0.75 0.18 195)" }}
+                    style={{ backgroundColor: "oklch(0.75 0.15 200)" }}
                   />
                   Services
                 </Link>
@@ -147,7 +147,7 @@ export default function Footer() {
                 >
                   <span
                     className="w-1 h-1 rounded-full"
-                    style={{ backgroundColor: "oklch(0.75 0.18 195)" }}
+                    style={{ backgroundColor: "oklch(0.75 0.15 200)" }}
                   />
                   Support
                 </Link>
@@ -158,7 +158,7 @@ export default function Footer() {
                 >
                   <span
                     className="w-1 h-1 rounded-full"
-                    style={{ backgroundColor: "oklch(0.75 0.18 195)" }}
+                    style={{ backgroundColor: "oklch(0.75 0.15 200)" }}
                   />
                   Features
                 </Link>
@@ -169,7 +169,7 @@ export default function Footer() {
             <div>
               <h4
                 className="text-xs font-bold tracking-widest mb-5"
-                style={{ color: "oklch(0.82 0.11 75)" }}
+                style={{ color: "oklch(0.72 0.19 42)" }}
               >
                 COMPANY INFO
               </h4>
@@ -181,7 +181,7 @@ export default function Footer() {
                 >
                   <span
                     className="w-1 h-1 rounded-full"
-                    style={{ backgroundColor: "oklch(0.82 0.11 75)" }}
+                    style={{ backgroundColor: "oklch(0.72 0.19 42)" }}
                   />
                   About Truptar Logistics
                 </Link>
@@ -192,7 +192,7 @@ export default function Footer() {
                 >
                   <span
                     className="w-1 h-1 rounded-full"
-                    style={{ backgroundColor: "oklch(0.82 0.11 75)" }}
+                    style={{ backgroundColor: "oklch(0.72 0.19 42)" }}
                   />
                   Careers
                 </a>
@@ -203,7 +203,7 @@ export default function Footer() {
                 >
                   <span
                     className="w-1 h-1 rounded-full"
-                    style={{ backgroundColor: "oklch(0.82 0.11 75)" }}
+                    style={{ backgroundColor: "oklch(0.72 0.19 42)" }}
                   />
                   Contact
                 </a>
@@ -214,7 +214,7 @@ export default function Footer() {
                 >
                   <span
                     className="w-1 h-1 rounded-full"
-                    style={{ backgroundColor: "oklch(0.82 0.11 75)" }}
+                    style={{ backgroundColor: "oklch(0.72 0.19 42)" }}
                   />
                   Staff Portal
                 </Link>
@@ -225,11 +225,11 @@ export default function Footer() {
           {/* Bottom bar */}
           <div
             className="border-t pt-6 flex flex-col md:flex-row items-center justify-between gap-4"
-            style={{ borderColor: "oklch(0.24 0.07 252)" }}
+            style={{ borderColor: "oklch(0.28 0.07 220)" }}
           >
             <p className="text-xs text-muted-foreground">
               © {year}{" "}
-              <span style={{ color: "oklch(0.82 0.11 75)" }}>
+              <span style={{ color: "oklch(0.72 0.19 42)" }}>
                 TRUPTAR LOGISTICS
               </span>
               . Powered by JUVENTUS SOPS.

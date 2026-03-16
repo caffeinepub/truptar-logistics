@@ -63,7 +63,7 @@ export default function RegisterPage() {
       className="min-h-screen flex flex-col relative overflow-hidden"
       style={{
         background:
-          "radial-gradient(ellipse at 70% 20%, oklch(0.75 0.18 195 / 0.18) 0%, transparent 50%), radial-gradient(ellipse at 20% 80%, oklch(0.5 0.28 274 / 0.15) 0%, transparent 50%), linear-gradient(160deg, oklch(0.11 0.045 248) 0%, oklch(0.16 0.065 258) 100%)",
+          "radial-gradient(ellipse at 70% 20%, oklch(0.75 0.18 195 / 0.18) 0%, transparent 50%), radial-gradient(ellipse at 20% 80%, oklch(0.55 0.18 215 / 0.15) 0%, transparent 50%), linear-gradient(160deg, oklch(0.14 0.04 225) 0%, oklch(0.16 0.05 225) 100%)",
       }}
     >
       {/* Background orbs */}
@@ -78,7 +78,7 @@ export default function RegisterPage() {
         <div
           className="absolute bottom-20 left-10 w-64 h-64 rounded-full blur-3xl animate-orb-float"
           style={{
-            background: "oklch(0.5 0.28 274 / 0.1)",
+            background: "oklch(0.55 0.18 215 / 0.1)",
             animationDelay: "4s",
           }}
         />
@@ -93,14 +93,14 @@ export default function RegisterPage() {
         <div
           className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border"
           style={{
-            backgroundColor: "oklch(0.82 0.11 75 / 0.1)",
-            borderColor: "oklch(0.82 0.11 75 / 0.3)",
-            color: "oklch(0.82 0.11 75)",
+            backgroundColor: "oklch(0.82 0.14 42 / 0.1)",
+            borderColor: "oklch(0.82 0.14 42 / 0.3)",
+            color: "oklch(0.72 0.19 42)",
           }}
         >
           <span
             className="w-1.5 h-1.5 rounded-full"
-            style={{ backgroundColor: "oklch(0.82 0.11 75)" }}
+            style={{ backgroundColor: "oklch(0.72 0.19 42)" }}
           />
           Powered by JUVENTUS SOPS
         </div>
@@ -110,7 +110,7 @@ export default function RegisterPage() {
         <div
           className="w-full max-w-lg rounded-2xl p-8 border"
           style={{
-            backgroundColor: "oklch(0.17 0.06 250 / 0.8)",
+            backgroundColor: "oklch(0.17 0.05 225 / 0.8)",
             backdropFilter: "blur(20px)",
             borderColor: "oklch(0.75 0.18 195 / 0.4)",
             boxShadow:
@@ -122,7 +122,7 @@ export default function RegisterPage() {
             className="rounded-xl p-5 mb-8"
             style={{
               background:
-                "linear-gradient(135deg, oklch(0.75 0.18 195 / 0.12) 0%, oklch(0.5 0.28 274 / 0.08) 100%)",
+                "linear-gradient(135deg, oklch(0.75 0.18 195 / 0.12) 0%, oklch(0.55 0.18 215 / 0.08) 100%)",
             }}
           >
             <div className="flex items-center gap-3">
@@ -193,7 +193,7 @@ export default function RegisterPage() {
                     <SelectValue placeholder="Select country" />
                   </SelectTrigger>
                   <SelectContent
-                    style={{ backgroundColor: "oklch(0.19 0.065 247)" }}
+                    style={{ backgroundColor: "oklch(0.18 0.05 225)" }}
                   >
                     {WORLD_COUNTRIES.map((c) => (
                       <SelectItem key={c} value={c}>
@@ -247,7 +247,7 @@ export default function RegisterPage() {
                 <a
                   href="/terms"
                   className="underline"
-                  style={{ color: "oklch(0.82 0.11 75)" }}
+                  style={{ color: "oklch(0.72 0.19 42)" }}
                 >
                   Terms &amp; Logistics Policy
                 </a>
@@ -261,8 +261,8 @@ export default function RegisterPage() {
               className="w-full h-11 font-bold text-sm tracking-widest mt-2 transition-all hover:scale-[1.02]"
               style={{
                 background:
-                  "linear-gradient(135deg, oklch(0.75 0.18 195), oklch(0.5 0.28 274))",
-                color: "oklch(0.97 0.01 248)",
+                  "linear-gradient(135deg, oklch(0.75 0.15 200), oklch(0.68 0.16 215))",
+                color: "oklch(0.97 0.01 155)",
                 boxShadow: "0 4px 20px oklch(0.75 0.18 195 / 0.35)",
               }}
             >
@@ -278,7 +278,7 @@ export default function RegisterPage() {
             <Link
               to="/login"
               className="font-medium"
-              style={{ color: "oklch(0.82 0.11 75)" }}
+              style={{ color: "oklch(0.72 0.19 42)" }}
             >
               Sign in
             </Link>

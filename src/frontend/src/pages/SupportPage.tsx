@@ -72,19 +72,19 @@ export default function SupportPage() {
         className="relative pt-28 pb-16 px-4 overflow-hidden"
         style={{
           background:
-            "linear-gradient(160deg, oklch(0.13 0.05 248) 0%, oklch(0.16 0.07 260) 50%, oklch(0.14 0.06 250) 100%)",
+            "linear-gradient(160deg, oklch(0.14 0.04 225) 0%, oklch(0.18 0.05 225) 50%, oklch(0.14 0.06 250) 100%)",
         }}
       >
         <div className="relative max-w-3xl mx-auto text-center">
           <p
             className="text-xs font-bold tracking-widest mb-4"
-            style={{ color: "oklch(0.50 0.28 274)" }}
+            style={{ color: "oklch(0.68 0.16 215)" }}
           >
             CUSTOMER SUPPORT
           </p>
           <h1 className="font-display font-extrabold text-4xl sm:text-5xl text-foreground mb-4">
             How Can We{" "}
-            <span style={{ color: "oklch(0.82 0.11 75)" }}>Help?</span>
+            <span style={{ color: "oklch(0.72 0.19 42)" }}>Help?</span>
           </h1>
           <p className="text-muted-foreground">
             Open a ticket or reach out via your preferred channel. Our team is
@@ -106,17 +106,17 @@ export default function SupportPage() {
                 transition={{ delay: i * 0.1 }}
                 className="rounded-xl p-6 border"
                 style={{
-                  backgroundColor: "oklch(0.19 0.065 247)",
-                  borderColor: "oklch(0.28 0.09 258)",
+                  backgroundColor: "oklch(0.18 0.05 225)",
+                  borderColor: "oklch(0.28 0.07 220)",
                 }}
               >
                 <div
                   className="inline-flex p-3 rounded-xl mb-4"
-                  style={{ backgroundColor: "oklch(0.50 0.28 274 / 0.12)" }}
+                  style={{ backgroundColor: "oklch(0.55 0.18 215 / 0.12)" }}
                 >
                   <ch.icon
                     size={22}
-                    style={{ color: "oklch(0.50 0.28 274)" }}
+                    style={{ color: "oklch(0.68 0.16 215)" }}
                   />
                 </div>
                 <h3 className="font-display font-bold text-base text-foreground mb-1">
@@ -124,7 +124,7 @@ export default function SupportPage() {
                 </h3>
                 <p
                   className="text-xs mb-1"
-                  style={{ color: "oklch(0.82 0.11 75)" }}
+                  style={{ color: "oklch(0.72 0.19 42)" }}
                 >
                   {ch.info}
                 </p>
@@ -136,7 +136,7 @@ export default function SupportPage() {
                   onClick={ch.onClick}
                   className="w-full font-semibold"
                   style={{
-                    backgroundColor: "oklch(0.50 0.28 274)",
+                    backgroundColor: "oklch(0.68 0.16 215)",
                     color: "#fff",
                   }}
                 >
@@ -159,8 +159,8 @@ export default function SupportPage() {
                 data-ocid="support.form.success_state"
                 className="rounded-2xl p-10 border text-center"
                 style={{
-                  backgroundColor: "oklch(0.19 0.065 247)",
-                  borderColor: "oklch(0.50 0.28 274 / 0.4)",
+                  backgroundColor: "oklch(0.18 0.05 225)",
+                  borderColor: "oklch(0.55 0.18 215 / 0.4)",
                 }}
               >
                 <CheckCircle2
@@ -184,8 +184,8 @@ export default function SupportPage() {
                     setMessage("");
                   }}
                   style={{
-                    backgroundColor: "oklch(0.82 0.11 75)",
-                    color: "oklch(0.13 0.04 248)",
+                    backgroundColor: "oklch(0.72 0.19 42)",
+                    color: "oklch(0.14 0.04 225)",
                   }}
                 >
                   Submit Another Ticket
@@ -196,8 +196,8 @@ export default function SupportPage() {
                 onSubmit={handleSubmit}
                 className="rounded-2xl p-8 border space-y-5"
                 style={{
-                  backgroundColor: "oklch(0.19 0.065 247)",
-                  borderColor: "oklch(0.28 0.09 258)",
+                  backgroundColor: "oklch(0.18 0.05 225)",
+                  borderColor: "oklch(0.28 0.07 220)",
                 }}
               >
                 <div className="space-y-1.5">
@@ -246,8 +246,8 @@ export default function SupportPage() {
                   disabled={loading}
                   className="w-full font-bold h-11"
                   style={{
-                    backgroundColor: "oklch(0.82 0.11 75)",
-                    color: "oklch(0.13 0.04 248)",
+                    backgroundColor: "oklch(0.72 0.19 42)",
+                    color: "oklch(0.14 0.04 225)",
                   }}
                 >
                   {loading ? "Submitting..." : "Submit Ticket"}

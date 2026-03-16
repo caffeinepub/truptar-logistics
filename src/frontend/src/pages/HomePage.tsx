@@ -54,16 +54,16 @@ const SERVICES: {
     label: "Freight Services",
     href: "/freight-services",
     desc: "Local & international freight solutions",
-    color: "oklch(0.5 0.28 274)",
-    bg: "oklch(0.5 0.28 274 / 0.12)",
-    glow: "oklch(0.5 0.28 274 / 0.25)",
+    color: "oklch(0.68 0.16 215)",
+    bg: "oklch(0.55 0.18 215 / 0.12)",
+    glow: "oklch(0.55 0.18 215 / 0.25)",
   },
   {
     icon: Package,
     label: "Express Parcel Delivery",
     href: "/services/express-parcel",
     desc: "Fast and reliable parcel dispatch",
-    color: "oklch(0.75 0.18 195)",
+    color: "oklch(0.75 0.15 200)",
     bg: "oklch(0.75 0.18 195 / 0.12)",
     glow: "oklch(0.75 0.18 195 / 0.25)",
   },
@@ -72,7 +72,7 @@ const SERVICES: {
     label: "Warehousing & Storage",
     href: "/services/warehousing",
     desc: "Secure, scalable storage facilities",
-    color: "oklch(0.72 0.19 55)",
+    color: "oklch(0.75 0.2 42)",
     bg: "oklch(0.72 0.19 55 / 0.12)",
     glow: "oklch(0.72 0.19 55 / 0.25)",
   },
@@ -81,7 +81,7 @@ const SERVICES: {
     label: "International Cargo",
     href: "/freight-services",
     desc: "Worldwide cargo movement",
-    color: "oklch(0.65 0.22 340)",
+    color: "oklch(0.72 0.18 30)",
     bg: "oklch(0.65 0.22 340 / 0.12)",
     glow: "oklch(0.65 0.22 340 / 0.25)",
   },
@@ -90,25 +90,25 @@ const SERVICES: {
     label: "E-commerce Fulfillment",
     href: "/services/ecommerce",
     desc: "End-to-end order fulfillment",
-    color: "oklch(0.82 0.11 75)",
-    bg: "oklch(0.82 0.11 75 / 0.12)",
-    glow: "oklch(0.82 0.11 75 / 0.25)",
+    color: "oklch(0.72 0.19 42)",
+    bg: "oklch(0.82 0.14 42 / 0.12)",
+    glow: "oklch(0.82 0.14 42 / 0.25)",
   },
   {
     icon: Building2,
     label: "Corporate Logistics",
     href: "/services/corporate",
     desc: "Tailored enterprise solutions",
-    color: "oklch(0.5 0.28 274)",
-    bg: "oklch(0.5 0.28 274 / 0.12)",
-    glow: "oklch(0.5 0.28 274 / 0.25)",
+    color: "oklch(0.68 0.16 215)",
+    bg: "oklch(0.55 0.18 215 / 0.12)",
+    glow: "oklch(0.55 0.18 215 / 0.25)",
   },
   {
     icon: Construction,
     label: "Heavy Equipment Transport",
     href: "/services/heavy-equipment",
     desc: "Safe heavy-load transportation",
-    color: "oklch(0.75 0.18 195)",
+    color: "oklch(0.75 0.15 200)",
     bg: "oklch(0.75 0.18 195 / 0.12)",
     glow: "oklch(0.75 0.18 195 / 0.25)",
   },
@@ -117,7 +117,7 @@ const SERVICES: {
     label: "Customs Clearance",
     href: "/services/customs",
     desc: "Hassle-free customs handling",
-    color: "oklch(0.72 0.19 55)",
+    color: "oklch(0.75 0.2 42)",
     bg: "oklch(0.72 0.19 55 / 0.12)",
     glow: "oklch(0.72 0.19 55 / 0.25)",
   },
@@ -126,7 +126,7 @@ const SERVICES: {
     label: "Door-to-Door Delivery",
     href: "/services/door-to-door",
     desc: "Direct delivery to your doorstep",
-    color: "oklch(0.65 0.22 340)",
+    color: "oklch(0.72 0.18 30)",
     bg: "oklch(0.65 0.22 340 / 0.12)",
     glow: "oklch(0.65 0.22 340 / 0.25)",
   },
@@ -135,9 +135,9 @@ const SERVICES: {
     label: "Special Request Logistics",
     href: "/services/special-request",
     desc: "Custom logistics for unique needs",
-    color: "oklch(0.82 0.11 75)",
-    bg: "oklch(0.82 0.11 75 / 0.12)",
-    glow: "oklch(0.82 0.11 75 / 0.25)",
+    color: "oklch(0.72 0.19 42)",
+    bg: "oklch(0.82 0.14 42 / 0.12)",
+    glow: "oklch(0.82 0.14 42 / 0.25)",
   },
 ];
 
@@ -145,29 +145,29 @@ const STATS = [
   {
     label: "Countries Served",
     value: "42+",
-    color: "oklch(0.5 0.28 274)",
-    bg: "linear-gradient(135deg, oklch(0.18 0.07 260) 0%, oklch(0.22 0.1 270) 100%)",
-    border: "oklch(0.5 0.28 274 / 0.4)",
+    color: "oklch(0.68 0.16 215)",
+    bg: "linear-gradient(135deg, oklch(0.18 0.05 225) 0%, oklch(0.22 0.06 225) 100%)",
+    border: "oklch(0.55 0.18 215 / 0.4)",
   },
   {
     label: "Deliveries Completed",
     value: "150K+",
-    color: "oklch(0.82 0.11 75)",
-    bg: "linear-gradient(135deg, oklch(0.17 0.06 60) 0%, oklch(0.21 0.09 65) 100%)",
-    border: "oklch(0.82 0.11 75 / 0.4)",
+    color: "oklch(0.72 0.19 42)",
+    bg: "linear-gradient(135deg, oklch(0.18 0.05 225) 0%, oklch(0.22 0.06 225) 100%)",
+    border: "oklch(0.82 0.14 42 / 0.4)",
   },
   {
     label: "Corporate Partners",
     value: "800+",
-    color: "oklch(0.75 0.18 195)",
-    bg: "linear-gradient(135deg, oklch(0.17 0.07 195) 0%, oklch(0.21 0.1 200) 100%)",
+    color: "oklch(0.75 0.15 200)",
+    bg: "linear-gradient(135deg, oklch(0.18 0.05 225) 0%, oklch(0.22 0.06 225) 100%)",
     border: "oklch(0.75 0.18 195 / 0.4)",
   },
   {
     label: "On-Time Rate",
     value: "99.2%",
-    color: "oklch(0.65 0.22 340)",
-    bg: "linear-gradient(135deg, oklch(0.18 0.08 340) 0%, oklch(0.22 0.1 345) 100%)",
+    color: "oklch(0.72 0.18 30)",
+    bg: "linear-gradient(135deg, oklch(0.18 0.05 225) 0%, oklch(0.22 0.06 225) 100%)",
     border: "oklch(0.65 0.22 340 / 0.4)",
   },
 ];
@@ -177,49 +177,49 @@ const AUTOMATIONS = [
     icon: Package,
     title: "Auto Order Numbering",
     desc: "Every order gets a unique TRUPTAR-LOG-XXXXXX ID instantly on submission",
-    color: "oklch(0.5 0.28 274)",
+    color: "oklch(0.68 0.16 215)",
   },
   {
     icon: RefreshCw,
     title: "Real-Time Status Updates",
     desc: "Status changes instantly notify customers via in-app alerts",
-    color: "oklch(0.75 0.18 195)",
+    color: "oklch(0.75 0.15 200)",
   },
   {
     icon: BarChart3,
     title: "Admin-User Live Sync",
     desc: "All orders appear in admin dashboard the moment they're placed",
-    color: "oklch(0.72 0.19 55)",
+    color: "oklch(0.75 0.2 42)",
   },
   {
     icon: Zap,
     title: "Payment Auto-Log",
     desc: "Payment references and proofs flagged for admin review instantly",
-    color: "oklch(0.65 0.22 340)",
+    color: "oklch(0.72 0.18 30)",
   },
   {
     icon: MapPin,
     title: "Tracking Timeline",
     desc: "5-stage tracking updates with automatic timestamp logging",
-    color: "oklch(0.82 0.11 75)",
+    color: "oklch(0.72 0.19 42)",
   },
   {
     icon: Bell,
     title: "Notification Center",
     desc: "In-app notification log for every shipment event, zero delay",
-    color: "oklch(0.5 0.28 274)",
+    color: "oklch(0.68 0.16 215)",
   },
   {
     icon: Globe,
     title: "Service Request Routing",
     desc: "Service requests auto-routed to admin Service Requests panel",
-    color: "oklch(0.75 0.18 195)",
+    color: "oklch(0.75 0.15 200)",
   },
   {
     icon: Shield,
     title: "Support Ticket System",
     desc: "Support tickets auto-logged with order reference linkage",
-    color: "oklch(0.72 0.19 55)",
+    color: "oklch(0.75 0.2 42)",
   },
 ];
 
@@ -247,7 +247,7 @@ function PriceCalculator() {
     <div
       className="rounded-2xl p-8 border"
       style={{
-        backgroundColor: "oklch(0.19 0.065 247)",
+        backgroundColor: "oklch(0.18 0.05 225)",
         borderColor: "oklch(0.75 0.18 195 / 0.3)",
         boxShadow: "0 0 40px oklch(0.75 0.18 195 / 0.06)",
       }}
@@ -257,7 +257,7 @@ function PriceCalculator() {
           <label
             htmlFor="calc-origin"
             className="text-sm font-semibold"
-            style={{ color: "oklch(0.75 0.18 195)" }}
+            style={{ color: "oklch(0.75 0.15 200)" }}
           >
             Origin Country
           </label>
@@ -268,9 +268,9 @@ function PriceCalculator() {
             onChange={(e) => setOrigin(e.target.value)}
             className="w-full rounded-lg px-3 h-10 text-sm border outline-none focus:ring-2"
             style={{
-              backgroundColor: "oklch(0.14 0.05 250)",
-              borderColor: "oklch(0.30 0.09 258)",
-              color: "oklch(0.90 0.02 248)",
+              backgroundColor: "oklch(0.16 0.05 225)",
+              borderColor: "oklch(0.28 0.07 220)",
+              color: "oklch(0.97 0.01 210)",
             }}
           >
             <option value="">Select origin country</option>
@@ -285,7 +285,7 @@ function PriceCalculator() {
           <label
             htmlFor="calc-destination"
             className="text-sm font-semibold"
-            style={{ color: "oklch(0.75 0.18 195)" }}
+            style={{ color: "oklch(0.75 0.15 200)" }}
           >
             Destination Country
           </label>
@@ -296,9 +296,9 @@ function PriceCalculator() {
             onChange={(e) => setDestination(e.target.value)}
             className="w-full rounded-lg px-3 h-10 text-sm border outline-none focus:ring-2"
             style={{
-              backgroundColor: "oklch(0.14 0.05 250)",
-              borderColor: "oklch(0.30 0.09 258)",
-              color: "oklch(0.90 0.02 248)",
+              backgroundColor: "oklch(0.16 0.05 225)",
+              borderColor: "oklch(0.28 0.07 220)",
+              color: "oklch(0.97 0.01 210)",
             }}
           >
             <option value="">Select destination country</option>
@@ -313,7 +313,7 @@ function PriceCalculator() {
           <label
             htmlFor="calc-weight"
             className="text-sm font-semibold"
-            style={{ color: "oklch(0.75 0.18 195)" }}
+            style={{ color: "oklch(0.75 0.15 200)" }}
           >
             Weight (kg)
           </label>
@@ -328,9 +328,9 @@ function PriceCalculator() {
             placeholder="e.g. 5"
             className="w-full rounded-lg px-3 h-10 text-sm border outline-none focus:ring-2"
             style={{
-              backgroundColor: "oklch(0.14 0.05 250)",
-              borderColor: "oklch(0.30 0.09 258)",
-              color: "oklch(0.90 0.02 248)",
+              backgroundColor: "oklch(0.16 0.05 225)",
+              borderColor: "oklch(0.28 0.07 220)",
+              color: "oklch(0.97 0.01 210)",
             }}
           />
         </div>
@@ -338,7 +338,7 @@ function PriceCalculator() {
           <label
             htmlFor="calc-type"
             className="text-sm font-semibold"
-            style={{ color: "oklch(0.75 0.18 195)" }}
+            style={{ color: "oklch(0.75 0.15 200)" }}
           >
             Shipment Type
           </label>
@@ -349,9 +349,9 @@ function PriceCalculator() {
             onChange={(e) => setShipType(e.target.value)}
             className="w-full rounded-lg px-3 h-10 text-sm border outline-none focus:ring-2"
             style={{
-              backgroundColor: "oklch(0.14 0.05 250)",
-              borderColor: "oklch(0.30 0.09 258)",
-              color: "oklch(0.90 0.02 248)",
+              backgroundColor: "oklch(0.16 0.05 225)",
+              borderColor: "oklch(0.28 0.07 220)",
+              color: "oklch(0.97 0.01 210)",
             }}
           >
             <option value="standard">Standard</option>
@@ -367,7 +367,7 @@ function PriceCalculator() {
         className="w-full h-12 rounded-xl font-bold text-sm transition-all duration-200 hover:opacity-90"
         style={{
           background:
-            "linear-gradient(90deg, oklch(0.50 0.28 274), oklch(0.75 0.18 195))",
+            "linear-gradient(90deg, oklch(0.68 0.16 215), oklch(0.75 0.15 200))",
           color: "white",
         }}
       >
@@ -379,23 +379,23 @@ function PriceCalculator() {
           animate={{ opacity: 1, y: 0 }}
           className="mt-5 rounded-xl p-5 text-center border"
           style={{
-            backgroundColor: "oklch(0.82 0.11 75 / 0.08)",
-            borderColor: "oklch(0.82 0.11 75 / 0.4)",
+            backgroundColor: "oklch(0.82 0.14 42 / 0.08)",
+            borderColor: "oklch(0.82 0.14 42 / 0.4)",
           }}
         >
           <p
             className="text-xs font-semibold uppercase tracking-wider mb-1"
-            style={{ color: "oklch(0.82 0.11 75 / 0.7)" }}
+            style={{ color: "oklch(0.82 0.14 42 / 0.7)" }}
           >
             Estimated Cost
           </p>
           <p
             className="text-3xl font-display font-extrabold"
-            style={{ color: "oklch(0.82 0.11 75)" }}
+            style={{ color: "oklch(0.72 0.19 42)" }}
           >
             {result}
           </p>
-          <p className="text-xs mt-2" style={{ color: "oklch(0.60 0.05 248)" }}>
+          <p className="text-xs mt-2" style={{ color: "oklch(0.62 0.06 215)" }}>
             This is an estimate. Final cost may vary based on actual weight,
             dimensions, and route.
           </p>
@@ -415,8 +415,8 @@ export default function HomePage() {
         className="overflow-hidden py-2.5 border-b"
         style={{
           background:
-            "linear-gradient(90deg, oklch(0.5 0.28 274 / 0.15) 0%, oklch(0.75 0.18 195 / 0.1) 50%, oklch(0.82 0.11 75 / 0.1) 100%)",
-          borderColor: "oklch(0.5 0.28 274 / 0.3)",
+            "linear-gradient(90deg, oklch(0.55 0.18 215 / 0.15) 0%, oklch(0.75 0.18 195 / 0.1) 50%, oklch(0.82 0.14 42 / 0.1) 100%)",
+          borderColor: "oklch(0.55 0.18 215 / 0.3)",
           marginTop: "64px",
         }}
       >
@@ -432,7 +432,7 @@ export default function HomePage() {
             <span
               key={msg}
               className="text-xs font-semibold px-6"
-              style={{ color: "oklch(0.82 0.11 75)" }}
+              style={{ color: "oklch(0.72 0.19 42)" }}
             >
               {msg}
               <span className="ml-6 opacity-30">|</span>
@@ -446,7 +446,7 @@ export default function HomePage() {
         className="relative pt-12 pb-24 px-4 overflow-hidden"
         style={{
           background:
-            "radial-gradient(ellipse at 20% 50%, oklch(0.5 0.28 274 / 0.18) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, oklch(0.75 0.18 195 / 0.12) 0%, transparent 55%), radial-gradient(ellipse at 60% 80%, oklch(0.82 0.11 75 / 0.08) 0%, transparent 50%), linear-gradient(160deg, oklch(0.12 0.05 248) 0%, oklch(0.16 0.07 260) 60%, oklch(0.13 0.05 250) 100%)",
+            "radial-gradient(ellipse at 20% 50%, oklch(0.55 0.18 215 / 0.18) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, oklch(0.75 0.18 195 / 0.12) 0%, transparent 55%), radial-gradient(ellipse at 60% 80%, oklch(0.82 0.14 42 / 0.08) 0%, transparent 50%), linear-gradient(160deg, oklch(0.14 0.04 225) 0%, oklch(0.18 0.05 225) 60%, oklch(0.14 0.04 225) 100%)",
         }}
       >
         {/* Animated background orbs */}
@@ -454,7 +454,7 @@ export default function HomePage() {
           <div
             className="absolute top-20 left-10 w-64 h-64 rounded-full blur-3xl animate-orb-float"
             style={{
-              background: "oklch(0.5 0.28 274 / 0.15)",
+              background: "oklch(0.55 0.18 215 / 0.15)",
               animationDelay: "0s",
             }}
           />
@@ -468,7 +468,7 @@ export default function HomePage() {
           <div
             className="absolute bottom-10 left-1/3 w-56 h-56 rounded-full blur-3xl animate-orb-float"
             style={{
-              background: "oklch(0.82 0.11 75 / 0.08)",
+              background: "oklch(0.82 0.14 42 / 0.08)",
               animationDelay: "4s",
             }}
           />
@@ -481,14 +481,14 @@ export default function HomePage() {
               <div
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold mb-8 border"
                 style={{
-                  backgroundColor: "oklch(0.5 0.28 274 / 0.12)",
-                  borderColor: "oklch(0.5 0.28 274 / 0.4)",
-                  color: "oklch(0.75 0.18 195)",
+                  backgroundColor: "oklch(0.55 0.18 215 / 0.12)",
+                  borderColor: "oklch(0.55 0.18 215 / 0.4)",
+                  color: "oklch(0.75 0.15 200)",
                 }}
               >
                 <span
                   className="w-2 h-2 rounded-full animate-pulse"
-                  style={{ backgroundColor: "oklch(0.75 0.18 195)" }}
+                  style={{ backgroundColor: "oklch(0.75 0.15 200)" }}
                 />
                 A Division of JUVENTUS SOPS
               </div>
@@ -501,7 +501,7 @@ export default function HomePage() {
 
               <p
                 className="text-lg sm:text-xl font-semibold mb-4 font-display"
-                style={{ color: "oklch(0.82 0.11 75)" }}
+                style={{ color: "oklch(0.72 0.19 42)" }}
               >
                 Smart Freight &amp; Delivery Solutions
               </p>
@@ -519,9 +519,9 @@ export default function HomePage() {
                     className="h-13 px-8 font-bold text-base gap-2 transition-all hover:scale-105"
                     style={{
                       background:
-                        "linear-gradient(135deg, oklch(0.82 0.11 75), oklch(0.72 0.19 55))",
-                      color: "oklch(0.12 0.04 248)",
-                      boxShadow: "0 4px 20px oklch(0.82 0.11 75 / 0.4)",
+                        "linear-gradient(135deg, oklch(0.72 0.19 42), oklch(0.75 0.2 42))",
+                      color: "oklch(0.14 0.04 225)",
+                      boxShadow: "0 4px 20px oklch(0.82 0.14 42 / 0.4)",
                     }}
                   >
                     Ship Now <ArrowRight size={18} />
@@ -535,7 +535,7 @@ export default function HomePage() {
                     className="h-13 px-8 font-bold text-base transition-all hover:scale-105"
                     style={{
                       borderColor: "oklch(0.75 0.18 195 / 0.6)",
-                      color: "oklch(0.75 0.18 195)",
+                      color: "oklch(0.75 0.15 200)",
                     }}
                   >
                     Track Order
@@ -548,8 +548,8 @@ export default function HomePage() {
                     data-ocid="hero.button"
                     className="h-13 px-8 font-bold text-base transition-all hover:scale-105"
                     style={{
-                      borderColor: "oklch(0.5 0.28 274 / 0.6)",
-                      color: "oklch(0.5 0.28 274)",
+                      borderColor: "oklch(0.55 0.18 215 / 0.6)",
+                      color: "oklch(0.68 0.16 215)",
                     }}
                   >
                     Our Services
@@ -560,9 +560,9 @@ export default function HomePage() {
               {/* Stat pills */}
               <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
                 {[
-                  { v: "42+ Countries", c: "oklch(0.75 0.18 195)" },
-                  { v: "150K+ Deliveries", c: "oklch(0.82 0.11 75)" },
-                  { v: "99.2% On-Time", c: "oklch(0.65 0.22 340)" },
+                  { v: "42+ Countries", c: "oklch(0.75 0.15 200)" },
+                  { v: "150K+ Deliveries", c: "oklch(0.72 0.19 42)" },
+                  { v: "99.2% On-Time", c: "oklch(0.72 0.18 30)" },
                 ].map((p) => (
                   <span
                     key={p.v}
@@ -589,7 +589,7 @@ export default function HomePage() {
                   className="absolute inset-0 rounded-2xl blur-3xl"
                   style={{
                     background:
-                      "radial-gradient(ellipse, oklch(0.5 0.28 274 / 0.25) 0%, transparent 70%)",
+                      "radial-gradient(ellipse, oklch(0.55 0.18 215 / 0.25) 0%, transparent 70%)",
                   }}
                 />
                 <img
@@ -597,7 +597,7 @@ export default function HomePage() {
                   alt="Truptar Logistics Fleet"
                   className="relative w-full rounded-2xl"
                   style={{
-                    filter: "drop-shadow(0 0 30px oklch(0.5 0.28 274 / 0.4))",
+                    filter: "drop-shadow(0 0 30px oklch(0.55 0.18 215 / 0.4))",
                   }}
                 />
               </div>
@@ -609,7 +609,7 @@ export default function HomePage() {
       {/* Stats */}
       <section
         className="py-12 px-4 border-y"
-        style={{ borderColor: "oklch(0.24 0.07 252)" }}
+        style={{ borderColor: "oklch(0.28 0.07 220)" }}
       >
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
@@ -663,7 +663,7 @@ export default function HomePage() {
                 <div
                   className="group h-full rounded-xl p-6 border cursor-pointer transition-all duration-300 hover:-translate-y-2"
                   style={{
-                    backgroundColor: "oklch(0.19 0.065 247)",
+                    backgroundColor: "oklch(0.18 0.05 225)",
                     borderColor: `${svc.color.replace(")", " / 0.3)")}`,
                   }}
                   onMouseEnter={(e) => {
@@ -709,7 +709,7 @@ export default function HomePage() {
         className="py-20 px-4"
         style={{
           background:
-            "linear-gradient(160deg, oklch(0.16 0.07 260) 0%, oklch(0.13 0.05 250) 100%)",
+            "linear-gradient(160deg, oklch(0.18 0.05 225) 0%, oklch(0.14 0.04 225) 100%)",
         }}
       >
         <div className="max-w-3xl mx-auto">
@@ -718,15 +718,15 @@ export default function HomePage() {
               className="inline-flex p-3 rounded-xl mb-4"
               style={{ backgroundColor: "oklch(0.75 0.18 195 / 0.12)" }}
             >
-              <Calculator size={28} style={{ color: "oklch(0.75 0.18 195)" }} />
+              <Calculator size={28} style={{ color: "oklch(0.75 0.15 200)" }} />
             </div>
             <h2
               className="text-3xl font-display font-extrabold mb-3"
-              style={{ color: "oklch(0.95 0.02 248)" }}
+              style={{ color: "oklch(0.97 0.01 210)" }}
             >
               Shipping Price Calculator
             </h2>
-            <p style={{ color: "oklch(0.70 0.05 248)" }}>
+            <p style={{ color: "oklch(0.62 0.06 215)" }}>
               Get an instant estimate for your shipment cost
             </p>
           </div>
@@ -739,8 +739,8 @@ export default function HomePage() {
         className="py-20 px-4 border-y"
         style={{
           background:
-            "linear-gradient(160deg, oklch(0.14 0.06 255) 0%, oklch(0.17 0.07 265) 50%, oklch(0.14 0.05 250) 100%)",
-          borderColor: "oklch(0.24 0.07 252)",
+            "linear-gradient(160deg, oklch(0.16 0.05 225) 0%, oklch(0.18 0.05 225) 50%, oklch(0.16 0.05 225) 100%)",
+          borderColor: "oklch(0.28 0.07 220)",
         }}
       >
         <div className="max-w-7xl mx-auto">
@@ -762,7 +762,7 @@ export default function HomePage() {
                 key={a.title}
                 className="rounded-xl p-5 border transition-all hover:-translate-y-1"
                 style={{
-                  backgroundColor: "oklch(0.19 0.065 247)",
+                  backgroundColor: "oklch(0.18 0.05 225)",
                   borderColor: a.color.replace(")", " / 0.25)"),
                 }}
               >
@@ -802,8 +802,8 @@ export default function HomePage() {
           <div
             className="rounded-2xl overflow-hidden border"
             style={{
-              borderColor: "oklch(0.5 0.28 274 / 0.3)",
-              boxShadow: "0 0 60px oklch(0.5 0.28 274 / 0.1)",
+              borderColor: "oklch(0.55 0.18 215 / 0.3)",
+              boxShadow: "0 0 60px oklch(0.55 0.18 215 / 0.1)",
             }}
           >
             <img
@@ -820,8 +820,8 @@ export default function HomePage() {
         className="py-20 px-4 border-t"
         style={{
           background:
-            "linear-gradient(160deg, oklch(0.14 0.06 255) 0%, oklch(0.16 0.07 260) 100%)",
-          borderColor: "oklch(0.24 0.07 252)",
+            "linear-gradient(160deg, oklch(0.16 0.05 225) 0%, oklch(0.18 0.05 225) 100%)",
+          borderColor: "oklch(0.28 0.07 220)",
         }}
       >
         <div className="max-w-7xl mx-auto">
@@ -839,25 +839,25 @@ export default function HomePage() {
                 icon: Shield,
                 title: "Secure & Insured",
                 desc: "Every shipment is insured and tracked with enterprise-grade security throughout the entire journey.",
-                grad: "linear-gradient(135deg, oklch(0.18 0.08 274) 0%, oklch(0.22 0.1 270) 100%)",
-                border: "oklch(0.5 0.28 274 / 0.4)",
-                color: "oklch(0.5 0.28 274)",
+                grad: "linear-gradient(135deg, oklch(0.18 0.05 225) 0%, oklch(0.22 0.06 225) 100%)",
+                border: "oklch(0.55 0.18 215 / 0.4)",
+                color: "oklch(0.68 0.16 215)",
               },
               {
                 icon: Clock,
                 title: "Real-Time Tracking",
                 desc: "Monitor your cargo live with precise tracking and instant notifications at every checkpoint.",
-                grad: "linear-gradient(135deg, oklch(0.17 0.07 195) 0%, oklch(0.21 0.1 200) 100%)",
+                grad: "linear-gradient(135deg, oklch(0.18 0.05 225) 0%, oklch(0.22 0.06 225) 100%)",
                 border: "oklch(0.75 0.18 195 / 0.4)",
-                color: "oklch(0.75 0.18 195)",
+                color: "oklch(0.75 0.15 200)",
               },
               {
                 icon: BarChart3,
                 title: "Smart Analytics",
                 desc: "Data-driven logistics decisions powered by our intelligent routing and performance dashboard.",
-                grad: "linear-gradient(135deg, oklch(0.18 0.07 65) 0%, oklch(0.22 0.09 60) 100%)",
-                border: "oklch(0.82 0.11 75 / 0.4)",
-                color: "oklch(0.82 0.11 75)",
+                grad: "linear-gradient(135deg, oklch(0.18 0.05 225) 0%, oklch(0.22 0.06 225) 100%)",
+                border: "oklch(0.82 0.14 42 / 0.4)",
+                color: "oklch(0.72 0.19 42)",
               },
             ].map((item) => (
               <div
@@ -896,9 +896,9 @@ export default function HomePage() {
             className="rounded-2xl p-12 border"
             style={{
               background:
-                "linear-gradient(135deg, oklch(0.5 0.28 274 / 0.2) 0%, oklch(0.75 0.18 195 / 0.15) 50%, oklch(0.82 0.11 75 / 0.1) 100%)",
-              borderColor: "oklch(0.5 0.28 274 / 0.5)",
-              boxShadow: "0 0 80px oklch(0.5 0.28 274 / 0.15)",
+                "linear-gradient(135deg, oklch(0.55 0.18 215 / 0.2) 0%, oklch(0.75 0.18 195 / 0.15) 50%, oklch(0.82 0.14 42 / 0.1) 100%)",
+              borderColor: "oklch(0.55 0.18 215 / 0.5)",
+              boxShadow: "0 0 80px oklch(0.55 0.18 215 / 0.15)",
             }}
           >
             <h2 className="text-3xl sm:text-4xl font-display font-bold text-foreground mb-4">
@@ -915,9 +915,9 @@ export default function HomePage() {
                   className="h-12 px-8 font-bold transition-all hover:scale-105"
                   style={{
                     background:
-                      "linear-gradient(135deg, oklch(0.82 0.11 75), oklch(0.72 0.19 55))",
-                    color: "oklch(0.12 0.04 248)",
-                    boxShadow: "0 4px 20px oklch(0.82 0.11 75 / 0.4)",
+                      "linear-gradient(135deg, oklch(0.72 0.19 42), oklch(0.75 0.2 42))",
+                    color: "oklch(0.14 0.04 225)",
+                    boxShadow: "0 4px 20px oklch(0.82 0.14 42 / 0.4)",
                   }}
                   data-ocid="cta.primary_button"
                 >
@@ -931,7 +931,7 @@ export default function HomePage() {
                   className="h-12 px-8 font-bold transition-all hover:scale-105"
                   style={{
                     borderColor: "oklch(0.75 0.18 195 / 0.5)",
-                    color: "oklch(0.75 0.18 195)",
+                    color: "oklch(0.75 0.15 200)",
                   }}
                   data-ocid="cta.secondary_button"
                 >

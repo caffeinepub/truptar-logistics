@@ -59,25 +59,25 @@ export default function FeaturesPage() {
         className="relative pt-28 pb-16 px-4 overflow-hidden"
         style={{
           background:
-            "linear-gradient(160deg, oklch(0.13 0.05 248) 0%, oklch(0.16 0.07 260) 50%, oklch(0.14 0.06 250) 100%)",
+            "linear-gradient(160deg, oklch(0.14 0.04 225) 0%, oklch(0.18 0.05 225) 50%, oklch(0.14 0.06 250) 100%)",
         }}
       >
         <div className="absolute inset-0 pointer-events-none">
           <div
             className="absolute top-0 right-1/3 w-72 h-72 rounded-full blur-3xl"
-            style={{ background: "oklch(0.50 0.28 274 / 0.1)" }}
+            style={{ background: "oklch(0.55 0.18 215 / 0.1)" }}
           />
         </div>
         <div className="relative max-w-3xl mx-auto text-center">
           <p
             className="text-xs font-bold tracking-widest mb-4"
-            style={{ color: "oklch(0.50 0.28 274)" }}
+            style={{ color: "oklch(0.68 0.16 215)" }}
           >
             PLATFORM CAPABILITIES
           </p>
           <h1 className="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl text-foreground mb-4">
             Advanced Logistics{" "}
-            <span style={{ color: "oklch(0.82 0.11 75)" }}>Features</span>
+            <span style={{ color: "oklch(0.72 0.19 42)" }}>Features</span>
           </h1>
           <p className="text-muted-foreground max-w-xl mx-auto">
             Truptar Logistics is packed with cutting-edge capabilities designed
@@ -99,15 +99,15 @@ export default function FeaturesPage() {
                 transition={{ delay: i * 0.08 }}
                 className="rounded-xl p-6 border group hover:-translate-y-1 transition-transform duration-200"
                 style={{
-                  backgroundColor: "oklch(0.19 0.065 247)",
-                  borderColor: "oklch(0.28 0.09 258)",
+                  backgroundColor: "oklch(0.18 0.05 225)",
+                  borderColor: "oklch(0.28 0.07 220)",
                 }}
               >
                 <div
                   className="inline-flex p-3 rounded-xl mb-4"
-                  style={{ backgroundColor: "oklch(0.82 0.11 75 / 0.1)" }}
+                  style={{ backgroundColor: "oklch(0.82 0.14 42 / 0.1)" }}
                 >
-                  <f.icon size={22} style={{ color: "oklch(0.82 0.11 75)" }} />
+                  <f.icon size={22} style={{ color: "oklch(0.72 0.19 42)" }} />
                 </div>
                 <h3 className="font-display font-bold text-base text-foreground mb-2">
                   {f.title}
@@ -125,8 +125,8 @@ export default function FeaturesPage() {
       <section
         className="py-16 px-4 border-t"
         style={{
-          backgroundColor: "oklch(0.15 0.055 250)",
-          borderColor: "oklch(0.24 0.07 252)",
+          backgroundColor: "oklch(0.16 0.05 225)",
+          borderColor: "oklch(0.28 0.07 220)",
         }}
       >
         <div className="max-w-2xl mx-auto text-center">
@@ -141,8 +141,8 @@ export default function FeaturesPage() {
             href="/shipping-form"
             className="inline-flex items-center gap-2 px-8 py-3 rounded-lg font-bold text-sm transition-opacity hover:opacity-90"
             style={{
-              backgroundColor: "oklch(0.82 0.11 75)",
-              color: "oklch(0.13 0.04 248)",
+              backgroundColor: "oklch(0.72 0.19 42)",
+              color: "oklch(0.14 0.04 225)",
             }}
           >
             Ship Now

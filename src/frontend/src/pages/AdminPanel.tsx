@@ -24,7 +24,7 @@ import {
   Users,
   XCircle,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import type { ShippingOrder } from "../backend.d";
 import { Variant_cancelled_pending_in_transit_delivered } from "../backend.d";
@@ -55,6 +55,33 @@ const TAB_CONFIG: {
   { id: "service-requests", label: "Service Requests", icon: Briefcase },
 ];
 
+const SKY = "oklch(0.68 0.16 215)";
+const ORANGE = "oklch(0.72 0.19 42)";
+const LIGHT_BLUE = "oklch(0.75 0.15 200)";
+const BG_CARD = "oklch(0.18 0.05 225)";
+const BG_DARK = "oklch(0.14 0.04 225)";
+const BG_SIDEBAR = "oklch(0.16 0.05 225)";
+const BORDER = "oklch(0.28 0.07 220)";
+
+type OrderStatus =
+  | "Processing"
+  | "In Transit"
+  | "Out for Delivery"
+  | "Delivered";
+
+const STATUS_SEQUENCE: OrderStatus[] = [
+  "Processing",
+  "In Transit",
+  "Out for Delivery",
+  "Delivered",
+];
+
+type ServiceRequest = {
+  serviceType: string;
+  submittedAt: string;
+  [key: string]: string | boolean | number;
+};
+
 function StatCard({
   label,
   value,
@@ -74,12 +101,12 @@ function StatCard({
       style={{
         background:
           gradient ??
-          "linear-gradient(135deg, oklch(0.19 0.065 247) 0%, oklch(0.22 0.09 260) 100%)",
-        borderColor: `${color}66`,
+          `linear-gradient(135deg, ${BG_CARD} 0%, oklch(0.22 0.06 225) 100%)`,
+        borderColor: `${color}55`,
         boxShadow: `0 4px 20px ${color}22`,
       }}
     >
-      <div className="p-3 rounded-xl" style={{ backgroundColor: `${color}25` }}>
+      <div className="p-3 rounded-xl" style={{ backgroundColor: `${color}22` }}>
         <Icon size={22} style={{ color }} />
       </div>
       <div>
@@ -94,100 +121,85 @@ function StatCard({
 
 function TrackingRow({
   order,
+  localStatus,
   onUpdate,
   isUpdating,
 }: {
   order: ShippingOrder;
+  localStatus?: OrderStatus;
   onUpdate: (
     orderId: string,
-    status: Variant_cancelled_pending_in_transit_delivered,
+    backendStatus: Variant_cancelled_pending_in_transit_delivered,
+    localStatus: OrderStatus,
   ) => void;
   isUpdating: boolean;
 }) {
+  const currentLocal = localStatus ?? "Processing";
+
+  const statusColor: Record<OrderStatus, string> = {
+    Processing: "oklch(0.78 0.17 55)",
+    "In Transit": SKY,
+    "Out for Delivery": ORANGE,
+    Delivered: LIGHT_BLUE,
+  };
+
+  const backendMap: Record<
+    OrderStatus,
+    Variant_cancelled_pending_in_transit_delivered
+  > = {
+    Processing: Variant_cancelled_pending_in_transit_delivered.pending,
+    "In Transit": Variant_cancelled_pending_in_transit_delivered.in_transit,
+    "Out for Delivery":
+      Variant_cancelled_pending_in_transit_delivered.in_transit,
+    Delivered: Variant_cancelled_pending_in_transit_delivered.delivered,
+  };
+
   return (
     <div
       className="rounded-xl border p-4 flex flex-col sm:flex-row sm:items-center gap-4"
-      style={{
-        backgroundColor: "oklch(0.19 0.065 247)",
-        borderColor: "oklch(0.28 0.09 258)",
-      }}
+      style={{ backgroundColor: BG_CARD, borderColor: BORDER }}
       data-ocid="admin.tracking.row"
     >
       <div className="flex-1 min-w-0">
         <p className="font-mono text-xs text-foreground/70 truncate">
           {order.id}
         </p>
-        <p className="text-sm font-semibold text-foreground mt-0.5">
+        <p className="text-sm font-semibold mt-0.5" style={{ color: SKY }}>
           {order.sender.name} → {order.receiver.name}
         </p>
         <p className="text-xs text-muted-foreground">
           {order.sender.city} → {order.receiver.city}
         </p>
       </div>
-      <div className="flex items-center gap-2">
-        <StatusBadge status={order.status as string} />
+      <div
+        className="px-3 py-1 rounded-full text-xs font-bold flex-shrink-0"
+        style={{
+          backgroundColor: `${statusColor[currentLocal]}22`,
+          color: statusColor[currentLocal],
+        }}
+      >
+        {currentLocal}
       </div>
       <div className="flex flex-wrap gap-2">
-        <Button
-          size="sm"
-          variant="outline"
-          disabled={isUpdating}
-          onClick={() =>
-            onUpdate(
-              order.id,
-              Variant_cancelled_pending_in_transit_delivered.pending,
-            )
-          }
-          className="text-yellow-400 border-yellow-500/30 hover:bg-yellow-500/10 text-xs h-7 px-3"
-          data-ocid="admin.tracking.processing_button"
-        >
-          Processing
-        </Button>
-        <Button
-          size="sm"
-          variant="outline"
-          disabled={isUpdating}
-          onClick={() =>
-            onUpdate(
-              order.id,
-              Variant_cancelled_pending_in_transit_delivered.in_transit,
-            )
-          }
-          className="text-blue-400 border-blue-500/30 hover:bg-blue-500/10 text-xs h-7 px-3"
-          data-ocid="admin.tracking.in_transit_button"
-        >
-          In Transit
-        </Button>
-        <Button
-          size="sm"
-          variant="outline"
-          disabled={isUpdating}
-          onClick={() =>
-            onUpdate(
-              order.id,
-              Variant_cancelled_pending_in_transit_delivered.delivered,
-            )
-          }
-          className="text-green-400 border-green-500/30 hover:bg-green-500/10 text-xs h-7 px-3"
-          data-ocid="admin.tracking.delivered_button"
-        >
-          Delivered
-        </Button>
-        <Button
-          size="sm"
-          variant="outline"
-          disabled={isUpdating}
-          onClick={() =>
-            onUpdate(
-              order.id,
-              Variant_cancelled_pending_in_transit_delivered.cancelled,
-            )
-          }
-          className="text-red-400 border-red-500/30 hover:bg-red-500/10 text-xs h-7 px-3"
-          data-ocid="admin.tracking.cancel_button"
-        >
-          Cancel
-        </Button>
+        {STATUS_SEQUENCE.map((s) => (
+          <Button
+            key={s}
+            size="sm"
+            variant={currentLocal === s ? "default" : "outline"}
+            disabled={isUpdating}
+            onClick={() => onUpdate(order.id, backendMap[s], s)}
+            className="text-xs h-7 px-3"
+            style={{
+              backgroundColor:
+                currentLocal === s ? `${statusColor[s]}33` : "transparent",
+              borderColor: `${statusColor[s]}55`,
+              color: statusColor[s],
+            }}
+            data-ocid={`admin.tracking.${s.replace(/ /g, "_").toLowerCase()}_button`}
+          >
+            {s}
+          </Button>
+        ))}
       </div>
     </div>
   );
@@ -196,6 +208,16 @@ function TrackingRow({
 export default function AdminPanel() {
   const { login, clear, identity, loginStatus } = useInternetIdentity();
   const [activeTab, setActiveTab] = useState<AdminTab>("dashboard");
+  const [localStatuses, setLocalStatuses] = useState<
+    Record<string, OrderStatus>
+  >(() => {
+    try {
+      return JSON.parse(localStorage.getItem("truptar_order_statuses") ?? "{}");
+    } catch {
+      return {};
+    }
+  });
+  const [serviceRequests, setServiceRequests] = useState<ServiceRequest[]>([]);
 
   const isLoggedIn = !!identity;
   const isLoggingIn = loginStatus === "logging-in";
@@ -208,6 +230,19 @@ export default function AdminPanel() {
   const { mutateAsync: updateStatus, isPending: isUpdating } =
     useUpdateOrderStatus();
 
+  useEffect(() => {
+    if (activeTab === "service-requests") {
+      try {
+        const reqs = JSON.parse(
+          localStorage.getItem("truptar_service_requests") ?? "[]",
+        );
+        setServiceRequests(reqs);
+      } catch {
+        setServiceRequests([]);
+      }
+    }
+  }, [activeTab]);
+
   const stats = {
     total: orders.length,
     processing: orders.filter((o) => (o.status as string) === "pending").length,
@@ -219,51 +254,48 @@ export default function AdminPanel() {
 
   async function handleStatusUpdate(
     orderId: string,
-    status: Variant_cancelled_pending_in_transit_delivered,
+    backendStatus: Variant_cancelled_pending_in_transit_delivered,
+    localStatus: OrderStatus,
   ) {
     try {
-      await updateStatus({ orderId, status });
-      const label =
-        status === Variant_cancelled_pending_in_transit_delivered.pending
-          ? "Processing"
-          : status === Variant_cancelled_pending_in_transit_delivered.in_transit
-            ? "In Transit"
-            : status ===
-                Variant_cancelled_pending_in_transit_delivered.delivered
-              ? "Delivered"
-              : "Cancelled";
-      toast.success(`Order status updated to ${label}`);
+      await updateStatus({ orderId, status: backendStatus });
+      const updated = { ...localStatuses, [orderId]: localStatus };
+      setLocalStatuses(updated);
+      localStorage.setItem("truptar_order_statuses", JSON.stringify(updated));
+      toast.success(`Order status updated to "${localStatus}"`);
     } catch {
       toast.error("Failed to update status. Please try again.");
     }
   }
 
-  // Not logged in — show auth gate
   if (!isLoggedIn) {
     return (
       <div
         className="min-h-screen flex items-center justify-center px-4"
         style={{
           background:
-            "linear-gradient(160deg, oklch(0.10 0.04 248) 0%, oklch(0.14 0.07 260) 100%)",
+            "linear-gradient(160deg, oklch(0.11 0.04 225) 0%, oklch(0.16 0.06 215) 100%)",
         }}
       >
         <div
           className="w-full max-w-md rounded-2xl border p-10 text-center"
           style={{
-            backgroundColor: "oklch(0.17 0.055 248)",
-            borderColor: "oklch(0.50 0.28 274 / 0.3)",
-            boxShadow: "0 0 60px oklch(0.50 0.28 274 / 0.12)",
+            backgroundColor: "oklch(0.17 0.05 225)",
+            borderColor: `${SKY}44`,
+            boxShadow: `0 0 60px ${SKY}18`,
           }}
           data-ocid="admin.login.panel"
         >
           <div
             className="inline-flex p-4 rounded-2xl mb-6"
-            style={{ backgroundColor: "oklch(0.50 0.28 274 / 0.12)" }}
+            style={{ backgroundColor: `${SKY}18` }}
           >
-            <LogIn size={36} style={{ color: "oklch(0.50 0.28 274)" }} />
+            <LogIn size={36} style={{ color: SKY }} />
           </div>
-          <h1 className="text-2xl font-display font-bold text-foreground mb-2">
+          <h1
+            className="text-2xl font-display font-bold mb-2"
+            style={{ color: SKY }}
+          >
             Admin Access Required
           </h1>
           <p className="text-sm text-muted-foreground mb-8">
@@ -275,8 +307,8 @@ export default function AdminPanel() {
             disabled={isLoggingIn}
             className="w-full h-12 font-bold text-base gap-2"
             style={{
-              backgroundColor: "oklch(0.82 0.11 75)",
-              color: "oklch(0.13 0.04 248)",
+              background: `linear-gradient(135deg, ${ORANGE}, oklch(0.78 0.17 55))`,
+              color: BG_DARK,
             }}
             data-ocid="admin.login.primary_button"
           >
@@ -301,22 +333,13 @@ export default function AdminPanel() {
   }
 
   return (
-    <div
-      className="min-h-screen flex"
-      style={{ backgroundColor: "oklch(0.12 0.04 248)" }}
-    >
+    <div className="min-h-screen flex" style={{ backgroundColor: BG_DARK }}>
       {/* Sidebar */}
       <aside
         className="hidden md:flex flex-col w-64 border-r min-h-screen"
-        style={{
-          backgroundColor: "oklch(0.14 0.045 248)",
-          borderColor: "oklch(0.24 0.07 252)",
-        }}
+        style={{ backgroundColor: BG_SIDEBAR, borderColor: BORDER }}
       >
-        <div
-          className="p-6 border-b"
-          style={{ borderColor: "oklch(0.24 0.07 252)" }}
-        >
+        <div className="p-6 border-b" style={{ borderColor: BORDER }}>
           <Link to="/">
             <img
               src="/assets/generated/truptar-logo-transparent.dim_600x180.png"
@@ -326,7 +349,7 @@ export default function AdminPanel() {
           </Link>
           <p
             className="text-xs font-bold mt-3 tracking-widest"
-            style={{ color: "oklch(0.50 0.28 274)" }}
+            style={{ color: ORANGE }}
           >
             ADMIN PANEL
           </p>
@@ -342,16 +365,11 @@ export default function AdminPanel() {
               className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all"
               style={{
                 backgroundColor:
-                  activeTab === tab.id
-                    ? "oklch(0.50 0.28 274 / 0.15)"
-                    : "transparent",
-                color:
-                  activeTab === tab.id
-                    ? "oklch(0.50 0.28 274)"
-                    : "oklch(0.65 0.04 248)",
+                  activeTab === tab.id ? `${SKY}18` : "transparent",
+                color: activeTab === tab.id ? SKY : "oklch(0.60 0.05 225)",
                 borderLeft:
                   activeTab === tab.id
-                    ? "3px solid oklch(0.50 0.28 274)"
+                    ? `3px solid ${SKY}`
                     : "3px solid transparent",
               }}
             >
@@ -361,10 +379,7 @@ export default function AdminPanel() {
           ))}
         </nav>
 
-        <div
-          className="p-4 border-t"
-          style={{ borderColor: "oklch(0.24 0.07 252)" }}
-        >
+        <div className="p-4 border-t" style={{ borderColor: BORDER }}>
           {identity && (
             <p className="text-xs text-muted-foreground px-4 mb-2 truncate">
               {identity.getPrincipal().toString().substring(0, 20)}...
@@ -386,14 +401,11 @@ export default function AdminPanel() {
         {/* Mobile topbar */}
         <div
           className="md:hidden flex items-center justify-between px-4 h-14 border-b sticky top-0 z-10"
-          style={{
-            backgroundColor: "oklch(0.14 0.045 248)",
-            borderColor: "oklch(0.24 0.07 252)",
-          }}
+          style={{ backgroundColor: BG_SIDEBAR, borderColor: BORDER }}
         >
           <span
             className="font-display font-bold text-sm"
-            style={{ color: "oklch(0.50 0.28 274)" }}
+            style={{ color: ORANGE }}
           >
             ADMIN PANEL
           </span>
@@ -406,14 +418,9 @@ export default function AdminPanel() {
                 className="p-2 rounded-lg"
                 data-ocid={`admin.mobile.${tab.id}.tab`}
                 style={{
-                  color:
-                    activeTab === tab.id
-                      ? "oklch(0.50 0.28 274)"
-                      : "oklch(0.5 0.04 248)",
+                  color: activeTab === tab.id ? SKY : "oklch(0.5 0.04 225)",
                   backgroundColor:
-                    activeTab === tab.id
-                      ? "oklch(0.50 0.28 274 / 0.12)"
-                      : "transparent",
+                    activeTab === tab.id ? `${SKY}18` : "transparent",
                 }}
               >
                 <tab.icon size={16} />
@@ -426,7 +433,10 @@ export default function AdminPanel() {
           {/* Header row */}
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-3xl font-display font-bold text-foreground">
+              <h1
+                className="text-3xl font-display font-bold"
+                style={{ color: SKY }}
+              >
                 {TAB_CONFIG.find((t) => t.id === activeTab)?.label}
               </h1>
               <p className="text-muted-foreground text-sm mt-1">
@@ -437,7 +447,8 @@ export default function AdminPanel() {
               variant="outline"
               size="sm"
               onClick={() => refetch()}
-              className="gap-2 border-border text-muted-foreground hover:text-foreground"
+              className="gap-2"
+              style={{ borderColor: `${SKY}44`, color: SKY }}
               data-ocid="admin.refresh_button"
             >
               <RefreshCw size={14} /> Refresh
@@ -451,29 +462,29 @@ export default function AdminPanel() {
                 <StatCard
                   label="Total Orders"
                   value={stats.total}
-                  color="oklch(0.50 0.28 274)"
-                  gradient="linear-gradient(135deg, oklch(0.18 0.08 274) 0%, oklch(0.22 0.1 270) 100%)"
+                  color={SKY}
+                  gradient={`linear-gradient(135deg, ${BG_CARD} 0%, oklch(0.20 0.07 220) 100%)`}
                   icon={Package}
                 />
                 <StatCard
                   label="Processing"
                   value={stats.processing}
-                  color="oklch(0.82 0.11 75)"
-                  gradient="linear-gradient(135deg, oklch(0.17 0.06 60) 0%, oklch(0.21 0.09 65) 100%)"
+                  color={ORANGE}
+                  gradient={`linear-gradient(135deg, ${BG_CARD} 0%, oklch(0.20 0.05 225) 100%)`}
                   icon={RefreshCw}
                 />
                 <StatCard
                   label="In Transit"
                   value={stats.inTransit}
-                  color="oklch(0.75 0.18 195)"
-                  gradient="linear-gradient(135deg, oklch(0.17 0.07 195) 0%, oklch(0.21 0.1 200) 100%)"
+                  color={LIGHT_BLUE}
+                  gradient={`linear-gradient(135deg, ${BG_CARD} 0%, oklch(0.20 0.05 225) 100%)`}
                   icon={Truck}
                 />
                 <StatCard
                   label="Delivered"
                   value={stats.delivered}
-                  color="oklch(0.65 0.22 160)"
-                  gradient="linear-gradient(135deg, oklch(0.17 0.08 160) 0%, oklch(0.21 0.1 155) 100%)"
+                  color="oklch(0.78 0.17 55)"
+                  gradient={`linear-gradient(135deg, ${BG_CARD} 0%, oklch(0.20 0.05 225) 100%)`}
                   icon={CheckCircle2}
                 />
               </div>
@@ -490,24 +501,22 @@ export default function AdminPanel() {
               ) : (
                 <div
                   className="rounded-2xl border overflow-hidden"
-                  style={{ borderColor: "oklch(0.28 0.09 258)" }}
+                  style={{ borderColor: BORDER }}
                 >
                   <div
                     className="px-6 py-4 border-b"
-                    style={{
-                      backgroundColor: "oklch(0.16 0.055 248)",
-                      borderColor: "oklch(0.28 0.09 258)",
-                    }}
+                    style={{ backgroundColor: BG_SIDEBAR, borderColor: BORDER }}
                   >
-                    <h2 className="font-display font-semibold text-foreground">
+                    <h2
+                      className="font-display font-semibold"
+                      style={{ color: SKY }}
+                    >
                       Recent Orders
                     </h2>
                   </div>
                   <Table>
-                    <TableHeader
-                      style={{ backgroundColor: "oklch(0.16 0.055 248)" }}
-                    >
-                      <TableRow style={{ borderColor: "oklch(0.28 0.09 258)" }}>
+                    <TableHeader style={{ backgroundColor: BG_SIDEBAR }}>
+                      <TableRow style={{ borderColor: BORDER }}>
                         <TableHead className="text-muted-foreground">
                           Order ID
                         </TableHead>
@@ -521,7 +530,7 @@ export default function AdminPanel() {
                           Status
                         </TableHead>
                         <TableHead className="text-muted-foreground">
-                          Type
+                          Admin Status
                         </TableHead>
                       </TableRow>
                     </TableHeader>
@@ -531,11 +540,14 @@ export default function AdminPanel() {
                           key={order.id}
                           data-ocid={`admin.orders.row.${i + 1}`}
                           style={{
-                            backgroundColor: "oklch(0.19 0.065 247)",
-                            borderColor: "oklch(0.24 0.07 252)",
+                            backgroundColor: BG_CARD,
+                            borderColor: BORDER,
                           }}
                         >
-                          <TableCell className="font-mono text-xs text-foreground/80">
+                          <TableCell
+                            className="font-mono text-xs"
+                            style={{ color: SKY }}
+                          >
                             {order.id}
                           </TableCell>
                           <TableCell className="text-sm text-foreground">
@@ -547,8 +559,22 @@ export default function AdminPanel() {
                           <TableCell>
                             <StatusBadge status={order.status as string} />
                           </TableCell>
-                          <TableCell className="text-xs capitalize text-muted-foreground">
-                            {order.shipment.deliveryType}
+                          <TableCell>
+                            {localStatuses[order.id] ? (
+                              <span
+                                className="text-xs font-bold px-2 py-0.5 rounded-full"
+                                style={{
+                                  backgroundColor: `${ORANGE}22`,
+                                  color: ORANGE,
+                                }}
+                              >
+                                {localStatuses[order.id]}
+                              </span>
+                            ) : (
+                              <span className="text-xs text-muted-foreground">
+                                —
+                              </span>
+                            )}
                           </TableCell>
                         </TableRow>
                       ))}
@@ -583,14 +609,12 @@ export default function AdminPanel() {
               ) : (
                 <div
                   className="rounded-2xl border overflow-hidden"
-                  style={{ borderColor: "oklch(0.28 0.09 258)" }}
+                  style={{ borderColor: BORDER }}
                   data-ocid="admin.orders.table"
                 >
                   <Table>
-                    <TableHeader
-                      style={{ backgroundColor: "oklch(0.16 0.055 248)" }}
-                    >
-                      <TableRow style={{ borderColor: "oklch(0.28 0.09 258)" }}>
+                    <TableHeader style={{ backgroundColor: BG_SIDEBAR }}>
+                      <TableRow style={{ borderColor: BORDER }}>
                         <TableHead className="text-muted-foreground">
                           Order ID
                         </TableHead>
@@ -604,7 +628,7 @@ export default function AdminPanel() {
                           Status
                         </TableHead>
                         <TableHead className="text-muted-foreground">
-                          Delivery Type
+                          Admin Status
                         </TableHead>
                         <TableHead className="text-muted-foreground">
                           Route
@@ -617,11 +641,14 @@ export default function AdminPanel() {
                           key={order.id}
                           data-ocid={`admin.orders.row.${i + 1}`}
                           style={{
-                            backgroundColor: "oklch(0.19 0.065 247)",
-                            borderColor: "oklch(0.24 0.07 252)",
+                            backgroundColor: BG_CARD,
+                            borderColor: BORDER,
                           }}
                         >
-                          <TableCell className="font-mono text-xs text-foreground/80">
+                          <TableCell
+                            className="font-mono text-xs"
+                            style={{ color: SKY }}
+                          >
                             {order.id}
                           </TableCell>
                           <TableCell className="text-sm text-foreground">
@@ -633,8 +660,22 @@ export default function AdminPanel() {
                           <TableCell>
                             <StatusBadge status={order.status as string} />
                           </TableCell>
-                          <TableCell className="text-xs capitalize text-muted-foreground">
-                            {order.shipment.deliveryType}
+                          <TableCell>
+                            {localStatuses[order.id] ? (
+                              <span
+                                className="text-xs font-bold px-2 py-0.5 rounded-full"
+                                style={{
+                                  backgroundColor: `${ORANGE}22`,
+                                  color: ORANGE,
+                                }}
+                              >
+                                {localStatuses[order.id]}
+                              </span>
+                            ) : (
+                              <span className="text-xs text-muted-foreground">
+                                Not set
+                              </span>
+                            )}
                           </TableCell>
                           <TableCell className="text-xs text-muted-foreground">
                             {order.sender.city} → {order.receiver.city}
@@ -649,7 +690,9 @@ export default function AdminPanel() {
                       data-ocid="admin.all_orders.empty_state"
                     >
                       <Package size={48} className="mx-auto mb-4 opacity-20" />
-                      <p className="font-semibold mb-1">No orders found</p>
+                      <p className="font-semibold mb-1" style={{ color: SKY }}>
+                        No orders found
+                      </p>
                       <p className="text-sm">
                         Orders placed by users will appear here
                       </p>
@@ -666,20 +709,17 @@ export default function AdminPanel() {
               <div
                 className="rounded-xl border p-4 mb-6"
                 style={{
-                  backgroundColor: "oklch(0.50 0.28 274 / 0.06)",
-                  borderColor: "oklch(0.50 0.28 274 / 0.25)",
+                  backgroundColor: `${SKY}0a`,
+                  borderColor: `${SKY}33`,
                 }}
               >
                 <p className="text-sm text-foreground/80">
-                  <span
-                    className="font-bold"
-                    style={{ color: "oklch(0.50 0.28 274)" }}
-                  >
+                  <span className="font-bold" style={{ color: ORANGE }}>
                     Tracking Control:
                   </span>{" "}
-                  Use the buttons on each order to update its status. Changes
-                  are reflected immediately in the user dashboard and tracking
-                  page.
+                  Click the status buttons on each order to update its delivery
+                  status. Changes are saved instantly and reflected in the
+                  customer dashboard in real time.
                 </p>
               </div>
 
@@ -695,20 +735,14 @@ export default function AdminPanel() {
               ) : orders.length === 0 ? (
                 <div
                   className="rounded-xl border p-16 text-center"
-                  style={{
-                    backgroundColor: "oklch(0.19 0.065 247)",
-                    borderColor: "oklch(0.28 0.09 258)",
-                  }}
+                  style={{ backgroundColor: BG_CARD, borderColor: BORDER }}
                   data-ocid="admin.tracking.empty_state"
                 >
                   <Truck
                     size={48}
-                    style={{
-                      color: "oklch(0.50 0.28 274 / 0.3)",
-                      margin: "0 auto 16px",
-                    }}
+                    style={{ color: `${SKY}55`, margin: "0 auto 16px" }}
                   />
-                  <p className="font-semibold text-foreground mb-1">
+                  <p className="font-semibold mb-1" style={{ color: SKY }}>
                     No active orders
                   </p>
                   <p className="text-sm text-muted-foreground">
@@ -721,6 +755,7 @@ export default function AdminPanel() {
                     <TrackingRow
                       key={order.id}
                       order={order}
+                      localStatus={localStatuses[order.id]}
                       onUpdate={handleStatusUpdate}
                       isUpdating={isUpdating}
                     />
@@ -734,19 +769,16 @@ export default function AdminPanel() {
           {activeTab === "payments" && (
             <div
               className="rounded-2xl border p-12 text-center"
-              style={{
-                backgroundColor: "oklch(0.19 0.065 247)",
-                borderColor: "oklch(0.28 0.09 258)",
-              }}
+              style={{ backgroundColor: BG_CARD, borderColor: BORDER }}
             >
               <CreditCard
                 size={48}
-                style={{
-                  color: "oklch(0.50 0.28 274 / 0.4)",
-                  margin: "0 auto 16px",
-                }}
+                style={{ color: `${SKY}66`, margin: "0 auto 16px" }}
               />
-              <p className="font-display font-semibold text-foreground mb-2">
+              <p
+                className="font-display font-semibold mb-2"
+                style={{ color: SKY }}
+              >
                 Payments Management
               </p>
               <p className="text-sm text-muted-foreground">
@@ -759,19 +791,16 @@ export default function AdminPanel() {
           {activeTab === "users" && (
             <div
               className="rounded-2xl border p-12 text-center"
-              style={{
-                backgroundColor: "oklch(0.19 0.065 247)",
-                borderColor: "oklch(0.28 0.09 258)",
-              }}
+              style={{ backgroundColor: BG_CARD, borderColor: BORDER }}
             >
               <Users
                 size={48}
-                style={{
-                  color: "oklch(0.50 0.28 274 / 0.4)",
-                  margin: "0 auto 16px",
-                }}
+                style={{ color: `${ORANGE}66`, margin: "0 auto 16px" }}
               />
-              <p className="font-display font-semibold text-foreground mb-2">
+              <p
+                className="font-display font-semibold mb-2"
+                style={{ color: ORANGE }}
+              >
                 User Management
               </p>
               <p className="text-sm text-muted-foreground">
@@ -784,19 +813,16 @@ export default function AdminPanel() {
           {activeTab === "notifications" && (
             <div
               className="rounded-2xl border p-12 text-center"
-              style={{
-                backgroundColor: "oklch(0.19 0.065 247)",
-                borderColor: "oklch(0.28 0.09 258)",
-              }}
+              style={{ backgroundColor: BG_CARD, borderColor: BORDER }}
             >
               <Bell
                 size={48}
-                style={{
-                  color: "oklch(0.50 0.28 274 / 0.4)",
-                  margin: "0 auto 16px",
-                }}
+                style={{ color: `${LIGHT_BLUE}66`, margin: "0 auto 16px" }}
               />
-              <p className="font-display font-semibold text-foreground mb-2">
+              <p
+                className="font-display font-semibold mb-2"
+                style={{ color: LIGHT_BLUE }}
+              >
                 Notifications
               </p>
               <p className="text-sm text-muted-foreground">
@@ -807,26 +833,103 @@ export default function AdminPanel() {
 
           {/* ── Service Requests ── */}
           {activeTab === "service-requests" && (
-            <div
-              className="rounded-2xl border p-12 text-center"
-              style={{
-                backgroundColor: "oklch(0.19 0.065 247)",
-                borderColor: "oklch(0.28 0.09 258)",
-              }}
-            >
-              <Briefcase
-                size={48}
+            <div className="space-y-6">
+              <div
+                className="rounded-xl border p-4"
                 style={{
-                  color: "oklch(0.50 0.28 274 / 0.4)",
-                  margin: "0 auto 16px",
+                  backgroundColor: `${ORANGE}0a`,
+                  borderColor: `${ORANGE}33`,
                 }}
-              />
-              <p className="font-display font-semibold text-foreground mb-2">
-                Service Requests
-              </p>
-              <p className="text-sm text-muted-foreground">
-                View all user-submitted service requests — coming soon.
-              </p>
+              >
+                <p className="text-sm" style={{ color: ORANGE }}>
+                  <span className="font-bold">Service Requests</span> — All
+                  service requests submitted by users appear here. These include
+                  Warehousing, Express Parcel, E-commerce, Corporate Logistics,
+                  Heavy Equipment, Customs Clearance, Door-to-Door, and Special
+                  Requests.
+                </p>
+              </div>
+
+              {serviceRequests.length === 0 ? (
+                <div
+                  className="rounded-xl border p-16 text-center"
+                  style={{ backgroundColor: BG_CARD, borderColor: BORDER }}
+                  data-ocid="admin.service_requests.empty_state"
+                >
+                  <Briefcase
+                    size={48}
+                    style={{ color: `${ORANGE}55`, margin: "0 auto 16px" }}
+                  />
+                  <p className="font-semibold mb-1" style={{ color: ORANGE }}>
+                    No service requests yet
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    When users submit service request forms, they will appear
+                    here.
+                  </p>
+                </div>
+              ) : (
+                <div
+                  className="space-y-4"
+                  data-ocid="admin.service_requests.list"
+                >
+                  {serviceRequests.map((req, i) => (
+                    <div
+                      key={`${req.submittedAt}-${i}`}
+                      className="rounded-xl border p-5"
+                      style={{ backgroundColor: BG_CARD, borderColor: BORDER }}
+                      data-ocid={`admin.service_requests.item.${i + 1}`}
+                    >
+                      <div className="flex items-start justify-between gap-4 mb-4">
+                        <div>
+                          <span
+                            className="text-xs font-bold px-2.5 py-1 rounded-full"
+                            style={{
+                              backgroundColor: `${ORANGE}22`,
+                              color: ORANGE,
+                            }}
+                          >
+                            {req.serviceType}
+                          </span>
+                        </div>
+                        <p className="text-xs text-muted-foreground flex-shrink-0">
+                          {new Date(req.submittedAt).toLocaleDateString(
+                            "en-GB",
+                            {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            },
+                          )}
+                        </p>
+                      </div>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        {Object.entries(req)
+                          .filter(
+                            ([k]) => k !== "serviceType" && k !== "submittedAt",
+                          )
+                          .map(([key, val]) => (
+                            <div key={key}>
+                              <p
+                                className="text-xs font-medium mb-0.5"
+                                style={{ color: SKY }}
+                              >
+                                {key
+                                  .replace(/([A-Z])/g, " $1")
+                                  .replace(/^./, (s) => s.toUpperCase())}
+                              </p>
+                              <p className="text-sm text-foreground/90">
+                                {String(val)}
+                              </p>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>

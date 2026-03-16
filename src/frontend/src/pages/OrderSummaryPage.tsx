@@ -65,11 +65,11 @@ function DetailRow({ label, value }: { label: string; value: string }) {
   return (
     <div
       className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 py-2.5 border-b last:border-b-0"
-      style={{ borderColor: "oklch(0.28 0.09 258)" }}
+      style={{ borderColor: "oklch(0.28 0.07 220)" }}
     >
       <span
         className="text-xs font-semibold uppercase tracking-wider w-40 shrink-0"
-        style={{ color: "oklch(0.60 0.08 248)" }}
+        style={{ color: "oklch(0.62 0.06 215)" }}
       >
         {label}
       </span>
@@ -93,8 +93,8 @@ function SectionCard({
     <div
       className="rounded-2xl p-6 border"
       style={{
-        backgroundColor: "oklch(0.19 0.065 247)",
-        borderColor: "oklch(0.28 0.09 258)",
+        backgroundColor: "oklch(0.18 0.05 225)",
+        borderColor: "oklch(0.28 0.07 220)",
       }}
     >
       <div className="flex items-center gap-3 mb-4">
@@ -131,7 +131,7 @@ export default function OrderSummaryPage() {
             <Package
               size={48}
               className="mx-auto mb-4"
-              style={{ color: "oklch(0.50 0.28 274)" }}
+              style={{ color: "oklch(0.68 0.16 215)" }}
             />
             <h2 className="text-xl font-display font-bold text-foreground mb-2">
               No Order Found
@@ -142,8 +142,8 @@ export default function OrderSummaryPage() {
             <Link to="/shipping-form">
               <Button
                 style={{
-                  backgroundColor: "oklch(0.82 0.11 75)",
-                  color: "oklch(0.13 0.04 248)",
+                  backgroundColor: "oklch(0.72 0.19 42)",
+                  color: "oklch(0.14 0.04 225)",
                 }}
               >
                 Create Order
@@ -194,7 +194,7 @@ export default function OrderSummaryPage() {
           >
             <p
               className="text-sm font-semibold uppercase tracking-widest mb-3"
-              style={{ color: "oklch(0.50 0.28 274)" }}
+              style={{ color: "oklch(0.68 0.16 215)" }}
             >
               Order Confirmed
             </p>
@@ -202,16 +202,16 @@ export default function OrderSummaryPage() {
               className="inline-block rounded-2xl px-8 py-5 border mb-4"
               data-ocid="order_summary.order_number"
               style={{
-                backgroundColor: "oklch(0.16 0.06 248)",
-                borderColor: "oklch(0.82 0.11 75 / 0.5)",
-                boxShadow: "0 0 40px oklch(0.82 0.11 75 / 0.12)",
+                backgroundColor: "oklch(0.16 0.05 225)",
+                borderColor: "oklch(0.82 0.14 42 / 0.5)",
+                boxShadow: "0 0 40px oklch(0.82 0.14 42 / 0.12)",
               }}
             >
               <div className="flex items-center gap-3">
-                <Hash size={20} style={{ color: "oklch(0.82 0.11 75)" }} />
+                <Hash size={20} style={{ color: "oklch(0.72 0.19 42)" }} />
                 <span
                   className="font-mono text-2xl font-bold tracking-wider"
-                  style={{ color: "oklch(0.82 0.11 75)" }}
+                  style={{ color: "oklch(0.72 0.19 42)" }}
                 >
                   {order.orderNumber}
                 </span>
@@ -232,7 +232,7 @@ export default function OrderSummaryPage() {
               <SectionCard
                 icon={<Package size={18} />}
                 title="Order Summary"
-                accentColor="oklch(0.50 0.28 274)"
+                accentColor="oklch(0.68 0.16 215)"
               >
                 <DetailRow label="Order Number" value={order.orderNumber} />
                 <DetailRow label="Date" value={formattedDate} />
@@ -249,7 +249,7 @@ export default function OrderSummaryPage() {
               <SectionCard
                 icon={<User size={18} />}
                 title="Sender Details"
-                accentColor="oklch(0.50 0.28 274)"
+                accentColor="oklch(0.68 0.16 215)"
               >
                 <DetailRow label="Full Name" value={order.sender.name} />
                 <DetailRow label="Phone" value={order.sender.phone} />
@@ -269,7 +269,7 @@ export default function OrderSummaryPage() {
               <SectionCard
                 icon={<MapPin size={18} />}
                 title="Receiver Details"
-                accentColor="oklch(0.82 0.11 75)"
+                accentColor="oklch(0.72 0.19 42)"
               >
                 <DetailRow label="Name" value={order.receiver.name} />
                 <DetailRow label="Phone" value={order.receiver.phone} />
@@ -313,19 +313,19 @@ export default function OrderSummaryPage() {
               <div
                 className="rounded-2xl p-6 border"
                 style={{
-                  backgroundColor: "oklch(0.19 0.065 247)",
-                  borderColor: "oklch(0.82 0.11 75 / 0.4)",
-                  boxShadow: "0 0 30px oklch(0.82 0.11 75 / 0.06)",
+                  backgroundColor: "oklch(0.18 0.05 225)",
+                  borderColor: "oklch(0.82 0.14 42 / 0.4)",
+                  boxShadow: "0 0 30px oklch(0.82 0.14 42 / 0.06)",
                 }}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div
                     className="p-2 rounded-lg"
-                    style={{ backgroundColor: "oklch(0.82 0.11 75 / 0.15)" }}
+                    style={{ backgroundColor: "oklch(0.82 0.14 42 / 0.15)" }}
                   >
                     <Wallet
                       size={18}
-                      style={{ color: "oklch(0.82 0.11 75)" }}
+                      style={{ color: "oklch(0.72 0.19 42)" }}
                     />
                   </div>
                   <h3 className="font-display font-bold text-foreground">
@@ -339,7 +339,7 @@ export default function OrderSummaryPage() {
                     </p>
                     <p
                       className="text-3xl font-display font-extrabold"
-                      style={{ color: "oklch(0.82 0.11 75)" }}
+                      style={{ color: "oklch(0.72 0.19 42)" }}
                     >
                       {estimatedCost}
                     </p>
@@ -347,8 +347,8 @@ export default function OrderSummaryPage() {
                   <span
                     className="text-xs px-2.5 py-1 rounded-full font-semibold"
                     style={{
-                      backgroundColor: "oklch(0.82 0.11 75 / 0.12)",
-                      color: "oklch(0.82 0.11 75)",
+                      backgroundColor: "oklch(0.82 0.14 42 / 0.12)",
+                      color: "oklch(0.72 0.19 42)",
                     }}
                   >
                     NGN
@@ -370,7 +370,7 @@ export default function OrderSummaryPage() {
               onClick={() => navigate({ to: "/payment" })}
               className="w-full h-14 font-bold text-base tracking-wider gap-3"
               style={{
-                backgroundColor: "oklch(0.50 0.28 274)",
+                backgroundColor: "oklch(0.68 0.16 215)",
                 color: "white",
               }}
             >

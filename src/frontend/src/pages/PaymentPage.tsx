@@ -6,8 +6,12 @@ import {
   AlertTriangle,
   ArrowRight,
   Banknote,
+  Bitcoin,
+  Check,
   CheckCircle2,
+  Copy,
   CreditCard,
+  ExternalLink,
   Hash,
   Smartphone,
   Wallet,
@@ -31,105 +35,260 @@ const METHODS: { id: PaymentMethod; label: string; icon: React.ReactNode }[] = [
   { id: "mobile", label: "Mobile Money", icon: <Smartphone size={20} /> },
 ];
 
-function DetailBlock({ rows }: { rows: { label: string; value: string }[] }) {
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+
+  async function handleCopy() {
+    await navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
   return (
-    <div
-      className="rounded-xl p-5 space-y-3"
+    <button
+      type="button"
+      onClick={handleCopy}
+      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
       style={{
-        backgroundColor: "oklch(0.16 0.06 248)",
-        border: "1px solid oklch(0.28 0.09 258)",
+        backgroundColor: copied
+          ? "oklch(0.75 0.20 145 / 0.2)"
+          : "oklch(0.72 0.19 205 / 0.15)",
+        color: copied ? "oklch(0.75 0.15 200)" : "oklch(0.68 0.16 215)",
+        border: `1px solid ${copied ? "oklch(0.75 0.20 145 / 0.4)" : "oklch(0.72 0.19 205 / 0.4)"}`,
       }}
     >
-      {rows.map((r) => (
-        <div
-          key={r.label}
-          className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4"
-        >
-          <span
-            className="text-xs font-semibold uppercase tracking-wider w-36 shrink-0"
-            style={{ color: "oklch(0.60 0.08 248)" }}
+      {copied ? <Check size={12} /> : <Copy size={12} />}
+      {copied ? "Copied!" : "Copy"}
+    </button>
+  );
+}
+
+function DetailRow({
+  label,
+  value,
+  copyable = false,
+}: { label: string; value: string; copyable?: boolean }) {
+  return (
+    <div
+      className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3 py-2.5 border-b last:border-0"
+      style={{ borderColor: "oklch(0.28 0.07 220)" }}
+    >
+      <span
+        className="text-xs font-semibold uppercase tracking-wider w-36 shrink-0"
+        style={{ color: "oklch(0.62 0.06 215)" }}
+      >
+        {label}
+      </span>
+      <div className="flex items-center justify-between gap-2 flex-1">
+        <span className="font-mono text-sm text-foreground break-all">
+          {value}
+        </span>
+        {copyable && <CopyButton text={value} />}
+      </div>
+    </div>
+  );
+}
+
+function BankDetails() {
+  return (
+    <div className="space-y-6">
+      {/* USD Account */}
+      <div
+        className="rounded-xl p-5"
+        style={{
+          backgroundColor: "oklch(0.16 0.05 225)",
+          border: "1px solid oklch(0.28 0.07 220)",
+        }}
+      >
+        <div className="flex items-center gap-2 mb-4">
+          <div
+            className="px-2.5 py-1 rounded-full text-xs font-bold"
+            style={{
+              backgroundColor: "oklch(0.80 0.17 68 / 0.15)",
+              color: "oklch(0.72 0.19 42)",
+            }}
           >
-            {r.label}
+            USD
+          </div>
+          <span className="text-sm font-semibold text-foreground">
+            Lead Bank — United States
           </span>
-          <span className="font-mono text-sm text-foreground select-all">
-            {r.value}
+        </div>
+        <DetailRow label="Account Holder" value="Juventus Sopuluchukwu Ikeh" />
+        <DetailRow label="Account Number" value="217413061322" copyable />
+        <DetailRow label="Wire Routing" value="101019644" copyable />
+        <DetailRow label="ACH Routing" value="101019644" copyable />
+        <DetailRow label="Account Type" value="Checking" />
+        <DetailRow label="Bank Name" value="Lead Bank" />
+        <DetailRow
+          label="Bank Address"
+          value="1801 Main St., Kansas City, MO 64108"
+        />
+      </div>
+
+      {/* GBP/EUR Account */}
+      <div
+        className="rounded-xl p-5"
+        style={{
+          backgroundColor: "oklch(0.16 0.05 225)",
+          border: "1px solid oklch(0.28 0.07 220)",
+        }}
+      >
+        <div className="flex items-center gap-2 mb-4">
+          <div
+            className="px-2.5 py-1 rounded-full text-xs font-bold"
+            style={{
+              backgroundColor: "oklch(0.75 0.20 145 / 0.15)",
+              color: "oklch(0.75 0.15 200)",
+            }}
+          >
+            GBP / EUR
+          </div>
+          <span className="text-sm font-semibold text-foreground">
+            Clear Junction Limited — United Kingdom
           </span>
+        </div>
+        <DetailRow label="Account Holder" value="Juventus Sopuluchukwu Ikeh" />
+        <DetailRow label="Account Number" value="69524734" copyable />
+        <DetailRow label="IBAN" value="GB28CLJU04130769524734" copyable />
+        <DetailRow label="Sort Code" value="041307" copyable />
+        <DetailRow label="Swift Code" value="CLJUGB21XXX" copyable />
+        <DetailRow label="Bank Name" value="Clear Junction Limited" />
+        <DetailRow
+          label="Bank Address"
+          value="4th Floor Imperial House, 15 Kingsway, London, WC2B 6UN"
+        />
+      </div>
+    </div>
+  );
+}
+
+function CryptoDetails() {
+  const wallets = [
+    {
+      symbol: "BTC",
+      name: "Bitcoin",
+      address: "bc1pnzrx7mvcvfw5z2td2sm0jap5aeljprkxv3ellwjh8uy0e43t78msrc53cg",
+      color: "oklch(0.72 0.19 42)",
+      bg: "oklch(0.80 0.17 68 / 0.12)",
+    },
+    {
+      symbol: "USDT",
+      name: "Tether (ERC-20)",
+      address: "0x6c557Fceb0Cec257E37Fc44a55680DC3A3E14ABB",
+      color: "oklch(0.75 0.15 200)",
+      bg: "oklch(0.75 0.20 145 / 0.12)",
+    },
+    {
+      symbol: "BNB",
+      name: "BNB Smart Chain",
+      address: "0x6c557Fceb0Cec257E37Fc44a55680DC3A3E14ABB",
+      color: "oklch(0.68 0.16 215)",
+      bg: "oklch(0.72 0.19 205 / 0.12)",
+    },
+  ];
+
+  return (
+    <div className="space-y-4">
+      <p className="text-sm text-muted-foreground">
+        Send crypto to the address below. Double-check before sending — crypto
+        transactions are irreversible.
+      </p>
+      {wallets.map((w) => (
+        <div
+          key={w.symbol}
+          className="rounded-xl p-5 border"
+          style={{
+            backgroundColor: "oklch(0.16 0.05 225)",
+            borderColor: "oklch(0.28 0.07 220)",
+          }}
+        >
+          <div className="flex items-center gap-3 mb-3">
+            <div className="p-2 rounded-lg" style={{ backgroundColor: w.bg }}>
+              <Bitcoin size={16} style={{ color: w.color }} />
+            </div>
+            <div>
+              <p className="font-bold text-sm" style={{ color: w.color }}>
+                {w.symbol}
+              </p>
+              <p className="text-xs text-muted-foreground">{w.name}</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-2">
+            <code className="flex-1 text-xs font-mono text-foreground/90 break-all leading-relaxed bg-background/50 rounded-lg p-3">
+              {w.address}
+            </code>
+            <CopyButton text={w.address} />
+          </div>
         </div>
       ))}
     </div>
   );
 }
 
-function PaymentDetails({ method }: { method: PaymentMethod }) {
-  if (method === "bank") {
-    return (
-      <div className="space-y-3">
-        <p className="text-sm font-semibold text-foreground/80 mb-3">
-          Transfer to the account below:
-        </p>
-        <DetailBlock
-          rows={[
-            { label: "Bank Name", value: "First Bank Nigeria" },
-            { label: "Account Name", value: "JUVENTUS SOPS LTD" },
-            { label: "Account Number", value: "3012345678" },
-          ]}
-        />
-      </div>
-    );
-  }
-  if (method === "crypto") {
-    return (
-      <div className="space-y-3">
-        <p className="text-sm font-semibold text-foreground/80 mb-3">
-          Send crypto to the address below:
-        </p>
-        <DetailBlock
-          rows={[
-            {
-              label: "Wallet Address",
-              value: "0x742d35Cc6634C0532925a3b8D4C9D5F3b2E1a8f9",
-            },
-            { label: "Accepted", value: "USDT / BTC" },
-          ]}
-        />
-        <p className="text-xs text-muted-foreground">
-          ⚠️ Double-check the address before sending. Crypto transactions are
-          irreversible.
-        </p>
-      </div>
-    );
-  }
-  if (method === "card") {
-    return (
-      <div
-        className="rounded-xl p-5 text-sm"
-        style={{
-          backgroundColor: "oklch(0.16 0.06 248)",
-          border: "1px solid oklch(0.28 0.09 258)",
-        }}
-      >
-        <p className="text-foreground">
-          Card payment processing is available. Use the secure payment link sent
-          to your email after order creation.
-        </p>
-        <p className="text-muted-foreground mt-2 text-xs">
-          Contact support if you did not receive the payment link.
-        </p>
-      </div>
-    );
-  }
-  // mobile
+function CardDetails() {
   return (
-    <div className="space-y-3">
-      <p className="text-sm font-semibold text-foreground/80 mb-3">
-        Send payment via Mobile Money:
+    <div
+      className="rounded-xl p-6 text-center"
+      style={{
+        backgroundColor: "oklch(0.16 0.05 225)",
+        border: "1px solid oklch(0.72 0.19 205 / 0.3)",
+      }}
+    >
+      <div
+        className="inline-flex p-4 rounded-full mb-4"
+        style={{ backgroundColor: "oklch(0.72 0.19 205 / 0.12)" }}
+      >
+        <CreditCard size={32} style={{ color: "oklch(0.68 0.16 215)" }} />
+      </div>
+      <h3 className="font-display font-bold text-foreground mb-2">
+        Pay Securely by Card
+      </h3>
+      <p className="text-sm text-muted-foreground mb-5">
+        Pay using Visa, Mastercard, or American Express via our secure payment
+        portal.
       </p>
-      <DetailBlock
-        rows={[
-          { label: "Phone", value: "+234 800 TRUPTAR" },
-          { label: "Network", value: "MTN / Airtel / Glo" },
-        ]}
-      />
+      <a
+        href="https://buy.stripe.com/test_placeholder"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Button
+          className="gap-2 font-bold"
+          style={{
+            background:
+              "linear-gradient(135deg, oklch(0.68 0.16 215), oklch(0.75 0.15 200))",
+            color: "oklch(0.14 0.04 225)",
+          }}
+          data-ocid="payment.card_pay_button"
+        >
+          Pay by Card <ExternalLink size={14} />
+        </Button>
+      </a>
+      <p className="text-xs text-muted-foreground mt-4">
+        Accepted: Visa · Mastercard · American Express
+      </p>
+    </div>
+  );
+}
+
+function MobileDetails() {
+  return (
+    <div
+      className="rounded-xl p-5 text-sm"
+      style={{
+        backgroundColor: "oklch(0.16 0.05 225)",
+        border: "1px solid oklch(0.28 0.07 220)",
+      }}
+    >
+      <p className="text-foreground font-semibold mb-3">
+        Send via Mobile Money
+      </p>
+      <DetailRow label="Phone" value="+234 800 TRUPTAR" />
+      <DetailRow label="Network" value="MTN / Airtel / Glo" />
+      <p className="text-xs text-muted-foreground mt-3">
+        Contact support if you need assistance with mobile payments.
+      </p>
     </div>
   );
 }
@@ -171,9 +330,9 @@ export default function PaymentPage() {
           >
             <div
               className="inline-flex p-3 rounded-xl mb-4"
-              style={{ backgroundColor: "oklch(0.50 0.28 274 / 0.12)" }}
+              style={{ backgroundColor: "oklch(0.72 0.19 205 / 0.12)" }}
             >
-              <Banknote size={28} style={{ color: "oklch(0.50 0.28 274)" }} />
+              <Banknote size={28} style={{ color: "oklch(0.68 0.16 215)" }} />
             </div>
             <h1 className="text-3xl font-display font-extrabold text-foreground mb-2">
               Complete Your Logistics Payment
@@ -182,14 +341,14 @@ export default function PaymentPage() {
               <div
                 className="inline-flex items-center gap-2 mt-2 px-4 py-2 rounded-full"
                 style={{
-                  backgroundColor: "oklch(0.82 0.11 75 / 0.1)",
-                  border: "1px solid oklch(0.82 0.11 75 / 0.3)",
+                  backgroundColor: "oklch(0.80 0.17 68 / 0.1)",
+                  border: "1px solid oklch(0.80 0.17 68 / 0.3)",
                 }}
               >
-                <Hash size={14} style={{ color: "oklch(0.82 0.11 75)" }} />
+                <Hash size={14} style={{ color: "oklch(0.72 0.19 42)" }} />
                 <span
                   className="font-mono text-sm font-bold"
-                  style={{ color: "oklch(0.82 0.11 75)" }}
+                  style={{ color: "oklch(0.72 0.19 42)" }}
                 >
                   {order.orderNumber}
                 </span>
@@ -204,18 +363,18 @@ export default function PaymentPage() {
               data-ocid="payment.success_state"
               className="rounded-2xl p-10 text-center border"
               style={{
-                backgroundColor: "oklch(0.19 0.065 247)",
-                borderColor: "oklch(0.82 0.11 75 / 0.4)",
-                boxShadow: "0 0 50px oklch(0.82 0.11 75 / 0.1)",
+                backgroundColor: "oklch(0.18 0.05 225)",
+                borderColor: "oklch(0.75 0.20 145 / 0.4)",
+                boxShadow: "0 0 50px oklch(0.75 0.20 145 / 0.1)",
               }}
             >
               <div
                 className="inline-flex p-5 rounded-full mb-5"
-                style={{ backgroundColor: "oklch(0.82 0.11 75 / 0.12)" }}
+                style={{ backgroundColor: "oklch(0.75 0.20 145 / 0.12)" }}
               >
                 <CheckCircle2
                   size={48}
-                  style={{ color: "oklch(0.82 0.11 75)" }}
+                  style={{ color: "oklch(0.75 0.15 200)" }}
                 />
               </div>
               <h2 className="text-2xl font-display font-bold text-foreground mb-3">
@@ -226,7 +385,7 @@ export default function PaymentPage() {
               </p>
               <p
                 className="font-semibold mb-6"
-                style={{ color: "oklch(0.82 0.11 75)" }}
+                style={{ color: "oklch(0.72 0.19 42)" }}
               >
                 Your order{" "}
                 <span className="font-mono">{order?.orderNumber}</span> is now
@@ -236,7 +395,7 @@ export default function PaymentPage() {
                 <Button
                   className="gap-2 font-bold"
                   style={{
-                    backgroundColor: "oklch(0.50 0.28 274)",
+                    backgroundColor: "oklch(0.68 0.16 215)",
                     color: "white",
                   }}
                 >
@@ -250,8 +409,8 @@ export default function PaymentPage() {
               <div
                 className="rounded-2xl p-6 border"
                 style={{
-                  backgroundColor: "oklch(0.19 0.065 247)",
-                  borderColor: "oklch(0.28 0.09 258)",
+                  backgroundColor: "oklch(0.18 0.05 225)",
+                  borderColor: "oklch(0.28 0.07 220)",
                 }}
               >
                 <h2 className="font-display font-bold text-foreground mb-4">
@@ -262,7 +421,7 @@ export default function PaymentPage() {
                     <button
                       key={m.id}
                       type="button"
-                      data-ocid={`payment.${m.id === "bank" ? "bank_transfer" : m.id === "crypto" ? "crypto" : m.id === "card" ? "card" : "mobile_money"}_tab`}
+                      data-ocid={`payment.${m.id}_tab`}
                       onClick={() => {
                         setMethod(m.id);
                         setAnswered(null);
@@ -271,16 +430,16 @@ export default function PaymentPage() {
                       style={{
                         backgroundColor:
                           method === m.id
-                            ? "oklch(0.50 0.28 274 / 0.15)"
-                            : "oklch(0.16 0.06 248)",
+                            ? "oklch(0.72 0.19 205 / 0.15)"
+                            : "oklch(0.16 0.05 225)",
                         borderColor:
                           method === m.id
-                            ? "oklch(0.50 0.28 274)"
-                            : "oklch(0.28 0.09 258)",
+                            ? "oklch(0.68 0.16 215)"
+                            : "oklch(0.28 0.07 220)",
                         color:
                           method === m.id
-                            ? "oklch(0.80 0.15 274)"
-                            : "oklch(0.65 0.05 248)",
+                            ? "oklch(0.85 0.15 205)"
+                            : "oklch(0.62 0.06 215)",
                       }}
                     >
                       {m.icon}
@@ -299,22 +458,25 @@ export default function PaymentPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="rounded-2xl p-6 border"
                 style={{
-                  backgroundColor: "oklch(0.19 0.065 247)",
-                  borderColor: "oklch(0.28 0.09 258)",
+                  backgroundColor: "oklch(0.18 0.05 225)",
+                  borderColor: "oklch(0.28 0.07 220)",
                 }}
               >
                 <h2 className="font-display font-bold text-foreground mb-4">
                   Payment Instructions
                 </h2>
-                <PaymentDetails method={method} />
+                {method === "bank" && <BankDetails />}
+                {method === "crypto" && <CryptoDetails />}
+                {method === "card" && <CardDetails />}
+                {method === "mobile" && <MobileDetails />}
               </motion.div>
 
               {/* Payment Confirmation Question */}
               <div
                 className="rounded-2xl p-6 border"
                 style={{
-                  backgroundColor: "oklch(0.19 0.065 247)",
-                  borderColor: "oklch(0.50 0.28 274 / 0.35)",
+                  backgroundColor: "oklch(0.18 0.05 225)",
+                  borderColor: "oklch(0.72 0.19 205 / 0.35)",
                 }}
               >
                 <h2 className="font-display font-bold text-foreground mb-5 text-center">
@@ -328,13 +490,13 @@ export default function PaymentPage() {
                     style={{
                       backgroundColor:
                         answered === "yes"
-                          ? "oklch(0.82 0.11 75)"
-                          : "oklch(0.82 0.11 75 / 0.15)",
+                          ? "oklch(0.75 0.15 200)"
+                          : "oklch(0.75 0.20 145 / 0.15)",
                       color:
                         answered === "yes"
-                          ? "oklch(0.13 0.04 248)"
-                          : "oklch(0.82 0.11 75)",
-                      border: "1px solid oklch(0.82 0.11 75 / 0.5)",
+                          ? "oklch(0.14 0.04 225)"
+                          : "oklch(0.75 0.15 200)",
+                      border: "1px solid oklch(0.75 0.20 145 / 0.5)",
                     }}
                   >
                     YES
@@ -370,18 +532,18 @@ export default function PaymentPage() {
                       <div
                         className="rounded-xl p-4 flex items-start gap-3"
                         style={{
-                          backgroundColor: "oklch(0.82 0.11 75 / 0.08)",
-                          border: "1px solid oklch(0.82 0.11 75 / 0.35)",
+                          backgroundColor: "oklch(0.80 0.17 68 / 0.08)",
+                          border: "1px solid oklch(0.80 0.17 68 / 0.35)",
                         }}
                       >
                         <AlertTriangle
                           size={18}
                           className="shrink-0 mt-0.5"
-                          style={{ color: "oklch(0.82 0.11 75)" }}
+                          style={{ color: "oklch(0.72 0.19 42)" }}
                         />
                         <p
                           className="text-sm"
-                          style={{ color: "oklch(0.82 0.11 75)" }}
+                          style={{ color: "oklch(0.72 0.19 42)" }}
                         >
                           Please complete your payment to activate your shipment
                           order.
@@ -419,7 +581,7 @@ export default function PaymentPage() {
                           <label
                             data-ocid="payment.upload_button"
                             className="rounded-xl border-2 border-dashed p-5 text-center cursor-pointer transition-colors block"
-                            style={{ borderColor: "oklch(0.28 0.09 258)" }}
+                            style={{ borderColor: "oklch(0.28 0.07 220)" }}
                           >
                             <input
                               ref={fileInputRef}
@@ -432,10 +594,10 @@ export default function PaymentPage() {
                             />
                             <span
                               className="text-sm"
-                              style={{ color: "oklch(0.65 0.08 248)" }}
+                              style={{ color: "oklch(0.62 0.06 215)" }}
                             >
                               {proofFile ? (
-                                <span style={{ color: "oklch(0.82 0.11 75)" }}>
+                                <span style={{ color: "oklch(0.75 0.15 200)" }}>
                                   ✓ {proofFile.name}
                                 </span>
                               ) : (
@@ -452,7 +614,7 @@ export default function PaymentPage() {
                           disabled={!reference.trim()}
                           className="w-full h-12 font-bold tracking-wider gap-2"
                           style={{
-                            backgroundColor: "oklch(0.50 0.28 274)",
+                            backgroundColor: "oklch(0.68 0.16 215)",
                             color: "white",
                           }}
                         >

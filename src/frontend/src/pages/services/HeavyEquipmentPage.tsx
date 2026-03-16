@@ -13,6 +13,17 @@ export default function HeavyEquipmentPage() {
   const [submitted, setSubmitted] = useState(false);
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    const existingReqs = JSON.parse(
+      localStorage.getItem("truptar_service_requests") ?? "[]",
+    );
+    existingReqs.push({
+      serviceType: "Heavy Equipment Transport",
+      submittedAt: new Date().toISOString(),
+    });
+    localStorage.setItem(
+      "truptar_service_requests",
+      JSON.stringify(existingReqs),
+    );
     setSubmitted(true);
     toast.success(
       "Heavy equipment transport request submitted. Our specialist team will contact you.",
@@ -31,9 +42,9 @@ export default function HeavyEquipmentPage() {
         <div className="flex items-center gap-3 mb-8">
           <div
             className="p-3 rounded-xl"
-            style={{ backgroundColor: "oklch(0.50 0.28 274 / 0.12)" }}
+            style={{ backgroundColor: "oklch(0.55 0.18 215 / 0.12)" }}
           >
-            <Construction size={24} style={{ color: "oklch(0.50 0.28 274)" }} />
+            <Construction size={24} style={{ color: "oklch(0.68 0.16 215)" }} />
           </div>
           <div>
             <h1 className="text-2xl font-display font-bold text-foreground">
@@ -48,8 +59,8 @@ export default function HeavyEquipmentPage() {
           <div
             className="rounded-xl border p-10 text-center"
             style={{
-              backgroundColor: "oklch(0.19 0.065 247)",
-              borderColor: "oklch(0.65 0.15 160 / 0.4)",
+              backgroundColor: "oklch(0.18 0.05 225)",
+              borderColor: "oklch(0.65 0.15 200 / 0.4)",
             }}
           >
             <p className="text-lg font-semibold text-foreground mb-2">
@@ -61,8 +72,8 @@ export default function HeavyEquipmentPage() {
             <Link to="/">
               <Button
                 style={{
-                  backgroundColor: "oklch(0.82 0.11 75)",
-                  color: "oklch(0.13 0.04 248)",
+                  backgroundColor: "oklch(0.72 0.19 42)",
+                  color: "oklch(0.14 0.04 225)",
                 }}
               >
                 Back to Home
@@ -73,8 +84,8 @@ export default function HeavyEquipmentPage() {
           <div
             className="rounded-xl border p-6 sm:p-8"
             style={{
-              backgroundColor: "oklch(0.19 0.065 247)",
-              borderColor: "oklch(0.28 0.09 258)",
+              backgroundColor: "oklch(0.18 0.05 225)",
+              borderColor: "oklch(0.28 0.07 220)",
             }}
           >
             <form onSubmit={handleSubmit} className="space-y-5">
@@ -132,8 +143,8 @@ export default function HeavyEquipmentPage() {
                 data-ocid="heavy.submit_button"
                 className="w-full h-11 font-bold"
                 style={{
-                  backgroundColor: "oklch(0.82 0.11 75)",
-                  color: "oklch(0.13 0.04 248)",
+                  backgroundColor: "oklch(0.72 0.19 42)",
+                  color: "oklch(0.14 0.04 225)",
                 }}
               >
                 Request Transport

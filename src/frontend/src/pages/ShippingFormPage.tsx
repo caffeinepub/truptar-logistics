@@ -114,9 +114,9 @@ export default function ShippingFormPage() {
           <div className="text-center mb-12">
             <div
               className="inline-flex p-3 rounded-xl mb-5"
-              style={{ backgroundColor: "oklch(0.50 0.28 274 / 0.12)" }}
+              style={{ backgroundColor: "oklch(0.55 0.18 215 / 0.12)" }}
             >
-              <Package size={32} style={{ color: "oklch(0.50 0.28 274)" }} />
+              <Package size={32} style={{ color: "oklch(0.68 0.16 215)" }} />
             </div>
             <h1 className="text-4xl font-display font-extrabold text-foreground mb-3">
               Create Shipping Order
@@ -131,16 +131,16 @@ export default function ShippingFormPage() {
             <div
               className="rounded-2xl p-8 border"
               style={{
-                backgroundColor: "oklch(0.19 0.065 247)",
-                borderColor: "oklch(0.50 0.28 274 / 0.3)",
+                backgroundColor: "oklch(0.18 0.05 225)",
+                borderColor: "oklch(0.55 0.18 215 / 0.3)",
               }}
             >
               <div className="flex items-center gap-3 mb-6">
                 <div
                   className="p-2 rounded-lg"
-                  style={{ backgroundColor: "oklch(0.50 0.28 274 / 0.15)" }}
+                  style={{ backgroundColor: "oklch(0.55 0.18 215 / 0.15)" }}
                 >
-                  <User size={18} style={{ color: "oklch(0.50 0.28 274)" }} />
+                  <User size={18} style={{ color: "oklch(0.68 0.16 215)" }} />
                 </div>
                 <h2 className="text-lg font-display font-bold text-foreground">
                   Sender Details
@@ -216,7 +216,7 @@ export default function ShippingFormPage() {
                       <SelectValue placeholder="Select country" />
                     </SelectTrigger>
                     <SelectContent
-                      style={{ backgroundColor: "oklch(0.19 0.065 247)" }}
+                      style={{ backgroundColor: "oklch(0.18 0.05 225)" }}
                     >
                       {WORLD_COUNTRIES.map((c) => (
                         <SelectItem key={c} value={c}>
@@ -233,16 +233,16 @@ export default function ShippingFormPage() {
             <div
               className="rounded-2xl p-8 border"
               style={{
-                backgroundColor: "oklch(0.19 0.065 247)",
-                borderColor: "oklch(0.82 0.11 75 / 0.3)",
+                backgroundColor: "oklch(0.18 0.05 225)",
+                borderColor: "oklch(0.82 0.14 42 / 0.3)",
               }}
             >
               <div className="flex items-center gap-3 mb-6">
                 <div
                   className="p-2 rounded-lg"
-                  style={{ backgroundColor: "oklch(0.82 0.11 75 / 0.12)" }}
+                  style={{ backgroundColor: "oklch(0.82 0.14 42 / 0.12)" }}
                 >
-                  <User size={18} style={{ color: "oklch(0.82 0.11 75)" }} />
+                  <User size={18} style={{ color: "oklch(0.72 0.19 42)" }} />
                 </div>
                 <h2 className="text-lg font-display font-bold text-foreground">
                   Receiver Details
@@ -310,7 +310,7 @@ export default function ShippingFormPage() {
                       <SelectValue placeholder="Select country" />
                     </SelectTrigger>
                     <SelectContent
-                      style={{ backgroundColor: "oklch(0.19 0.065 247)" }}
+                      style={{ backgroundColor: "oklch(0.18 0.05 225)" }}
                     >
                       {WORLD_COUNTRIES.map((c) => (
                         <SelectItem key={c} value={c}>
@@ -327,16 +327,16 @@ export default function ShippingFormPage() {
             <div
               className="rounded-2xl p-8 border"
               style={{
-                backgroundColor: "oklch(0.19 0.065 247)",
-                borderColor: "oklch(0.28 0.09 258)",
+                backgroundColor: "oklch(0.18 0.05 225)",
+                borderColor: "oklch(0.28 0.07 220)",
               }}
             >
               <div className="flex items-center gap-3 mb-6">
                 <div
                   className="p-2 rounded-lg"
-                  style={{ backgroundColor: "oklch(0.50 0.28 274 / 0.15)" }}
+                  style={{ backgroundColor: "oklch(0.55 0.18 215 / 0.15)" }}
                 >
-                  <Send size={18} style={{ color: "oklch(0.50 0.28 274)" }} />
+                  <Send size={18} style={{ color: "oklch(0.68 0.16 215)" }} />
                 </div>
                 <h2 className="text-lg font-display font-bold text-foreground">
                   Shipment Details
@@ -400,7 +400,7 @@ export default function ShippingFormPage() {
                       <SelectValue placeholder="Select type" />
                     </SelectTrigger>
                     <SelectContent
-                      style={{ backgroundColor: "oklch(0.19 0.065 247)" }}
+                      style={{ backgroundColor: "oklch(0.18 0.05 225)" }}
                     >
                       <SelectItem
                         value={Variant_express_priority_standard.standard}
@@ -432,7 +432,7 @@ export default function ShippingFormPage() {
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                     <SelectContent
-                      style={{ backgroundColor: "oklch(0.19 0.065 247)" }}
+                      style={{ backgroundColor: "oklch(0.18 0.05 225)" }}
                     >
                       <SelectItem
                         value={Variant_cargo_freight_document_parcel.document_}
@@ -466,8 +466,8 @@ export default function ShippingFormPage() {
               data-ocid="shipping_form.submit_button"
               className="w-full h-14 font-bold text-base tracking-widest gap-3"
               style={{
-                backgroundColor: "oklch(0.82 0.11 75)",
-                color: "oklch(0.13 0.04 248)",
+                backgroundColor: "oklch(0.72 0.19 42)",
+                color: "oklch(0.14 0.04 225)",
               }}
             >
               {isPending ? (

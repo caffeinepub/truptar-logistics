@@ -22,14 +22,14 @@ export default function LoginPage() {
       className="min-h-screen flex flex-col relative overflow-hidden"
       style={{
         background:
-          "radial-gradient(ellipse at 20% 30%, oklch(0.5 0.28 274 / 0.2) 0%, transparent 50%), radial-gradient(ellipse at 80% 70%, oklch(0.75 0.18 195 / 0.15) 0%, transparent 50%), linear-gradient(160deg, oklch(0.11 0.045 248) 0%, oklch(0.16 0.065 258) 100%)",
+          "radial-gradient(ellipse at 20% 30%, oklch(0.55 0.18 215 / 0.2) 0%, transparent 50%), radial-gradient(ellipse at 80% 70%, oklch(0.75 0.18 195 / 0.15) 0%, transparent 50%), linear-gradient(160deg, oklch(0.14 0.04 225) 0%, oklch(0.16 0.05 225) 100%)",
       }}
     >
       {/* Background orbs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
           className="absolute top-16 left-8 w-72 h-72 rounded-full blur-3xl animate-orb-float"
-          style={{ background: "oklch(0.5 0.28 274 / 0.12)" }}
+          style={{ background: "oklch(0.55 0.18 215 / 0.12)" }}
         />
         <div
           className="absolute bottom-16 right-8 w-64 h-64 rounded-full blur-3xl animate-orb-float"
@@ -50,14 +50,14 @@ export default function LoginPage() {
         <div
           className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border"
           style={{
-            backgroundColor: "oklch(0.82 0.11 75 / 0.1)",
-            borderColor: "oklch(0.82 0.11 75 / 0.3)",
-            color: "oklch(0.82 0.11 75)",
+            backgroundColor: "oklch(0.82 0.14 42 / 0.1)",
+            borderColor: "oklch(0.82 0.14 42 / 0.3)",
+            color: "oklch(0.72 0.19 42)",
           }}
         >
           <span
             className="w-1.5 h-1.5 rounded-full animate-pulse"
-            style={{ backgroundColor: "oklch(0.82 0.11 75)" }}
+            style={{ backgroundColor: "oklch(0.72 0.19 42)" }}
           />
           Powered by JUVENTUS SOPS
         </div>
@@ -68,11 +68,11 @@ export default function LoginPage() {
         <div
           className="w-full max-w-md rounded-2xl p-8 border"
           style={{
-            backgroundColor: "oklch(0.17 0.06 250 / 0.8)",
+            backgroundColor: "oklch(0.17 0.05 225 / 0.8)",
             backdropFilter: "blur(20px)",
-            borderColor: "oklch(0.5 0.28 274 / 0.5)",
+            borderColor: "oklch(0.55 0.18 215 / 0.5)",
             boxShadow:
-              "0 0 60px oklch(0.5 0.28 274 / 0.2), 0 20px 80px oklch(0 0 0 / 0.5)",
+              "0 0 60px oklch(0.55 0.18 215 / 0.2), 0 20px 80px oklch(0 0 0 / 0.5)",
           }}
         >
           {/* Header with gradient */}
@@ -80,15 +80,15 @@ export default function LoginPage() {
             className="text-center mb-8 rounded-xl p-6 -mx-2"
             style={{
               background:
-                "linear-gradient(135deg, oklch(0.5 0.28 274 / 0.15) 0%, oklch(0.75 0.18 195 / 0.1) 100%)",
+                "linear-gradient(135deg, oklch(0.55 0.18 215 / 0.15) 0%, oklch(0.75 0.18 195 / 0.1) 100%)",
             }}
           >
             <div
               className="inline-flex p-3 rounded-xl mb-4"
               style={{
                 background:
-                  "linear-gradient(135deg, oklch(0.5 0.28 274), oklch(0.75 0.18 195))",
-                boxShadow: "0 4px 20px oklch(0.5 0.28 274 / 0.4)",
+                  "linear-gradient(135deg, oklch(0.68 0.16 215), oklch(0.75 0.15 200))",
+                boxShadow: "0 4px 20px oklch(0.55 0.18 215 / 0.4)",
               }}
             >
               <Truck size={28} className="text-white" />
@@ -152,9 +152,9 @@ export default function LoginPage() {
               className="w-full h-11 font-bold text-sm tracking-wide transition-all hover:scale-[1.02]"
               style={{
                 background:
-                  "linear-gradient(135deg, oklch(0.82 0.11 75), oklch(0.72 0.19 55))",
-                color: "oklch(0.13 0.04 248)",
-                boxShadow: "0 4px 20px oklch(0.82 0.11 75 / 0.35)",
+                  "linear-gradient(135deg, oklch(0.72 0.19 42), oklch(0.75 0.2 42))",
+                color: "oklch(0.14 0.04 225)",
+                boxShadow: "0 4px 20px oklch(0.82 0.14 42 / 0.35)",
               }}
             >
               LOGIN
@@ -164,14 +164,14 @@ export default function LoginPage() {
           <div className="my-6 flex items-center gap-3">
             <div
               className="flex-1 h-px"
-              style={{ backgroundColor: "oklch(0.28 0.09 258)" }}
+              style={{ backgroundColor: "oklch(0.28 0.07 220)" }}
             />
             <span className="text-xs text-muted-foreground">
               or continue with
             </span>
             <div
               className="flex-1 h-px"
-              style={{ backgroundColor: "oklch(0.28 0.09 258)" }}
+              style={{ backgroundColor: "oklch(0.28 0.07 220)" }}
             />
           </div>
 
@@ -181,7 +181,7 @@ export default function LoginPage() {
               data-ocid="login.google_button"
               className="w-full h-11 border-secondary/50 text-foreground hover:bg-secondary/10 gap-3"
             >
-              <SiGoogle size={16} style={{ color: "oklch(0.5 0.28 274)" }} />
+              <SiGoogle size={16} style={{ color: "oklch(0.68 0.16 215)" }} />
               Continue with Google
             </Button>
             <Button
@@ -189,7 +189,7 @@ export default function LoginPage() {
               data-ocid="login.whatsapp_button"
               className="w-full h-11 border-secondary/50 text-foreground hover:bg-secondary/10 gap-3"
             >
-              <SiWhatsapp size={16} style={{ color: "oklch(0.65 0.22 160)" }} />
+              <SiWhatsapp size={16} style={{ color: "oklch(0.75 0.15 200)" }} />
               Continue with WhatsApp
             </Button>
           </div>
@@ -199,7 +199,7 @@ export default function LoginPage() {
               to="/register"
               data-ocid="login.register_link"
               className="font-medium transition-colors"
-              style={{ color: "oklch(0.82 0.11 75)" }}
+              style={{ color: "oklch(0.72 0.19 42)" }}
             >
               Create Account
             </Link>
@@ -218,7 +218,7 @@ export default function LoginPage() {
       {/* Footer */}
       <footer
         className="relative text-center py-6 px-4 border-t"
-        style={{ borderColor: "oklch(0.24 0.07 252)" }}
+        style={{ borderColor: "oklch(0.28 0.07 220)" }}
       >
         <div className="flex items-center justify-center gap-6 text-xs text-muted-foreground">
           <a
