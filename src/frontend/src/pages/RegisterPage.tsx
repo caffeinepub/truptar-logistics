@@ -14,27 +14,7 @@ import { ArrowLeft, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useRegisterUser } from "../hooks/useQueries";
-
-const COUNTRIES = [
-  "Nigeria",
-  "Ghana",
-  "Kenya",
-  "South Africa",
-  "United States",
-  "United Kingdom",
-  "Canada",
-  "Germany",
-  "France",
-  "United Arab Emirates",
-  "China",
-  "India",
-  "Brazil",
-  "Australia",
-  "Netherlands",
-  "Singapore",
-  "Malaysia",
-  "Other",
-];
+import { WORLD_COUNTRIES } from "../lib/countries";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -215,7 +195,7 @@ export default function RegisterPage() {
                   <SelectContent
                     style={{ backgroundColor: "oklch(0.19 0.065 247)" }}
                   >
-                    {COUNTRIES.map((c) => (
+                    {WORLD_COUNTRIES.map((c) => (
                       <SelectItem key={c} value={c}>
                         {c}
                       </SelectItem>

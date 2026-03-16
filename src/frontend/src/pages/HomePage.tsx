@@ -5,6 +5,7 @@ import {
   BarChart3,
   Bell,
   Building2,
+  Calculator,
   Clock,
   Construction,
   FileCheck,
@@ -19,8 +20,11 @@ import {
   Warehouse,
   Zap,
 } from "lucide-react";
+import { motion } from "motion/react";
+import React from "react";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import { WORLD_COUNTRIES } from "../lib/countries";
 
 type AppRoute =
   | "/"
@@ -218,6 +222,188 @@ const AUTOMATIONS = [
     color: "oklch(0.72 0.19 55)",
   },
 ];
+
+function PriceCalculator() {
+  const [origin, setOrigin] = React.useState("");
+  const [destination, setDestination] = React.useState("");
+  const [weight, setWeight] = React.useState("");
+  const [shipType, setShipType] = React.useState("standard");
+  const [result, setResult] = React.useState<string | null>(null);
+
+  function calculate() {
+    const w = Number.parseFloat(weight) || 0;
+    const rates: Record<string, { base: number; perKg: number }> = {
+      standard: { base: 5, perKg: 2 },
+      express: { base: 12, perKg: 4 },
+      priority: { base: 25, perKg: 7 },
+    };
+    const rate = rates[shipType] || rates.standard;
+    let cost = rate.base + rate.perKg * w;
+    if (origin && destination && origin !== destination) cost *= 2.5;
+    setResult(`$${cost.toFixed(2)} USD`);
+  }
+
+  return (
+    <div
+      className="rounded-2xl p-8 border"
+      style={{
+        backgroundColor: "oklch(0.19 0.065 247)",
+        borderColor: "oklch(0.75 0.18 195 / 0.3)",
+        boxShadow: "0 0 40px oklch(0.75 0.18 195 / 0.06)",
+      }}
+    >
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+        <div className="space-y-2">
+          <label
+            htmlFor="calc-origin"
+            className="text-sm font-semibold"
+            style={{ color: "oklch(0.75 0.18 195)" }}
+          >
+            Origin Country
+          </label>
+          <select
+            id="calc-origin"
+            data-ocid="calculator.origin_select"
+            value={origin}
+            onChange={(e) => setOrigin(e.target.value)}
+            className="w-full rounded-lg px-3 h-10 text-sm border outline-none focus:ring-2"
+            style={{
+              backgroundColor: "oklch(0.14 0.05 250)",
+              borderColor: "oklch(0.30 0.09 258)",
+              color: "oklch(0.90 0.02 248)",
+            }}
+          >
+            <option value="">Select origin country</option>
+            {WORLD_COUNTRIES.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="space-y-2">
+          <label
+            htmlFor="calc-destination"
+            className="text-sm font-semibold"
+            style={{ color: "oklch(0.75 0.18 195)" }}
+          >
+            Destination Country
+          </label>
+          <select
+            id="calc-destination"
+            data-ocid="calculator.destination_select"
+            value={destination}
+            onChange={(e) => setDestination(e.target.value)}
+            className="w-full rounded-lg px-3 h-10 text-sm border outline-none focus:ring-2"
+            style={{
+              backgroundColor: "oklch(0.14 0.05 250)",
+              borderColor: "oklch(0.30 0.09 258)",
+              color: "oklch(0.90 0.02 248)",
+            }}
+          >
+            <option value="">Select destination country</option>
+            {WORLD_COUNTRIES.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="space-y-2">
+          <label
+            htmlFor="calc-weight"
+            className="text-sm font-semibold"
+            style={{ color: "oklch(0.75 0.18 195)" }}
+          >
+            Weight (kg)
+          </label>
+          <input
+            id="calc-weight"
+            data-ocid="calculator.weight_input"
+            type="number"
+            min="0.1"
+            step="0.1"
+            value={weight}
+            onChange={(e) => setWeight(e.target.value)}
+            placeholder="e.g. 5"
+            className="w-full rounded-lg px-3 h-10 text-sm border outline-none focus:ring-2"
+            style={{
+              backgroundColor: "oklch(0.14 0.05 250)",
+              borderColor: "oklch(0.30 0.09 258)",
+              color: "oklch(0.90 0.02 248)",
+            }}
+          />
+        </div>
+        <div className="space-y-2">
+          <label
+            htmlFor="calc-type"
+            className="text-sm font-semibold"
+            style={{ color: "oklch(0.75 0.18 195)" }}
+          >
+            Shipment Type
+          </label>
+          <select
+            id="calc-type"
+            data-ocid="calculator.type_select"
+            value={shipType}
+            onChange={(e) => setShipType(e.target.value)}
+            className="w-full rounded-lg px-3 h-10 text-sm border outline-none focus:ring-2"
+            style={{
+              backgroundColor: "oklch(0.14 0.05 250)",
+              borderColor: "oklch(0.30 0.09 258)",
+              color: "oklch(0.90 0.02 248)",
+            }}
+          >
+            <option value="standard">Standard</option>
+            <option value="express">Express</option>
+            <option value="priority">Priority</option>
+          </select>
+        </div>
+      </div>
+      <button
+        data-ocid="calculator.primary_button"
+        type="button"
+        onClick={calculate}
+        className="w-full h-12 rounded-xl font-bold text-sm transition-all duration-200 hover:opacity-90"
+        style={{
+          background:
+            "linear-gradient(90deg, oklch(0.50 0.28 274), oklch(0.75 0.18 195))",
+          color: "white",
+        }}
+      >
+        Calculate Estimate
+      </button>
+      {result && (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-5 rounded-xl p-5 text-center border"
+          style={{
+            backgroundColor: "oklch(0.82 0.11 75 / 0.08)",
+            borderColor: "oklch(0.82 0.11 75 / 0.4)",
+          }}
+        >
+          <p
+            className="text-xs font-semibold uppercase tracking-wider mb-1"
+            style={{ color: "oklch(0.82 0.11 75 / 0.7)" }}
+          >
+            Estimated Cost
+          </p>
+          <p
+            className="text-3xl font-display font-extrabold"
+            style={{ color: "oklch(0.82 0.11 75)" }}
+          >
+            {result}
+          </p>
+          <p className="text-xs mt-2" style={{ color: "oklch(0.60 0.05 248)" }}>
+            This is an estimate. Final cost may vary based on actual weight,
+            dimensions, and route.
+          </p>
+        </motion.div>
+      )}
+    </div>
+  );
+}
 
 export default function HomePage() {
   return (
@@ -515,6 +701,36 @@ export default function HomePage() {
               </Link>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Price Calculator */}
+      <section
+        className="py-20 px-4"
+        style={{
+          background:
+            "linear-gradient(160deg, oklch(0.16 0.07 260) 0%, oklch(0.13 0.05 250) 100%)",
+        }}
+      >
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-10">
+            <div
+              className="inline-flex p-3 rounded-xl mb-4"
+              style={{ backgroundColor: "oklch(0.75 0.18 195 / 0.12)" }}
+            >
+              <Calculator size={28} style={{ color: "oklch(0.75 0.18 195)" }} />
+            </div>
+            <h2
+              className="text-3xl font-display font-extrabold mb-3"
+              style={{ color: "oklch(0.95 0.02 248)" }}
+            >
+              Shipping Price Calculator
+            </h2>
+            <p style={{ color: "oklch(0.70 0.05 248)" }}>
+              Get an instant estimate for your shipment cost
+            </p>
+          </div>
+          <PriceCalculator />
         </div>
       </section>
 

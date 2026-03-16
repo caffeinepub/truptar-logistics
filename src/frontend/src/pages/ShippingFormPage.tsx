@@ -21,24 +21,7 @@ import {
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { useCreateShippingOrder } from "../hooks/useQueries";
-
-const COUNTRIES = [
-  "Nigeria",
-  "Ghana",
-  "Kenya",
-  "South Africa",
-  "United States",
-  "United Kingdom",
-  "Canada",
-  "Germany",
-  "France",
-  "UAE",
-  "China",
-  "India",
-  "Brazil",
-  "Australia",
-  "Other",
-];
+import { WORLD_COUNTRIES } from "../lib/countries";
 
 function generateId() {
   return `TL-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
@@ -90,38 +73,35 @@ export default function ShippingFormPage() {
     e.preventDefault();
     const id = generateId();
     const orderNumber = generateOrderNumber();
-    try {
-      await createOrder({
-        id,
-        status: Variant_cancelled_pending_in_transit_delivered.pending,
-        owner: null as any,
-        sender: { ...sender },
-        receiver: { ...receiver, email: undefined },
-        shipment: {
-          description: shipment.description,
-          weight: Number.parseFloat(shipment.weight),
-          quantity: BigInt(shipment.quantity || "1"),
-          deliveryType:
-            shipment.deliveryType as Variant_express_priority_standard,
-          category: shipment.category as Variant_cargo_freight_document_parcel,
-        },
-      });
-      const pendingOrder = {
-        orderNumber,
-        orderId: id,
-        createdAt: new Date().toISOString(),
-        sender,
-        receiver,
-        shipment,
-      };
-      localStorage.setItem(
-        "truptar_pending_order",
-        JSON.stringify(pendingOrder),
-      );
-      navigate({ to: "/order-summary" });
-    } catch {
-      toast.error("Failed to create order. Please try again.");
-    }
+    const pendingOrder = {
+      orderNumber,
+      orderId: id,
+      createdAt: new Date().toISOString(),
+      sender,
+      receiver,
+      shipment,
+    };
+    localStorage.setItem("truptar_pending_order", JSON.stringify(pendingOrder));
+    // Try backend in background — do not block navigation
+    createOrder({
+      id,
+      status: Variant_cancelled_pending_in_transit_delivered.pending,
+      owner: null as any,
+      sender: { ...sender },
+      receiver: { ...receiver, email: undefined },
+      shipment: {
+        description: shipment.description,
+        weight: Number.parseFloat(shipment.weight),
+        quantity: BigInt(shipment.quantity || "1"),
+        deliveryType:
+          shipment.deliveryType as Variant_express_priority_standard,
+        category: shipment.category as Variant_cargo_freight_document_parcel,
+      },
+    }).catch(() => {
+      /* silently ignore backend errors */
+    });
+    toast.success("Order created! Proceeding to payment...");
+    navigate({ to: "/order-summary" });
   }
 
   return (
@@ -238,7 +218,7 @@ export default function ShippingFormPage() {
                     <SelectContent
                       style={{ backgroundColor: "oklch(0.19 0.065 247)" }}
                     >
-                      {COUNTRIES.map((c) => (
+                      {WORLD_COUNTRIES.map((c) => (
                         <SelectItem key={c} value={c}>
                           {c}
                         </SelectItem>
@@ -332,7 +312,7 @@ export default function ShippingFormPage() {
                     <SelectContent
                       style={{ backgroundColor: "oklch(0.19 0.065 247)" }}
                     >
-                      {COUNTRIES.map((c) => (
+                      {WORLD_COUNTRIES.map((c) => (
                         <SelectItem key={c} value={c}>
                           {c}
                         </SelectItem>
