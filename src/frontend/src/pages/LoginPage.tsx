@@ -19,49 +19,84 @@ export default function LoginPage() {
 
   return (
     <div
-      className="min-h-screen flex flex-col"
+      className="min-h-screen flex flex-col relative overflow-hidden"
       style={{
         background:
-          "linear-gradient(135deg, oklch(0.13 0.05 248) 0%, oklch(0.17 0.06 255) 50%, oklch(0.14 0.05 248) 100%)",
+          "radial-gradient(ellipse at 20% 30%, oklch(0.5 0.28 274 / 0.2) 0%, transparent 50%), radial-gradient(ellipse at 80% 70%, oklch(0.75 0.18 195 / 0.15) 0%, transparent 50%), linear-gradient(160deg, oklch(0.11 0.045 248) 0%, oklch(0.16 0.065 258) 100%)",
       }}
     >
+      {/* Background orbs */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div
+          className="absolute top-16 left-8 w-72 h-72 rounded-full blur-3xl animate-orb-float"
+          style={{ background: "oklch(0.5 0.28 274 / 0.12)" }}
+        />
+        <div
+          className="absolute bottom-16 right-8 w-64 h-64 rounded-full blur-3xl animate-orb-float"
+          style={{
+            background: "oklch(0.75 0.18 195 / 0.1)",
+            animationDelay: "3s",
+          }}
+        />
+      </div>
+
       {/* Top */}
-      <div className="flex flex-col items-center pt-12 pb-6 px-4">
+      <div className="relative flex flex-col items-center pt-12 pb-6 px-4">
         <img
           src="/assets/generated/truptar-logo-transparent.dim_600x180.png"
           alt="Truptar Logistics"
           className="h-16 w-auto mb-3"
         />
-        <p
-          className="text-sm font-medium"
-          style={{ color: "oklch(0.82 0.11 75)" }}
+        <div
+          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border"
+          style={{
+            backgroundColor: "oklch(0.82 0.11 75 / 0.1)",
+            borderColor: "oklch(0.82 0.11 75 / 0.3)",
+            color: "oklch(0.82 0.11 75)",
+          }}
         >
+          <span
+            className="w-1.5 h-1.5 rounded-full animate-pulse"
+            style={{ backgroundColor: "oklch(0.82 0.11 75)" }}
+          />
           Powered by JUVENTUS SOPS
-        </p>
+        </div>
       </div>
 
       {/* Card */}
-      <div className="flex-1 flex items-start justify-center px-4 pb-12">
+      <div className="relative flex-1 flex items-start justify-center px-4 pb-12">
         <div
           className="w-full max-w-md rounded-2xl p-8 border"
           style={{
-            backgroundColor: "oklch(0.19 0.065 247)",
-            borderColor: "oklch(0.50 0.28 274 / 0.4)",
+            backgroundColor: "oklch(0.17 0.06 250 / 0.8)",
+            backdropFilter: "blur(20px)",
+            borderColor: "oklch(0.5 0.28 274 / 0.5)",
             boxShadow:
-              "0 0 40px oklch(0.50 0.28 274 / 0.15), 0 20px 60px rgba(0,0,0,0.4)",
+              "0 0 60px oklch(0.5 0.28 274 / 0.2), 0 20px 80px oklch(0 0 0 / 0.5)",
           }}
         >
-          <div className="text-center mb-8">
+          {/* Header with gradient */}
+          <div
+            className="text-center mb-8 rounded-xl p-6 -mx-2"
+            style={{
+              background:
+                "linear-gradient(135deg, oklch(0.5 0.28 274 / 0.15) 0%, oklch(0.75 0.18 195 / 0.1) 100%)",
+            }}
+          >
             <div
               className="inline-flex p-3 rounded-xl mb-4"
-              style={{ backgroundColor: "oklch(0.50 0.28 274 / 0.15)" }}
+              style={{
+                background:
+                  "linear-gradient(135deg, oklch(0.5 0.28 274), oklch(0.75 0.18 195))",
+                boxShadow: "0 4px 20px oklch(0.5 0.28 274 / 0.4)",
+              }}
             >
-              <Truck size={28} style={{ color: "oklch(0.50 0.28 274)" }} />
+              <Truck size={28} className="text-white" />
             </div>
             <h1 className="text-2xl font-display font-bold text-foreground">
-              Welcome to Truptar Logistics
+              Welcome to Truptar
             </h1>
-            <p className="text-sm text-muted-foreground mt-2">
+            <p className="text-sm text-muted-foreground mt-1">
               Sign in to manage your shipments
             </p>
           </div>
@@ -114,10 +149,12 @@ export default function LoginPage() {
             <Button
               type="submit"
               data-ocid="login.submit_button"
-              className="w-full h-11 font-bold text-sm tracking-wide"
+              className="w-full h-11 font-bold text-sm tracking-wide transition-all hover:scale-[1.02]"
               style={{
-                backgroundColor: "oklch(0.82 0.11 75)",
+                background:
+                  "linear-gradient(135deg, oklch(0.82 0.11 75), oklch(0.72 0.19 55))",
                 color: "oklch(0.13 0.04 248)",
+                boxShadow: "0 4px 20px oklch(0.82 0.11 75 / 0.35)",
               }}
             >
               LOGIN
@@ -144,7 +181,7 @@ export default function LoginPage() {
               data-ocid="login.google_button"
               className="w-full h-11 border-secondary/50 text-foreground hover:bg-secondary/10 gap-3"
             >
-              <SiGoogle size={16} style={{ color: "oklch(0.50 0.28 274)" }} />
+              <SiGoogle size={16} style={{ color: "oklch(0.5 0.28 274)" }} />
               Continue with Google
             </Button>
             <Button
@@ -152,7 +189,7 @@ export default function LoginPage() {
               data-ocid="login.whatsapp_button"
               className="w-full h-11 border-secondary/50 text-foreground hover:bg-secondary/10 gap-3"
             >
-              <SiWhatsapp size={16} style={{ color: "oklch(0.50 0.28 274)" }} />
+              <SiWhatsapp size={16} style={{ color: "oklch(0.65 0.22 160)" }} />
               Continue with WhatsApp
             </Button>
           </div>
@@ -180,7 +217,7 @@ export default function LoginPage() {
 
       {/* Footer */}
       <footer
-        className="text-center py-6 px-4 border-t"
+        className="relative text-center py-6 px-4 border-t"
         style={{ borderColor: "oklch(0.24 0.07 252)" }}
       >
         <div className="flex items-center justify-center gap-6 text-xs text-muted-foreground">

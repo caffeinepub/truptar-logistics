@@ -9,15 +9,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Link } from "@tanstack/react-router";
-import {
-  ArrowRight,
-  CheckCircle2,
-  Loader2,
-  Package,
-  Send,
-  User,
-} from "lucide-react";
+import { useNavigate } from "@tanstack/react-router";
+import { Loader2, Package, Send, User } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import {
@@ -51,10 +44,14 @@ function generateId() {
   return `TL-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 }
 
+function generateOrderNumber() {
+  const digits = Math.floor(100000 + Math.random() * 900000);
+  return `TRUPTAR-LOG-${digits}`;
+}
+
 export default function ShippingFormPage() {
   const { mutateAsync: createOrder, isPending } = useCreateShippingOrder();
-  const [success, setSuccess] = useState(false);
-  const [orderId, setOrderId] = useState("");
+  const navigate = useNavigate();
 
   const [sender, setSender] = useState({
     name: "",
@@ -92,6 +89,7 @@ export default function ShippingFormPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const id = generateId();
+    const orderNumber = generateOrderNumber();
     try {
       await createOrder({
         id,
@@ -108,103 +106,22 @@ export default function ShippingFormPage() {
           category: shipment.category as Variant_cargo_freight_document_parcel,
         },
       });
-      setOrderId(id);
-      setSuccess(true);
+      const pendingOrder = {
+        orderNumber,
+        orderId: id,
+        createdAt: new Date().toISOString(),
+        sender,
+        receiver,
+        shipment,
+      };
+      localStorage.setItem(
+        "truptar_pending_order",
+        JSON.stringify(pendingOrder),
+      );
+      navigate({ to: "/order-summary" });
     } catch {
       toast.error("Failed to create order. Please try again.");
     }
-  }
-
-  if (success) {
-    return (
-      <div className="min-h-screen bg-background flex flex-col">
-        <Navbar />
-        <div
-          className="flex-1 flex items-center justify-center px-4"
-          data-ocid="shipping_form.success_state"
-        >
-          <div
-            className="max-w-md w-full rounded-2xl p-12 text-center border"
-            style={{
-              backgroundColor: "oklch(0.19 0.065 247)",
-              borderColor: "oklch(0.82 0.11 75 / 0.4)",
-              boxShadow: "0 0 40px oklch(0.82 0.11 75 / 0.1)",
-            }}
-          >
-            <div
-              className="inline-flex p-5 rounded-full mb-6"
-              style={{ backgroundColor: "oklch(0.82 0.11 75 / 0.12)" }}
-            >
-              <CheckCircle2
-                size={48}
-                style={{ color: "oklch(0.82 0.11 75)" }}
-              />
-            </div>
-            <h2 className="text-2xl font-display font-bold text-foreground mb-3">
-              Order Created!
-            </h2>
-            <p className="text-muted-foreground mb-4">
-              Your shipping order has been submitted successfully.
-            </p>
-            <div
-              className="rounded-lg p-4 border mb-8 font-mono text-sm"
-              style={{
-                backgroundColor: "oklch(0.16 0.055 248)",
-                borderColor: "oklch(0.28 0.09 258)",
-                color: "oklch(0.82 0.11 75)",
-              }}
-            >
-              Order ID: <strong>{orderId}</strong>
-            </div>
-            <div className="flex gap-3 justify-center">
-              <Link to="/dashboard">
-                <Button
-                  style={{
-                    backgroundColor: "oklch(0.82 0.11 75)",
-                    color: "oklch(0.13 0.04 248)",
-                  }}
-                  className="font-bold gap-2"
-                >
-                  View Dashboard <ArrowRight size={16} />
-                </Button>
-              </Link>
-              <Button
-                variant="outline"
-                className="border-secondary text-secondary hover:bg-secondary/10"
-                onClick={() => {
-                  setSuccess(false);
-                  setSender({
-                    name: "",
-                    phone: "",
-                    email: "",
-                    address: "",
-                    city: "",
-                    country: "",
-                  });
-                  setReceiver({
-                    name: "",
-                    phone: "",
-                    address: "",
-                    city: "",
-                    country: "",
-                  });
-                  setShipment({
-                    description: "",
-                    weight: "",
-                    quantity: "",
-                    deliveryType: "",
-                    category: "",
-                  });
-                }}
-              >
-                New Order
-              </Button>
-            </div>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
   }
 
   return (

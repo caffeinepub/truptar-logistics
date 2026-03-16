@@ -1,10 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
-import { Menu, Truck, X } from "lucide-react";
+import { Bell, Loader2, LogIn, LogOut, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { useInternetIdentity } from "../hooks/useInternetIdentity";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const { login, clear, identity, loginStatus } = useInternetIdentity();
+  const isLoggedIn = !!identity;
+  const isLoggingIn = loginStatus === "logging-in";
 
   return (
     <header
@@ -31,49 +35,117 @@ export default function Navbar() {
             <Link
               to="/"
               className="text-sm font-medium text-foreground/80 hover:text-gold transition-colors"
-              style={{ "--tw-text-opacity": "1" } as React.CSSProperties}
+              data-ocid="nav.home.link"
             >
               Home
             </Link>
             <Link
               to="/freight-services"
               className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
+              data-ocid="nav.services.link"
             >
               Services
             </Link>
             <Link
               to="/freight-services"
               className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
+              data-ocid="nav.freight.link"
             >
               Freight
             </Link>
             <Link
-              to="/shipping-form"
+              to="/track-order"
               className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
+              data-ocid="nav.track.link"
             >
               Track Order
+            </Link>
+            <Link
+              to="/about"
+              className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
+              data-ocid="nav.about.link"
+            >
+              About
+            </Link>
+            <Link
+              to="/features"
+              className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
+              data-ocid="nav.features.link"
+            >
+              Features
             </Link>
           </nav>
 
           {/* CTA */}
           <div className="hidden md:flex items-center gap-3">
-            <Link to="/login">
-              <Button
-                variant="outline"
-                size="sm"
-                className="border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground"
-              >
-                Login
-              </Button>
-            </Link>
-            <Link to="/dashboard">
-              <Button
-                size="sm"
-                className="bg-primary text-primary-foreground hover:opacity-90 font-semibold"
-              >
-                Dashboard
-              </Button>
-            </Link>
+            {isLoggedIn ? (
+              <>
+                <div className="relative">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="relative p-2"
+                    data-ocid="nav.notifications.button"
+                  >
+                    <Bell size={16} className="text-foreground/70" />
+                    <span
+                      className="absolute top-0.5 right-0.5 w-2 h-2 rounded-full"
+                      style={{ backgroundColor: "oklch(0.72 0.19 55)" }}
+                    />
+                  </Button>
+                </div>
+                <Link to="/dashboard">
+                  <Button
+                    size="sm"
+                    className="bg-primary text-primary-foreground hover:opacity-90 font-semibold"
+                    data-ocid="nav.dashboard.button"
+                  >
+                    Dashboard
+                  </Button>
+                </Link>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => clear()}
+                  className="border-red-500/40 text-red-400 hover:bg-red-500/10 gap-1.5"
+                  data-ocid="nav.logout.button"
+                >
+                  <LogOut size={14} /> Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to="/login">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground"
+                    data-ocid="nav.login_page.button"
+                  >
+                    Login
+                  </Button>
+                </Link>
+                <Button
+                  size="sm"
+                  onClick={() => login()}
+                  disabled={isLoggingIn}
+                  className="font-bold gap-1.5"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, oklch(0.82 0.11 75), oklch(0.72 0.19 55))",
+                    color: "oklch(0.13 0.04 248)",
+                  }}
+                  data-ocid="nav.identity_login.button"
+                >
+                  {isLoggingIn ? (
+                    <Loader2 size={14} className="animate-spin" />
+                  ) : (
+                    <LogIn size={14} />
+                  )}
+                  Connect
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile menu toggle */}
@@ -120,30 +192,77 @@ export default function Navbar() {
               Freight
             </Link>
             <Link
-              to="/shipping-form"
+              to="/track-order"
               className="text-sm font-medium text-foreground/80"
               onClick={() => setOpen(false)}
             >
               Track Order
             </Link>
+            <Link
+              to="/about"
+              className="text-sm font-medium text-foreground/80"
+              onClick={() => setOpen(false)}
+            >
+              About
+            </Link>
+            <Link
+              to="/features"
+              className="text-sm font-medium text-foreground/80"
+              onClick={() => setOpen(false)}
+            >
+              Features
+            </Link>
             <div className="flex gap-3 pt-2">
-              <Link to="/login" onClick={() => setOpen(false)}>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="border-secondary text-secondary"
-                >
-                  Login
-                </Button>
-              </Link>
-              <Link to="/dashboard" onClick={() => setOpen(false)}>
-                <Button
-                  size="sm"
-                  className="bg-primary text-primary-foreground"
-                >
-                  Dashboard
-                </Button>
-              </Link>
+              {isLoggedIn ? (
+                <>
+                  <Link to="/dashboard" onClick={() => setOpen(false)}>
+                    <Button
+                      size="sm"
+                      className="bg-primary text-primary-foreground"
+                    >
+                      Dashboard
+                    </Button>
+                  </Link>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      clear();
+                      setOpen(false);
+                    }}
+                    className="border-red-500/40 text-red-400"
+                  >
+                    <LogOut size={14} /> Logout
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link to="/login" onClick={() => setOpen(false)}>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="border-secondary text-secondary"
+                    >
+                      Login
+                    </Button>
+                  </Link>
+                  <Button
+                    size="sm"
+                    onClick={() => {
+                      login();
+                      setOpen(false);
+                    }}
+                    disabled={isLoggingIn}
+                    style={{
+                      background:
+                        "linear-gradient(135deg, oklch(0.82 0.11 75), oklch(0.72 0.19 55))",
+                      color: "oklch(0.13 0.04 248)",
+                    }}
+                  >
+                    Connect
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>

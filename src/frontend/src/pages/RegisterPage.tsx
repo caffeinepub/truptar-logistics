@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, Loader2, Truck } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useRegisterUser } from "../hooks/useQueries";
@@ -80,50 +80,86 @@ export default function RegisterPage() {
 
   return (
     <div
-      className="min-h-screen flex flex-col"
+      className="min-h-screen flex flex-col relative overflow-hidden"
       style={{
         background:
-          "linear-gradient(135deg, oklch(0.13 0.05 248) 0%, oklch(0.17 0.06 255) 50%, oklch(0.14 0.05 248) 100%)",
+          "radial-gradient(ellipse at 70% 20%, oklch(0.75 0.18 195 / 0.18) 0%, transparent 50%), radial-gradient(ellipse at 20% 80%, oklch(0.5 0.28 274 / 0.15) 0%, transparent 50%), linear-gradient(160deg, oklch(0.11 0.045 248) 0%, oklch(0.16 0.065 258) 100%)",
       }}
     >
-      <div className="flex flex-col items-center pt-10 pb-4 px-4">
+      {/* Background orbs */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div
+          className="absolute top-20 right-10 w-80 h-80 rounded-full blur-3xl animate-orb-float"
+          style={{
+            background: "oklch(0.75 0.18 195 / 0.1)",
+            animationDelay: "1s",
+          }}
+        />
+        <div
+          className="absolute bottom-20 left-10 w-64 h-64 rounded-full blur-3xl animate-orb-float"
+          style={{
+            background: "oklch(0.5 0.28 274 / 0.1)",
+            animationDelay: "4s",
+          }}
+        />
+      </div>
+
+      <div className="relative flex flex-col items-center pt-10 pb-4 px-4">
         <img
           src="/assets/generated/truptar-logo-transparent.dim_600x180.png"
           alt="Truptar Logistics"
           className="h-14 w-auto mb-2"
         />
-        <p
-          className="text-sm font-medium"
-          style={{ color: "oklch(0.82 0.11 75)" }}
+        <div
+          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border"
+          style={{
+            backgroundColor: "oklch(0.82 0.11 75 / 0.1)",
+            borderColor: "oklch(0.82 0.11 75 / 0.3)",
+            color: "oklch(0.82 0.11 75)",
+          }}
         >
+          <span
+            className="w-1.5 h-1.5 rounded-full"
+            style={{ backgroundColor: "oklch(0.82 0.11 75)" }}
+          />
           Powered by JUVENTUS SOPS
-        </p>
+        </div>
       </div>
 
-      <div className="flex-1 flex items-start justify-center px-4 pb-12">
+      <div className="relative flex-1 flex items-start justify-center px-4 pb-12">
         <div
           className="w-full max-w-lg rounded-2xl p-8 border"
           style={{
-            backgroundColor: "oklch(0.19 0.065 247)",
-            borderColor: "oklch(0.50 0.28 274 / 0.4)",
+            backgroundColor: "oklch(0.17 0.06 250 / 0.8)",
+            backdropFilter: "blur(20px)",
+            borderColor: "oklch(0.75 0.18 195 / 0.4)",
             boxShadow:
-              "0 0 40px oklch(0.50 0.28 274 / 0.15), 0 20px 60px rgba(0,0,0,0.4)",
+              "0 0 60px oklch(0.75 0.18 195 / 0.15), 0 20px 80px oklch(0 0 0 / 0.5)",
           }}
         >
-          <div className="flex items-center gap-3 mb-8">
-            <Link
-              to="/login"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <ArrowLeft size={18} />
-            </Link>
-            <div>
-              <h1 className="text-2xl font-display font-bold text-foreground">
-                Create Account
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                Join Truptar Logistics today
-              </p>
+          {/* Header */}
+          <div
+            className="rounded-xl p-5 mb-8"
+            style={{
+              background:
+                "linear-gradient(135deg, oklch(0.75 0.18 195 / 0.12) 0%, oklch(0.5 0.28 274 / 0.08) 100%)",
+            }}
+          >
+            <div className="flex items-center gap-3">
+              <Link
+                to="/login"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <ArrowLeft size={18} />
+              </Link>
+              <div>
+                <h1 className="text-2xl font-display font-bold text-foreground">
+                  Create Account
+                </h1>
+                <p className="text-sm text-muted-foreground">
+                  Join Truptar Logistics today
+                </p>
+              </div>
             </div>
           </div>
 
@@ -171,7 +207,7 @@ export default function RegisterPage() {
                 <Label className="text-foreground/90 text-sm">Country</Label>
                 <Select onValueChange={(v) => update("country", v)} required>
                   <SelectTrigger
-                    data-ocid="register.input"
+                    data-ocid="register.select"
                     className="bg-muted border-border focus:border-secondary h-10"
                   >
                     <SelectValue placeholder="Select country" />
@@ -242,10 +278,12 @@ export default function RegisterPage() {
               type="submit"
               disabled={isPending}
               data-ocid="register.submit_button"
-              className="w-full h-11 font-bold text-sm tracking-widest mt-2"
+              className="w-full h-11 font-bold text-sm tracking-widest mt-2 transition-all hover:scale-[1.02]"
               style={{
-                backgroundColor: "oklch(0.82 0.11 75)",
-                color: "oklch(0.13 0.04 248)",
+                background:
+                  "linear-gradient(135deg, oklch(0.75 0.18 195), oklch(0.5 0.28 274))",
+                color: "oklch(0.97 0.01 248)",
+                boxShadow: "0 4px 20px oklch(0.75 0.18 195 / 0.35)",
               }}
             >
               {isPending ? (

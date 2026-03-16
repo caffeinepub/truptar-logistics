@@ -2,6 +2,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
@@ -11,16 +18,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Textarea } from "@/components/ui/textarea";
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
   CheckCircle2,
   ChevronRight,
+  Circle,
   Clock,
+  CreditCard,
   LayoutDashboard,
   LogOut,
+  MapPin,
   Package,
   Plus,
   RefreshCw,
+  Search,
+  Ticket,
   Truck,
   User,
   XCircle,
@@ -28,6 +41,7 @@ import {
 import { useState } from "react";
 import { toast } from "sonner";
 import { Variant_cancelled_pending_in_transit_delivered } from "../backend.d";
+import { StatusBadge } from "../components/StatusBadge";
 import { useInternetIdentity } from "../hooks/useInternetIdentity";
 import {
   useCallerProfile,
@@ -35,7 +49,14 @@ import {
   useSaveProfile,
 } from "../hooks/useQueries";
 
-type Tab = "overview" | "orders" | "profile";
+type Tab =
+  | "overview"
+  | "shipments"
+  | "create"
+  | "track"
+  | "payments"
+  | "support"
+  | "profile";
 
 const STATUS_CONFIG: Record<
   string,
@@ -67,6 +88,38 @@ const STATUS_CONFIG: Record<
   },
 };
 
+const TRACKING_STAGES = [
+  { label: "Order Created", icon: Package },
+  { label: "Processing", icon: Clock },
+  { label: "In Transit", icon: Truck },
+  { label: "Out For Delivery", icon: MapPin },
+  { label: "Delivered", icon: CheckCircle2 },
+];
+
+const MOCK_PAYMENTS = [
+  {
+    orderId: "TRUPTAR-LOG-001",
+    amount: "$120.00",
+    method: "Bank Transfer",
+    status: "Confirmed",
+    date: "Mar 10, 2026",
+  },
+  {
+    orderId: "TRUPTAR-LOG-002",
+    amount: "$85.50",
+    method: "Mobile Money",
+    status: "Confirmed",
+    date: "Mar 8, 2026",
+  },
+  {
+    orderId: "TRUPTAR-LOG-003",
+    amount: "$340.00",
+    method: "Card Payment",
+    status: "Pending",
+    date: "Mar 12, 2026",
+  },
+];
+
 export default function DashboardPage() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<Tab>("overview");
@@ -82,15 +135,21 @@ export default function DashboardPage() {
     phone: profile?.phone ?? "",
     country: profile?.country ?? "",
   });
+  const [trackInput, setTrackInput] = useState("");
+  const [trackedOrder, setTrackedOrder] = useState<string | null>(null);
+  const [trackStage, setTrackStage] = useState(0);
+  const [supportForm, setSupportForm] = useState({
+    subject: "",
+    category: "",
+    description: "",
+  });
+  const [supportSubmitted, setSupportSubmitted] = useState(false);
 
   const statusCounts = {
     total: orders.length,
-    pending: orders.filter(
+    active: orders.filter(
       (o) =>
-        o.status === Variant_cancelled_pending_in_transit_delivered.pending,
-    ).length,
-    inTransit: orders.filter(
-      (o) =>
+        o.status === Variant_cancelled_pending_in_transit_delivered.pending ||
         o.status === Variant_cancelled_pending_in_transit_delivered.in_transit,
     ).length,
     delivered: orders.filter(
@@ -117,13 +176,44 @@ export default function DashboardPage() {
     navigate({ to: "/login" });
   }
 
+  function handleTrack(e: React.FormEvent) {
+    e.preventDefault();
+    if (!trackInput.trim()) return;
+    const id = trackInput.trim().toUpperCase();
+    const stage = id.endsWith("-000")
+      ? 5
+      : id.startsWith("TRUPTAR-LOG-")
+        ? 3
+        : 2;
+    setTrackedOrder(id);
+    setTrackStage(stage);
+    if (stage >= 5)
+      toast.success("Your shipment has been successfully delivered.");
+    else
+      toast.info(
+        `Your shipment ${id} is now ${TRACKING_STAGES[stage - 1]?.label}.`,
+      );
+  }
+
+  function handleSupportSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setSupportSubmitted(true);
+    toast.success(
+      "Support ticket submitted. Our team will respond within 24 hours.",
+    );
+  }
+
   const sidebarItems: {
     id: Tab;
     icon: React.ComponentType<{ size?: number; style?: React.CSSProperties }>;
     label: string;
   }[] = [
     { id: "overview", icon: LayoutDashboard, label: "Overview" },
-    { id: "orders", icon: Package, label: "My Orders" },
+    { id: "shipments", icon: Package, label: "My Shipments" },
+    { id: "create", icon: Plus, label: "Create Shipment" },
+    { id: "track", icon: Search, label: "Track Shipment" },
+    { id: "payments", icon: CreditCard, label: "Payment History" },
+    { id: "support", icon: Ticket, label: "Support Tickets" },
     { id: "profile", icon: User, label: "Profile" },
   ];
 
@@ -137,7 +227,6 @@ export default function DashboardPage() {
           borderColor: "oklch(0.24 0.07 252)",
         }}
       >
-        {/* Logo area */}
         <div
           className="p-6 border-b"
           style={{ borderColor: "oklch(0.24 0.07 252)" }}
@@ -150,15 +239,16 @@ export default function DashboardPage() {
             />
           </Link>
         </div>
-
-        {/* Nav */}
         <nav className="flex-1 p-4 space-y-1">
           {sidebarItems.map((item) => (
             <button
               type="button"
               key={item.id}
-              onClick={() => setActiveTab(item.id)}
-              data-ocid={`dashboard.${item.id === "orders" ? "orders" : item.id}_tab`}
+              onClick={() => {
+                if (item.id === "create") navigate({ to: "/shipping-form" });
+                else setActiveTab(item.id);
+              }}
+              data-ocid={`dashboard.${item.id}.tab`}
               className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all"
               style={{
                 backgroundColor:
@@ -180,8 +270,6 @@ export default function DashboardPage() {
             </button>
           ))}
         </nav>
-
-        {/* User + logout */}
         <div
           className="p-4 border-t"
           style={{ borderColor: "oklch(0.24 0.07 252)" }}
@@ -196,8 +284,7 @@ export default function DashboardPage() {
             onClick={handleLogout}
             className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all"
           >
-            <LogOut size={18} />
-            Logout
+            <LogOut size={18} /> Logout
           </button>
         </div>
       </aside>
@@ -218,7 +305,7 @@ export default function DashboardPage() {
             className="h-8 w-auto"
           />
           <div className="flex gap-1">
-            {sidebarItems.map((item) => (
+            {sidebarItems.slice(0, 5).map((item) => (
               <button
                 type="button"
                 key={item.id}
@@ -249,41 +336,43 @@ export default function DashboardPage() {
                   Here's an overview of your logistics activity.
                 </p>
               </div>
-
-              {/* Stats grid */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
                 {[
                   {
                     label: "Total Orders",
                     value: statusCounts.total,
                     icon: Package,
                     color: "oklch(0.50 0.28 274)",
+                    gradient:
+                      "linear-gradient(135deg, oklch(0.18 0.08 274) 0%, oklch(0.22 0.1 270) 100%)",
+                    border: "oklch(0.50 0.28 274 / 0.4)",
                   },
                   {
-                    label: "Pending",
-                    value: statusCounts.pending,
-                    icon: Clock,
-                    color: "oklch(0.82 0.11 75)",
-                  },
-                  {
-                    label: "In Transit",
-                    value: statusCounts.inTransit,
+                    label: "Active Shipments",
+                    value: statusCounts.active,
                     icon: Truck,
-                    color: "oklch(0.55 0.18 210)",
+                    color: "oklch(0.82 0.11 75)",
+                    gradient:
+                      "linear-gradient(135deg, oklch(0.17 0.06 60) 0%, oklch(0.21 0.09 65) 100%)",
+                    border: "oklch(0.82 0.11 75 / 0.4)",
                   },
                   {
-                    label: "Delivered",
+                    label: "Delivered Orders",
                     value: statusCounts.delivered,
                     icon: CheckCircle2,
-                    color: "oklch(0.65 0.15 160)",
+                    color: "oklch(0.75 0.18 195)",
+                    gradient:
+                      "linear-gradient(135deg, oklch(0.17 0.07 195) 0%, oklch(0.21 0.1 200) 100%)",
+                    border: "oklch(0.75 0.18 195 / 0.4)",
                   },
                 ].map((stat) => (
                   <div
                     key={stat.label}
-                    className="rounded-xl p-5 border"
+                    className="rounded-xl p-5 border transition-all hover:-translate-y-1"
                     style={{
-                      backgroundColor: "oklch(0.19 0.065 247)",
-                      borderColor: "oklch(0.28 0.09 258)",
+                      background: stat.gradient,
+                      borderColor: stat.border,
+                      boxShadow: `0 4px 16px ${stat.border}`,
                     }}
                   >
                     <div className="flex items-center justify-between mb-3">
@@ -292,14 +381,15 @@ export default function DashboardPage() {
                       </p>
                       <stat.icon size={16} style={{ color: stat.color }} />
                     </div>
-                    <p className="text-3xl font-display font-bold text-foreground">
+                    <p
+                      className="text-3xl font-display font-bold"
+                      style={{ color: stat.color }}
+                    >
                       {stat.value}
                     </p>
                   </div>
                 ))}
               </div>
-
-              {/* Quick actions */}
               <div
                 className="rounded-xl p-6 border"
                 style={{
@@ -325,30 +415,28 @@ export default function DashboardPage() {
                   <Button
                     variant="outline"
                     className="gap-2 border-secondary text-secondary hover:bg-secondary/10"
-                    onClick={() => setActiveTab("orders")}
+                    onClick={() => setActiveTab("shipments")}
                   >
-                    <Package size={16} /> View Orders
+                    <Package size={16} /> View Shipments
                   </Button>
                   <Button
                     variant="outline"
                     className="gap-2 border-border text-muted-foreground hover:text-foreground"
-                    onClick={() => setActiveTab("profile")}
+                    onClick={() => setActiveTab("track")}
                   >
-                    <User size={16} /> Edit Profile
+                    <Search size={16} /> Track Order
                   </Button>
                 </div>
               </div>
-
-              {/* Recent orders */}
               {orders.length > 0 && (
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <h2 className="font-display font-bold text-foreground">
-                      Recent Orders
+                      Recent Shipments
                     </h2>
                     <button
                       type="button"
-                      onClick={() => setActiveTab("orders")}
+                      onClick={() => setActiveTab("shipments")}
                       className="text-xs font-medium flex items-center gap-1"
                       style={{ color: "oklch(0.50 0.28 274)" }}
                     >
@@ -402,13 +490,13 @@ export default function DashboardPage() {
             </div>
           )}
 
-          {/* Orders Tab */}
-          {activeTab === "orders" && (
+          {/* My Shipments */}
+          {activeTab === "shipments" && (
             <div className="space-y-6 animate-fade-in">
               <div className="flex items-center justify-between">
                 <div>
                   <h1 className="text-3xl font-display font-bold text-foreground">
-                    My Orders
+                    My Shipments
                   </h1>
                   <p className="text-muted-foreground mt-1">
                     {orders.length} shipment{orders.length !== 1 ? "s" : ""}{" "}
@@ -427,7 +515,6 @@ export default function DashboardPage() {
                   </Button>
                 </Link>
               </div>
-
               {ordersLoading ? (
                 <div
                   className="space-y-3"
@@ -454,7 +541,7 @@ export default function DashboardPage() {
                     }}
                   />
                   <p className="font-display font-semibold text-foreground mb-2">
-                    No orders yet
+                    No shipments yet
                   </p>
                   <p className="text-sm text-muted-foreground mb-6">
                     Create your first shipping order to get started.
@@ -500,49 +587,429 @@ export default function DashboardPage() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {orders.map((order, i) => {
-                        const sc =
-                          STATUS_CONFIG[order.status as string] ??
-                          STATUS_CONFIG.pending;
-                        return (
-                          <TableRow
-                            key={order.id}
-                            data-ocid={`dashboard.orders.row.${i + 1}`}
-                            style={{
-                              backgroundColor: "oklch(0.19 0.065 247)",
-                              borderColor: "oklch(0.24 0.07 252)",
-                            }}
-                          >
-                            <TableCell className="font-mono text-xs text-foreground/80">
-                              {order.id}
-                            </TableCell>
-                            <TableCell>
-                              <span
-                                className="text-xs font-semibold px-2.5 py-1 rounded-full"
-                                style={{
-                                  backgroundColor: `${sc.color}1a`,
-                                  color: sc.color,
-                                }}
-                              >
-                                {sc.label}
-                              </span>
-                            </TableCell>
-                            <TableCell className="text-sm text-foreground/80">
-                              {order.sender.city} → {order.receiver.city}
-                            </TableCell>
-                            <TableCell className="text-sm capitalize text-foreground/70">
-                              {order.shipment.deliveryType}
-                            </TableCell>
-                            <TableCell className="text-sm capitalize text-foreground/70">
-                              {order.shipment.category}
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })}
+                      {orders.map((order, i) => (
+                        <TableRow
+                          key={order.id}
+                          data-ocid={`dashboard.orders.row.${i + 1}`}
+                          style={{
+                            backgroundColor: "oklch(0.19 0.065 247)",
+                            borderColor: "oklch(0.24 0.07 252)",
+                          }}
+                        >
+                          <TableCell className="font-mono text-xs text-foreground/80">
+                            {order.id}
+                          </TableCell>
+                          <TableCell>
+                            <StatusBadge status={order.status as string} />
+                          </TableCell>
+                          <TableCell className="text-sm text-foreground/80">
+                            {order.sender.city} → {order.receiver.city}
+                          </TableCell>
+                          <TableCell className="text-sm capitalize text-foreground/70">
+                            {order.shipment.deliveryType}
+                          </TableCell>
+                          <TableCell className="text-sm capitalize text-foreground/70">
+                            {order.shipment.category}
+                          </TableCell>
+                        </TableRow>
+                      ))}
                     </TableBody>
                   </Table>
                 </div>
               )}
+            </div>
+          )}
+
+          {/* Track Shipment */}
+          {activeTab === "track" && (
+            <div className="space-y-6 animate-fade-in max-w-2xl">
+              <div>
+                <h1 className="text-3xl font-display font-bold text-foreground">
+                  Track Shipment
+                </h1>
+                <p className="text-muted-foreground mt-1">
+                  Enter your order number to get real-time tracking updates.
+                </p>
+              </div>
+              <form onSubmit={handleTrack} className="flex gap-3">
+                <Input
+                  value={trackInput}
+                  onChange={(e) => setTrackInput(e.target.value)}
+                  placeholder="e.g. TRUPTAR-LOG-928372"
+                  data-ocid="track.order_number.input"
+                  className="h-11 bg-muted border-border focus:border-secondary flex-1 font-mono"
+                />
+                <Button
+                  type="submit"
+                  data-ocid="track.submit_button"
+                  className="h-11 px-5 font-bold gap-2"
+                  style={{
+                    backgroundColor: "oklch(0.82 0.11 75)",
+                    color: "oklch(0.13 0.04 248)",
+                  }}
+                >
+                  <Search size={16} /> Track
+                </Button>
+              </form>
+              {trackedOrder ? (
+                <div
+                  className="rounded-xl border p-6"
+                  style={{
+                    backgroundColor: "oklch(0.19 0.065 247)",
+                    borderColor: "oklch(0.28 0.09 258)",
+                  }}
+                  data-ocid="track.status.card"
+                >
+                  <div className="flex items-start justify-between gap-4 mb-6">
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-1">
+                        Order Number
+                      </p>
+                      <p className="font-mono font-bold text-foreground">
+                        {trackedOrder}
+                      </p>
+                    </div>
+                    <span
+                      className="text-xs font-bold px-3 py-1.5 rounded-full"
+                      style={{
+                        backgroundColor: "oklch(0.50 0.28 274 / 0.15)",
+                        color: "oklch(0.50 0.28 274)",
+                      }}
+                    >
+                      {TRACKING_STAGES[trackStage - 1]?.label ?? "Processing"}
+                    </span>
+                  </div>
+                  <div className="space-y-0">
+                    {TRACKING_STAGES.map((stage, idx) => {
+                      const sn = idx + 1;
+                      const isDone = sn < trackStage;
+                      const isActive = sn === trackStage;
+                      const isPending = sn > trackStage;
+                      const color = isActive
+                        ? "oklch(0.50 0.28 274)"
+                        : isDone
+                          ? "oklch(0.65 0.15 160)"
+                          : "oklch(0.40 0.03 248)";
+                      return (
+                        <div
+                          key={stage.label}
+                          className="flex gap-4"
+                          data-ocid={`track.timeline.item.${sn}`}
+                        >
+                          <div className="flex flex-col items-center">
+                            <div
+                              className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                              style={{
+                                backgroundColor: isPending
+                                  ? "oklch(0.22 0.06 248)"
+                                  : `${color}22`,
+                                border: `2px solid ${isPending ? "oklch(0.30 0.05 248)" : color}`,
+                              }}
+                            >
+                              {isDone ? (
+                                <CheckCircle2 size={14} style={{ color }} />
+                              ) : isActive ? (
+                                <stage.icon size={14} style={{ color }} />
+                              ) : (
+                                <Circle
+                                  size={14}
+                                  style={{ color: "oklch(0.35 0.04 248)" }}
+                                />
+                              )}
+                            </div>
+                            {idx < TRACKING_STAGES.length - 1 && (
+                              <div
+                                className="w-0.5 flex-1 my-1"
+                                style={{
+                                  backgroundColor: isDone
+                                    ? "oklch(0.65 0.15 160 / 0.5)"
+                                    : "oklch(0.28 0.06 248)",
+                                  minHeight: "24px",
+                                }}
+                              />
+                            )}
+                          </div>
+                          <div className="pb-5 pt-1">
+                            <p
+                              className="font-semibold text-sm"
+                              style={{
+                                color: isPending
+                                  ? "oklch(0.45 0.04 248)"
+                                  : "oklch(0.92 0.02 248)",
+                              }}
+                            >
+                              {stage.label}
+                            </p>
+                            <p
+                              className="text-xs mt-0.5"
+                              style={{
+                                color: isPending
+                                  ? "oklch(0.38 0.03 248)"
+                                  : "oklch(0.55 0.04 248)",
+                              }}
+                            >
+                              {isActive
+                                ? "Current status"
+                                : isDone
+                                  ? "Completed"
+                                  : "Pending"}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : (
+                <div
+                  className="rounded-xl border p-10 text-center"
+                  style={{
+                    backgroundColor: "oklch(0.19 0.065 247)",
+                    borderColor: "oklch(0.28 0.09 258)",
+                  }}
+                >
+                  <Search
+                    size={36}
+                    style={{
+                      color: "oklch(0.50 0.28 274 / 0.3)",
+                      margin: "0 auto 12px",
+                    }}
+                  />
+                  <p className="text-sm text-muted-foreground">
+                    Enter your order number above to track your shipment.
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Payment History */}
+          {activeTab === "payments" && (
+            <div className="space-y-6 animate-fade-in">
+              <div>
+                <h1 className="text-3xl font-display font-bold text-foreground">
+                  Payment History
+                </h1>
+                <p className="text-muted-foreground mt-1">
+                  Your recent payment transactions
+                </p>
+              </div>
+              <div
+                className="rounded-xl border overflow-hidden"
+                style={{ borderColor: "oklch(0.28 0.09 258)" }}
+              >
+                <Table>
+                  <TableHeader
+                    style={{ backgroundColor: "oklch(0.16 0.055 248)" }}
+                  >
+                    <TableRow style={{ borderColor: "oklch(0.28 0.09 258)" }}>
+                      <TableHead className="text-muted-foreground">
+                        Order ID
+                      </TableHead>
+                      <TableHead className="text-muted-foreground">
+                        Amount
+                      </TableHead>
+                      <TableHead className="text-muted-foreground">
+                        Method
+                      </TableHead>
+                      <TableHead className="text-muted-foreground">
+                        Status
+                      </TableHead>
+                      <TableHead className="text-muted-foreground">
+                        Date
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {MOCK_PAYMENTS.map((p, i) => (
+                      <TableRow
+                        key={p.orderId}
+                        data-ocid={`dashboard.payments.row.${i + 1}`}
+                        style={{
+                          backgroundColor: "oklch(0.19 0.065 247)",
+                          borderColor: "oklch(0.24 0.07 252)",
+                        }}
+                      >
+                        <TableCell className="font-mono text-xs text-foreground/80">
+                          {p.orderId}
+                        </TableCell>
+                        <TableCell className="font-semibold text-foreground">
+                          {p.amount}
+                        </TableCell>
+                        <TableCell className="text-sm text-foreground/70">
+                          {p.method}
+                        </TableCell>
+                        <TableCell>
+                          <span
+                            className="text-xs font-semibold px-2.5 py-1 rounded-full"
+                            style={{
+                              backgroundColor:
+                                p.status === "Confirmed"
+                                  ? "oklch(0.65 0.15 160 / 0.15)"
+                                  : "oklch(0.82 0.11 75 / 0.15)",
+                              color:
+                                p.status === "Confirmed"
+                                  ? "oklch(0.65 0.15 160)"
+                                  : "oklch(0.82 0.11 75)",
+                            }}
+                          >
+                            {p.status}
+                          </span>
+                        </TableCell>
+                        <TableCell className="text-sm text-foreground/60">
+                          {p.date}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+          )}
+
+          {/* Support Tickets */}
+          {activeTab === "support" && (
+            <div className="space-y-6 animate-fade-in">
+              <div>
+                <h1 className="text-3xl font-display font-bold text-foreground">
+                  Support Tickets
+                </h1>
+                <p className="text-muted-foreground mt-1">
+                  Submit a support request or view existing tickets
+                </p>
+              </div>
+              {supportSubmitted ? (
+                <div
+                  className="rounded-xl border p-10 text-center"
+                  style={{
+                    backgroundColor: "oklch(0.19 0.065 247)",
+                    borderColor: "oklch(0.65 0.15 160 / 0.4)",
+                  }}
+                >
+                  <CheckCircle2
+                    size={40}
+                    style={{
+                      color: "oklch(0.65 0.15 160)",
+                      margin: "0 auto 12px",
+                    }}
+                  />
+                  <p className="text-lg font-semibold text-foreground mb-2">
+                    Ticket Submitted!
+                  </p>
+                  <p className="text-sm text-muted-foreground mb-6">
+                    Our support team will respond within 24 hours.
+                  </p>
+                  <Button
+                    onClick={() => setSupportSubmitted(false)}
+                    variant="outline"
+                    className="border-secondary text-secondary"
+                  >
+                    Submit Another Ticket
+                  </Button>
+                </div>
+              ) : (
+                <div
+                  className="rounded-xl border p-6 sm:p-8 max-w-2xl"
+                  style={{
+                    backgroundColor: "oklch(0.19 0.065 247)",
+                    borderColor: "oklch(0.28 0.09 258)",
+                  }}
+                >
+                  <h2 className="font-display font-bold text-foreground mb-5">
+                    New Support Ticket
+                  </h2>
+                  <form onSubmit={handleSupportSubmit} className="space-y-5">
+                    <div className="space-y-2">
+                      <Label>Subject</Label>
+                      <Input
+                        value={supportForm.subject}
+                        onChange={(e) =>
+                          setSupportForm((p) => ({
+                            ...p,
+                            subject: e.target.value,
+                          }))
+                        }
+                        placeholder="Brief description of your issue"
+                        className="bg-muted border-border focus:border-secondary h-10"
+                        required
+                        data-ocid="support.subject.input"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Category</Label>
+                      <Select
+                        onValueChange={(v) =>
+                          setSupportForm((p) => ({ ...p, category: v }))
+                        }
+                        required
+                      >
+                        <SelectTrigger
+                          className="bg-muted border-border h-10"
+                          data-ocid="support.category.select"
+                        >
+                          <SelectValue placeholder="Select category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="delivery">
+                            Delivery Issue
+                          </SelectItem>
+                          <SelectItem value="payment">Payment Issue</SelectItem>
+                          <SelectItem value="general">
+                            General Inquiry
+                          </SelectItem>
+                          <SelectItem value="other">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Description</Label>
+                      <Textarea
+                        value={supportForm.description}
+                        onChange={(e) =>
+                          setSupportForm((p) => ({
+                            ...p,
+                            description: e.target.value,
+                          }))
+                        }
+                        placeholder="Please describe your issue in detail..."
+                        className="bg-muted border-border focus:border-secondary min-h-[120px]"
+                        required
+                        data-ocid="support.description.textarea"
+                      />
+                    </div>
+                    <Button
+                      type="submit"
+                      data-ocid="support.submit_button"
+                      className="gap-2"
+                      style={{
+                        backgroundColor: "oklch(0.82 0.11 75)",
+                        color: "oklch(0.13 0.04 248)",
+                      }}
+                    >
+                      Submit Ticket
+                    </Button>
+                  </form>
+                </div>
+              )}
+              <div
+                className="rounded-xl border p-8 text-center"
+                style={{
+                  backgroundColor: "oklch(0.19 0.065 247)",
+                  borderColor: "oklch(0.28 0.09 258)",
+                }}
+                data-ocid="support.tickets.empty_state"
+              >
+                <Ticket
+                  size={36}
+                  style={{
+                    color: "oklch(0.50 0.28 274 / 0.3)",
+                    margin: "0 auto 12px",
+                  }}
+                />
+                <p className="text-sm text-muted-foreground">
+                  No previous tickets found.
+                </p>
+              </div>
             </div>
           )}
 
@@ -557,7 +1024,6 @@ export default function DashboardPage() {
                   Manage your account details
                 </p>
               </div>
-
               <div
                 className="rounded-xl p-8 border max-w-2xl"
                 style={{
@@ -580,7 +1046,7 @@ export default function DashboardPage() {
                           }))
                         }
                         placeholder="John Doe"
-                        data-ocid="dashboard.profile_tab"
+                        data-ocid="dashboard.profile.name.input"
                         className="bg-muted border-border focus:border-secondary h-10"
                       />
                     </div>
@@ -637,7 +1103,7 @@ export default function DashboardPage() {
                   <Button
                     type="submit"
                     disabled={savingProfile}
-                    data-ocid="dashboard.profile_tab"
+                    data-ocid="dashboard.profile.save_button"
                     className="gap-2"
                     style={{
                       backgroundColor: "oklch(0.82 0.11 75)",
@@ -646,7 +1112,7 @@ export default function DashboardPage() {
                   >
                     {savingProfile ? (
                       <RefreshCw size={16} className="animate-spin" />
-                    ) : null}
+                    ) : null}{" "}
                     Save Changes
                   </Button>
                 </form>
